@@ -14,7 +14,7 @@ end
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local damage = 300 + (pet:getStat(xi.mod.INT) - target:getStat(xi.mod.INT))
+    local damage = 3000 + (pet:getStat(xi.mod.INT) - target:getStat(xi.mod.INT))
     
     -- Apply standard bonuses (MAB, day/weather, etc.)
     damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.DARK, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
