@@ -124,7 +124,9 @@ local function getBaseMPCost(player, ability)
         [xi.jobAbility.ROUNDHOUSE]       =  52,
         [xi.jobAbility.SONIC_BUFFET]     = 164,
         [xi.jobAbility.TORNADO_II]       = 182,
-        [xi.jobAbility.HYSTERIC_ASSAULT] = 222,
+	[xi.jobAbility.HYSTERIC_ASSAULT] = 222,
+	-- Alexander
+	[xi.jobAbility.PERFECT_DEFENSE] = 0, -- Adjust MP cost if needed
     }
 
     local baseMPCost = nil

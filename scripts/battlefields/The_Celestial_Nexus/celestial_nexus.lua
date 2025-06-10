@@ -81,6 +81,9 @@ content.groups =
             { celestialNexusID.mob.EALDNARCHE + 6  },
             { celestialNexusID.mob.EALDNARCHE + 11 },
         },
+--	spawned = false,
+
+
     },
 
     -- Phase 1 - Orbitals

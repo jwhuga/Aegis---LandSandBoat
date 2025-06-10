@@ -20,6 +20,9 @@ end
 spellObject.onSpellCast = function(caster, target, spell)
     caster:spawnPet(xi.petId.FENRIR)
 
+--spellObject.onSpellCast = function(caster, target, spell)
+--    caster:spawnPet(17)
+
     local effect = caster:getStatusEffect(xi.effect.AVATARS_FAVOR)
     if effect then
         effect:setPower(1) -- resummon resets effect

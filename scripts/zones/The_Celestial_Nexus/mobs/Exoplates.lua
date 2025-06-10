@@ -45,7 +45,7 @@ entity.onMobFight = function(mob, target)
         end
     elseif animationSub == 2 and mobHPP <= 2 then
         if shifts == 2 then
-            mob:useMobAbility(xi.mobSkill.PHASE_SHIFT_2_EXOPLATES)
+            mob:useMobAbility(xi.mobSkill.PHASE_SHIFT_3_EXOPLATES)
             mob:setLocalVar('shifts', shifts + 1)
         end
     end
