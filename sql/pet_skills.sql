@@ -176,29 +176,29 @@ INSERT INTO `pet_skills` VALUES (968,183,'tornado_ii',0,14.0,2000,1000,4,317,@SK
 INSERT INTO `pet_skills` VALUES (970,185,'hysteric_assault',0,7.0,2000,1000,4,802,@SKILLFLAG_SPECIAL | @SKILLFLAG_BLOODPACT_RAGE,0,13,0,0,0,0);
 
 -- Alexander
-INSERT INTO `pet_skills` VALUES (700, 370, 'divine_judgment',      1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (701, 371, 'divine_spear',         0,  8.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (702, 372, 'radiant_sacrament',    1, 12.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (703, 373, 'mega_holy',            1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (704, 374, 'void_of_repentance',   1, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (705, 375, 'gospel_of_the_lost',   0,  0.0, 1500, 500,  3,   0, @SKILLFLAG_BLOODPACT_WARD,                       0, 12, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (706, 376, 'perfect_defense',      1, 15.0, 1500, 500,  3,   0, @SKILLFLAG_BLOODPACT_WARD,                       0, 12, 0, 0, 0, 0);
+INSERT INTO `pet_skills` VALUES (982, 370, 'divine_judgment',      1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (978, 371, 'divine_spear',         0,  8.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (979, 372, 'radiant_sacrament',    1, 12.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (977, 373, 'mega_holy',            1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (980, 374, 'void_of_repentance',   1, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (981, 375, 'gospel_of_the_lost',   0,  0.0, 1500, 500,  3,   0, @SKILLFLAG_BLOODPACT_WARD,                       0, 12, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (976, 376, 'perfect_defense',      1, 15.0, 1500, 500,  3,   0, @SKILLFLAG_BLOODPACT_WARD,                       0, 12, 0, 0, 0, 0);
 
 -- Odin
 INSERT INTO `pet_skills` VALUES (710, 380, 'zantetsuken_x',       1, 20.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (711, 381, 'valfodr',             1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (712, 382, 'gagnrath',            0, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (713, 383, 'sanngetall',          1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (714, 384, 'geirrothr',           1, 20.0, 2000, 1000, 3, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (715, 385, 'yggr',                0,  0.0, 1500, 500,  3,   0, @SKILLFLAG_BLOODPACT_WARD,                       0, 12, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (716, 386, 'zantetsuken_kai',     0, 20.0, 2000, 1000, 3, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0);
-INSERT INTO `pet_skills` VALUES (717, 387, 'zantetsuken',		  0, 20.0, 2000, 1000, 3, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0);
+INSERT INTO `pet_skills` VALUES (986, 381, 'valfodr',             1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (987, 382, 'gagnrath',            0, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (988, 383, 'sanngetall',          1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (989, 384, 'geirrothr',           1, 20.0, 2000, 1000, 3, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (990, 385, 'yggr',                0,  0.0, 1500, 500,  3,   0, @SKILLFLAG_BLOODPACT_WARD,                       0, 12, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (991, 386, 'zantetsuken_kai',     0, 20.0, 2000, 1000, 3, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0);
+INSERT INTO `pet_skills` VALUES (670, 387, 'zantetsuken',		  0, 20.0, 2000, 1000, 3, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0);
 
 -- Bahamut
-INSERT INTO `pet_skills` VALUES (720, 390, 'absolute_terror',     1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (721, 391, 'trample',             1, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (722, 392, 'sweeping_flail',      1, 20.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (723, 393, 'touchdown',           1, 12.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (724, 394, 'tempest_wing',        0, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (725, 395, 'megaflare',           0, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
-INSERT INTO `pet_skills` VALUES (726, 396, 'gigaflare',           0, 12.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0);
+INSERT INTO `pet_skills` VALUES (992, 390, 'absolute_terror',     1, 15.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (993, 391, 'trample',             1, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (994, 392, 'sweeping_flail',      1, 20.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (998, 393, 'touchdown',           1, 12.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (995, 394, 'tempest_wing',        0, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (996, 395, 'megaflare',           0, 10.0, 2000, 1000, 4, 317, @SKILLFLAG_BLOODPACT_RAGE,                       0, 13, 0, 0, 0, 0),
+INSERT INTO `pet_skills` VALUES (997, 396, 'gigaflare',           0, 12.0, 2000, 1000, 4, 317, @SKILLFLAG_ASTRAL_FLOW | @SKILLFLAG_BLOODPACT_RAGE, 0, 13, 0, 0, 0, 0);
