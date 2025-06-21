@@ -58,7 +58,11 @@ enum PETID
     PETID_CHOCOBO            = 74,
     PETID_LUOPAN             = 75,
     PETID_SIREN              = 76,
+<<<<<<< HEAD
     PETID_BAHAMUT              = 77,
+=======
+    PETID_BAHAMUT            = 77,
+>>>>>>> a0f1f53ddc (Add new pet abilities to petutils.h)
     MAX_PETID                = 78,
 };
 
