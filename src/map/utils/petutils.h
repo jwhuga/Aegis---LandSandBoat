@@ -58,7 +58,8 @@ enum PETID
     PETID_CHOCOBO            = 74,
     PETID_LUOPAN             = 75,
     PETID_SIREN              = 76,
-    MAX_PETID                = 77,
+    PETID_BAHAMUT              = 77,
+    MAX_PETID                = 78,
 };
 
 struct Pet_t
