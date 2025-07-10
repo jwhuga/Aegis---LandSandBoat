@@ -29,6 +29,7 @@ xi.petId =
     ATOMOS                = 19,
     CAIT_SITH             = 20,
     SIREN                 = 76,
+    BAHAMUT               = 77,
 
     --  Beastmaster
     SHEEP_FAMILIAR        = 21,
