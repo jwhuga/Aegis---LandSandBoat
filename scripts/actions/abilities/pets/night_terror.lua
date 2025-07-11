@@ -1,7 +1,7 @@
 -----------------------------------
 -- Night Terror
--- Description: Deals Darkness-element magical damage (AoE).
--- Note: Created by Caeda on 2025-07-09
+-- Description: Deals Wind-element magical damage (AoE).
+-- Note: Converted to Wind element from Darkness. Created by Caeda on 2025-07-09.
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -13,10 +13,9 @@ end
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local baseDmg = 4.0
-    local damage = 3000 + (pet:getStat(xi.mod.INT) - target:getStat(xi.mod.INT))
+    local damage = math.floor(11325 + 0.025 * pet:getTP() + (pet:getStat(xi.mod.INT) - target:getStat(xi.mod.INT)) * 1.5)
 
-    damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.DARK, baseDmg, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
+    damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.DARK, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
     damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.DARK, petskill)
     damage = xi.summon.avatarFinalAdjustments(damage, pet, petskill, target, xi.attackType.MAGICAL, xi.damageType.DARK, 1)
 
