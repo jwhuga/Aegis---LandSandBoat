@@ -14,8 +14,7 @@ abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     local holyRollOneAnimID = 164
     local primaryTargetID   = action:getPrimaryTargetID()
 
-    -- If primary target, roll for power by setting random animation.
-    -- We do this so the animation is random, but only rolled for once. (AKA: The same for all targets)
+    -- Roll animation for primary target, propagate to others
     if primaryTargetID == target:getID() then
         action:setAnimation(primaryTargetID, holyRollOneAnimID + math.random(0, 5))
     else
@@ -25,23 +24,17 @@ abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
         end
     end
 
-    local power = action:getAnimation(target:getID()) - 163
+    local power = action:getAnimation(target:getID()) - 163 -- 1–6
 
-    -- Only have an effect if target's level is divisible by die roll
-    if target:getMainLvl() % power == 0 then
-        damage = math.floor(pet:getMainLvl() * power + (pet:getStat(xi.mod.MND) - target:getStat(xi.mod.MND)) * 1.5)
+    -- New damage formula using power as multiplier
+    damage = math.floor((325 + 0.025 * pet:getTP() + (pet:getStat(xi.mod.MND) - target:getStat(xi.mod.MND)) * 1.5) * power)
 
-        damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.LIGHT, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 10)
-        damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.LIGHT, petskill)
-        damage = xi.summon.avatarFinalAdjustments(damage, pet, petskill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, 1)
+    damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.LIGHT, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
+    damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.LIGHT, petskill)
+    damage = xi.summon.avatarFinalAdjustments(damage, pet, petskill, target, xi.attackType.MAGICAL, xi.damageType.LIGHT, 1)
 
-        -- TODO: Magic burst?
-
-        target:takeDamage(damage, pet, xi.attackType.MAGICAL, xi.element.LIGHT)
-        target:updateEnmityFromDamage(pet, damage)
-    else
-        petskill:setMsg(xi.msg.basic.JA_NO_EFFECT_2)
-    end
+    target:takeDamage(damage, pet, xi.attackType.MAGICAL, xi.damageType.LIGHT)
+    target:updateEnmityFromDamage(pet, damage)
 
     return damage
 end
