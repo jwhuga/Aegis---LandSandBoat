@@ -6,14 +6,8 @@
 local spellObject = {}
 
 spellObject.onMagicCastingCheck = function(caster, target, spell)
-    -- Match Meteor's restrictions
-    if caster:isMob() then
-        return 0
-    elseif caster:hasStatusEffect(xi.effect.ELEMENTAL_SEAL) then
-        return 0
-    else
-        return xi.msg.basic.STATUS_PREVENTS
-    end
+    -- No restrictions, always allow casting
+    return 0
 end
 
 spellObject.onSpellCast = function(caster, target, spell)
