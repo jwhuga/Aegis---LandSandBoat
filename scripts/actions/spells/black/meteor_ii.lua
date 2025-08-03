@@ -1,44 +1,40 @@
 -----------------------------------
 -- Spell: Meteor II
--- Deals Light-elemental damage to an enemy
+-- Deals non-elemental damage to an enemy. (Upgraded animation)
 -----------------------------------
 ---@type TSpell
 local spellObject = {}
 
 spellObject.onMagicCastingCheck = function(caster, target, spell)
-    return 0
+    -- Blocks same way as Meteor for invalid cases
+    if caster:isMob() then
+        return 0
+    elseif caster:hasStatusEffect(xi.effect.ELEMENTAL_SEAL) then
+        return 0
+    else
+        return xi.msg.basic.STATUS_PREVENTS
+    end
 end
 
 spellObject.onSpellCast = function(caster, target, spell)
-    local params = {}
-    params.attribute = xi.mod.INT
-    params.bonus = 1.0
-    params.diff = caster:getStat(xi.mod.INT) - target:getStat(xi.mod.INT)
-    params.dmg = 1500 -- Base damage for Meteor II
-    params.effect = nil
-    params.hasMultipleTargetReduction = false
-    params.multiplier = 3.5 -- Stronger than Impact
-    params.resistBonus = 1.0
-    params.skillType = xi.skill.ELEMENTAL_MAGIC
+    local dmg = 0
+    if caster:isPC() then
+        dmg = ((100 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF)))
+        * (caster:getStat(xi.mod.INT) + caster:getSkillLevel(xi.skill.ELEMENTAL_MAGIC) / 6) * 3.5
+    elseif -- Behemoth family
+        caster:getFamily() == 51 or
+        caster:getFamily() == 479
+    then
+        dmg = 14 + caster:getMainLvl() * 30
+    else
+        dmg = ((100 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF)))
+        * (caster:getStat(xi.mod.INT) + (caster:getMaxSkillLevel(caster:getMainLvl(), xi.job.BLM, xi.skill.ELEMENTAL_MAGIC)) / 6) * 9.4
+    end
 
-    -- Calculate resistance
-    local resist = applyResistanceEffect(caster, target, spell, params)
-
-    -- Calculate raw damage
-    local dmg = calculateMagicDamage(caster, target, spell, params)
-
-    -- Apply resistance
-    dmg = dmg * resist
-
-    -- Add bonuses (MAB, day/weather effects, etc.)
-    dmg = addBonuses(caster, spell, target, dmg)
-
-    -- Handle absorb/nullify for LIGHT element
+    -- Add in target adjustments
     dmg = dmg * xi.spells.damage.calculateNukeAbsorbOrNullify(target, spell:getElement())
-
-    -- Apply final adjustments (e.g. MDT, Stoneskin, etc.)
+    -- Add in final adjustments
     dmg = finalMagicAdjustments(caster, target, spell, dmg)
-
     return dmg
 end
 
