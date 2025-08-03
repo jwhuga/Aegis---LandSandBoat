@@ -1,12 +1,12 @@
 -----------------------------------
 -- Spell: Meteor II
--- Deals non-elemental damage to an enemy (stronger than Meteor).
+-- Deals Light-elemental damage (stronger than Meteor)
 -----------------------------------
 ---@type TSpell
 local spellObject = {}
 
 spellObject.onMagicCastingCheck = function(caster, target, spell)
-    -- Same restriction logic as Meteor
+    -- Match Meteor's restrictions
     if caster:isMob() then
         return 0
     elseif caster:hasStatusEffect(xi.effect.ELEMENTAL_SEAL) then
@@ -20,27 +20,24 @@ spellObject.onSpellCast = function(caster, target, spell)
     local dmg = 0
 
     if caster:isPC() then
-        -- Enhanced multiplier for Meteor II
-        dmg = ((100 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF))) 
-            * (caster:getStat(xi.mod.INT) + caster:getSkillLevel(xi.skill.ELEMENTAL_MAGIC) / 6) * 5.0
+        -- Stronger multiplier for players
+        dmg = ((100 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF)))
+            * (caster:getStat(xi.mod.INT) + caster:getSkillLevel(xi.skill.ELEMENTAL_MAGIC) / 6) * 5.5
 
-    elseif -- Behemoth family (Family IDs 51 and 479)
-        caster:getFamily() == 51 or
-        caster:getFamily() == 479
-    then
-        -- Stronger Behemoth family scaling
-        dmg = 20 + caster:getMainLvl() * 40
-
+    elseif caster:getFamily() == 51 or caster:getFamily() == 479 then
+        -- Behemoth family: higher scaling
+        dmg = 30 + caster:getMainLvl() * 45
     else
-        -- Enhanced multiplier for mobs
-        dmg = ((10000 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF))) 
-            * (caster:getStat(xi.mod.INT) + (caster:getMaxSkillLevel(caster:getMainLvl(), xi.job.BLM, xi.skill.ELEMENTAL_MAGIC)) / 6) * 12.0
+        -- Stronger multiplier for mobs
+        dmg = ((100 + caster:getMod(xi.mod.MATT)) / (100 + target:getMod(xi.mod.MDEF)))
+            * (caster:getStat(xi.mod.INT)
+                + (caster:getMaxSkillLevel(caster:getMainLvl(), xi.job.BLM, xi.skill.ELEMENTAL_MAGIC)) / 6) * 13.5
     end
 
-    -- Add in target adjustment
+    -- Apply Light-element absorb/nullify
     dmg = dmg * xi.spells.damage.calculateNukeAbsorbOrNullify(target, spell:getElement())
 
-    -- Add in final adjustments
+    -- Apply resistances, buffs, and final adjustments
     dmg = finalMagicAdjustments(caster, target, spell, dmg)
 
     return dmg
