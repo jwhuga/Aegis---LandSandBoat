@@ -27,7 +27,8 @@ abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     local power = action:getAnimation(target:getID()) - 163 -- 1–6
 
     -- New damage formula using power as multiplier
-    damage = math.floor((325 + 0.025 * pet:getTP() + (pet:getStat(xi.mod.MND) - target:getStat(xi.mod.MND)) * 1.5) * power)
+
+    damage = math.floor((2325 + 0.025 * pet:getTP() + (pet:getStat(xi.mod.MND) - target:getStat(xi.mod.MND)) * 1.5) * power)
 
     damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.LIGHT, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
     damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.LIGHT, petskill)
