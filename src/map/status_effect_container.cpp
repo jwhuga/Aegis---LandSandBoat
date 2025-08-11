@@ -1611,16 +1611,19 @@ void CStatusEffectContainer::LoadStatusEffects()
     }
 
     const char* Query = "SELECT "
-                        "effectid,"
-                        "icon,"
-                        "power,"
-                        "tick,"
-                        "duration,"
-                        "subid,"
-                        "subpower,"
+                        "effectid, "
+                        "icon, "
+                        "power, "
+                        "tick, "
+                        "duration, "
+                        "subid, "
+                        "subpower, "
                         "tier, "
                         "flags, "
-                        "timestamp "
+                        "timestamp, "
+                        "sourcetype, "
+                        "sourcetypeparam, "
+                        "originid "
                         "FROM char_effects "
                         "WHERE charid = ?";
 
@@ -1666,7 +1669,10 @@ void CStatusEffectContainer::LoadStatusEffects()
                                   rset->get<uint16>("subid"),
                                   rset->get<uint16>("subpower"),
                                   rset->get<uint16>("tier"),
-                                  flags);
+                                  flags,
+                                  rset->get<uint16>("sourcetype"),
+                                  rset->get<uint32>("sourcetypeparam"),
+                                  rset->get<uint32>("originid"));
 
             PEffectList.emplace_back(PStatusEffect);
 
@@ -1726,8 +1732,8 @@ void CStatusEffectContainer::SaveStatusEffects(bool logout)
 
         if (realDurationSeconds > 0 || durationSeconds == 0)
         {
-            const char* Query = "INSERT INTO char_effects (charid, effectid, icon, power, tick, duration, subid, subpower, tier, flags, timestamp) "
-                                "VALUES(%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)";
+            const char* Query = "INSERT INTO char_effects (charid, effectid, icon, power, tick, duration, subid, subpower, tier, flags, timestamp, sourcetype, sourcetypeparam, originid) "
+                                "VALUES(%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)";
 
             // save power of utsusemi and blink
             if (PStatusEffect->GetStatusID() == EFFECT_COPY_IMAGE)
@@ -1769,7 +1775,7 @@ void CStatusEffectContainer::SaveStatusEffects(bool logout)
 
             _sql->Query(Query, m_POwner->id, PStatusEffect->GetStatusID(), PStatusEffect->GetIcon(), PStatusEffect->GetPower(), tick, duration,
                         PStatusEffect->GetSubID(), PStatusEffect->GetSubPower(), PStatusEffect->GetTier(), PStatusEffect->GetEffectFlags(),
-                        timestamp);
+                        timestamp, PStatusEffect->GetSourceType(), PStatusEffect->GetSourceTypeParam(), PStatusEffect->GetOriginID());
         }
     }
     DeleteStatusEffects();
