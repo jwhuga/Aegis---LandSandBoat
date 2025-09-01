@@ -1305,6 +1305,7 @@ INSERT INTO `mob_groups` VALUES (24,4661,34,'Ixaern_mnk',0,128,0,13000,0,83,83,0
 INSERT INTO `mob_groups` VALUES (25,3269,34,'Qnaern_rdm',0,128,0,7500,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (26,4651,34,'Qnaern_whm',0,128,0,7500,0,80,80,0);
 INSERT INTO `mob_groups` VALUES (27,7057,34,'Quasilumin',0,128,0,1000,0,65,65,0);
+INSERT INTO `mob_groups` VALUES (28,7093,34,'Eoeuvhi_closed',960,0,776,0,0,74,77,0);
 
 -- ------------------------------------------------------------
 -- The_Garden_of_RuHmet (Zone 35)
@@ -1343,6 +1344,7 @@ INSERT INTO `mob_groups` VALUES (30,2130,35,'Jailer_of_Faith',0,128,1396,18000,0
 INSERT INTO `mob_groups` VALUES (31,2112,35,'Ixaern_drg',0,128,2843,21000,0,82,87,0);
 INSERT INTO `mob_groups` VALUES (32,5536,35,'Ixaern_drgs_Wynav',0,128,0,0,0,78,79,0);
 INSERT INTO `mob_groups` VALUES (33,7039,35,'Ixzdei_RDM',0,128,0,6500,0,78,78,0);
+INSERT INTO `mob_groups` VALUES (34,7092,35,'Aweuvhi_closed',960,0,199,0,0,78,82,0);
 
 -- ------------------------------------------------------------
 -- Empyreal_Paradox (Zone 36)

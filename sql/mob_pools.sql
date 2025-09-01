@@ -7176,6 +7176,10 @@ INSERT INTO `mob_pools` VALUES (7090,'Nickel_Quadav_NM','Nickel_Quadav_NM',202,0
 -- Jugner Forest Quest NM
 INSERT INTO `mob_pools` VALUES (7091,'Skeleton_Esquire_NM','Skeleton_Esquire_NM',227,0x0000340200000000000000000000000000000000,8,8,7,240,100,0,1,0,1,2,0,0,0,131,0,0,5,0,0,227,227);
 
+-- Euvhi Default Closed Mouth
+INSERT INTO `mob_pools` VALUES (7092,'Aweuvhi_closed','Aweuvhi',109,0x00000E0200000000000000000000000000000000,1,1,11,240,100,0,0,0,1,0,0,0,0,1155,5,0,0,0,0,109,109);
+INSERT INTO `mob_pools` VALUES (7093,'Eoeuvhi_closed','Eoeuvhi',109,0x00000E0200000000000000000000000000000000,1,1,11,240,100,0,0,0,1,0,0,0,0,1155,5,0,0,0,0,109,109);
+
 -- ------------------------------------------------------------
 -- Start of Ambuscade section
 -- NOTE: The mobs are changed every update in the DATs, so using out-of-date

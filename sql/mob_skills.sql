@@ -1463,11 +1463,11 @@ INSERT INTO `mob_skills` VALUES (1445,1063,'damnation_dive',4,0.0,10.0,2000,1500
 INSERT INTO `mob_skills` VALUES (1446,1064,'sickle_slash',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0); -- Only used in spider form.
 INSERT INTO `mob_skills` VALUES (1447,1070,'vertical_cleave',0,0.0,7.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1448,1071,'efflorescent_foetor',4,0.0,10.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1449,1072,'stupor_spores',1,0.0,15.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1449,1072,'stupor_spores',1,0.0,10.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1450,1067,'viscid_nectar',4,0.0,10.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1451,1073,'morning_glory',1,0.0,15.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1452,1068,'axial_bloom',1,0.0,15.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1453,1069,'nutrient_aborption',0,0.0,7.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1453,1069,'nutrient_absorption',0,0.0,7.0,2000,1000,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1454,1198,'palsy_pollen',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1455,1199,'toxic_spit',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1456,1200,'filamented_hold',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
