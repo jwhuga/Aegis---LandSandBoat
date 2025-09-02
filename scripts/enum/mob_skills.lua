@@ -50,6 +50,8 @@ xi.mobSkill =
 
     SONIC_BLADE              =  422, -- Mammet-800
 
+    SANDSPIN                 =  426,
+
     MICROQUAKE               =  441, -- Mammet-800
 
     PERCUSSIVE_FOIN          =  447, -- Mammet-800
