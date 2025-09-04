@@ -26,6 +26,9 @@
 
 #include <bcrypt/BCrypt.hpp>
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 namespace
 {
     constexpr bool isBcryptHash(const std::string& passHash)
@@ -88,41 +91,94 @@ void auth_session::do_read()
 
 void auth_session::read_func()
 {
-    const auto newModeFlag = ref<uint8>(buffer_.data(), 0) == 0xFF;
-    if (!newModeFlag)
+    int8 code   = 0;
+    bool isJson = false;
+
+    std::string username         = "";
+    std::string password         = "";
+    std::string updated_password = "";
+
+    auto jsonBuffer = nlohmann::json::parse(buffer_, nullptr, false);
+
+    auto sendJsonAsBuffer = [&](json& json_)
     {
-        ShowDebug("Old xiloader connected. Not supported.");
-        ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR;
-        do_write(1);
-        return;
-    }
+        std::string jsonString       = json_.dump();
+        const char* jsonStringBuffer = jsonString.c_str();
+        size_t      jsonStringSize   = strlen(jsonStringBuffer);
 
-    // Feature flags from xiloader are sent over on the 2nd byte+
+        std::memset(buffer_.data(), 0, buffer_.size());
+        std::memcpy(buffer_.data(), jsonStringBuffer, jsonStringSize);
 
-    char usernameBuffer[17] = {};
-    char passwordBuffer[33] = {};
+        do_write(jsonStringSize);
+    };
 
-    std::memcpy(usernameBuffer, buffer_.data() + 0x09, 16);
-    std::memcpy(passwordBuffer, buffer_.data() + 0x19, 32);
-    // 1 byte of command at 0x39
-    const std::string version = asStringFromUntrustedSource(buffer_.data() + 0x61, 5);
-
-    std::string username{ usernameBuffer };
-    std::string password{ passwordBuffer };
-
-    // Only match on the first 3 characters of the version string
-    // ie. 1.1.1 -> 1.1.x
-    // Major.Minor.Patch
-    // Major and minor version changes should be breaking, patch should not.
-    if (strncmp(version.c_str(), SUPPORTED_XILOADER_VERSION, 3) != 0)
+    auto sendErrorCode = [&](uint8 errorCode, uint8 len)
     {
-        ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_VERSION_UNSUPPORTED;
+        if (!isJson)
+        {
+            std::memset(buffer_.data(), 0, len);
+            ref<uint8>(buffer_.data(), 0) = errorCode;
+            do_write(len);
+        }
+        else
+        {
+            json loginErrorCodeReply;
+            loginErrorCodeReply["result"]       = errorCode;
+            loginErrorCodeReply["account_id"]   = 0;
+            loginErrorCodeReply["session_hash"] = "";
 
-        do_write(1);
-        return;
+            sendJsonAsBuffer(loginErrorCodeReply);
+        }
+    };
+
+    if (jsonBuffer.is_discarded()) // not json
+    {
+        const auto newModeFlag = ref<uint8>(buffer_.data(), 0) == 0xFF;
+        if (!newModeFlag)
+        {
+            ShowDebug("Old xiloader connected. Not supported.");
+            ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR;
+            do_write(1);
+            return;
+        }
+
+        // Feature flags from xiloader are sent over on the 2nd byte+
+
+        char usernameBuffer[17] = {};
+        char passwordBuffer[33] = {};
+
+        std::memcpy(usernameBuffer, buffer_.data() + 0x09, 16);
+        std::memcpy(passwordBuffer, buffer_.data() + 0x19, 32);
+
+        // 1 byte of command at 0x39
+        const std::string version = asStringFromUntrustedSource(buffer_.data() + 0x61, 5);
+        updated_password          = asStringFromUntrustedSource(buffer_.data() + 0x40, 32);
+
+        username = usernameBuffer;
+        password = passwordBuffer;
+
+        // Only match on the first 3 characters of the version string
+        // ie. 1.1.1 -> 1.1.x
+        // Major.Minor.Patch
+        // Major and minor version changes should be breaking, patch should not.
+        if (strncmp(version.c_str(), SUPPORTED_XILOADER_VERSION, 3) != 0)
+        {
+            ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_VERSION_UNSUPPORTED;
+
+            do_write(1);
+            return;
+        }
+        code = ref<uint8>(buffer_.data(), 0x39);
     }
+    else
+    {
+        isJson = true;
 
-    const int8 code = ref<uint8>(buffer_.data(), 0x39);
+        username         = jsonBuffer["username"].get<std::string>();
+        password         = jsonBuffer["bcrypt_password"].get<std::string>();
+        updated_password = jsonBuffer["bcrypt_new_password"].get<std::string>();
+        code             = jsonBuffer["command"].get<int8_t>();
+    }
 
     DebugSockets(fmt::format("auth code: {} from {}", code, ipAddress));
 
@@ -167,8 +223,7 @@ void auth_session::read_func()
                 // It's a BCrypt hash, so we can validate it.
                 if (!BCrypt::validatePassword(password, passHash))
                 {
-                    ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR;
-                    do_write(1);
+                    sendErrorCode(LOGIN_ERROR, 1);
                     return;
                 }
             }
@@ -181,8 +236,7 @@ void auth_session::read_func()
                 {
                     if (rset->get<std::string>(0) != passHash)
                     {
-                        ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR;
-                        do_write(1);
+                        sendErrorCode(LOGIN_ERROR, 1);
                         return;
                     }
 
@@ -190,8 +244,7 @@ void auth_session::read_func()
                     db::preparedStmt("UPDATE accounts SET accounts.password = ? WHERE accounts.login = ?", passHash, username);
                     if (!BCrypt::validatePassword(password, passHash))
                     {
-                        ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR;
-                        do_write(1);
+                        sendErrorCode(LOGIN_ERROR, 1);
                         return;
                     }
                 }
@@ -241,16 +294,29 @@ void auth_session::read_func()
                     */
 
                     // Success
-                    std::memset(buffer_.data(), 0, 49);
-                    ref<uint8>(buffer_.data(), 0)  = LOGIN_SUCCESS;
-                    ref<uint32>(buffer_.data(), 1) = accountID;
-
                     unsigned char hash[16];
                     uint32        hashData = earth_time::timestamp() ^ getpid();
                     md5(reinterpret_cast<uint8*>(&hashData), hash, sizeof(hashData));
-                    std::memcpy(buffer_.data() + 5, hash, 16);
 
-                    do_write(21);
+                    if (!isJson)
+                    {
+                        std::memset(buffer_.data(), 0, 49);
+                        ref<uint8>(buffer_.data(), 0)  = LOGIN_SUCCESS;
+                        ref<uint32>(buffer_.data(), 1) = accountID;
+
+                        std::memcpy(buffer_.data() + 5, hash, 16);
+
+                        do_write(21);
+                    }
+                    else
+                    {
+                        json loginSuccessReply;
+                        loginSuccessReply["result"]       = LOGIN_SUCCESS;
+                        loginSuccessReply["account_id"]   = accountID;
+                        loginSuccessReply["session_hash"] = hash; // This has to be sent as an array, json.dump() tries to convert to UTF which fails
+
+                        sendJsonAsBuffer(loginSuccessReply);
+                    }
 
                     auto& session          = loginHelpers::get_authenticated_session(ipAddress, asStringFromUntrustedSource(hash, sizeof(hash)));
                     session.accountID      = accountID;
@@ -258,14 +324,12 @@ void auth_session::read_func()
                 }
                 else if (status & ACCOUNT_STATUS_CODE::BANNED)
                 {
-                    ref<uint8>(buffer_.data(), 0) = LOGIN_FAIL;
-                    do_write(33);
+                    sendErrorCode(LOGIN_FAIL, 33);
                 }
             }
             else // No account match
             {
-                ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR;
-                do_write(1);
+                sendErrorCode(LOGIN_FAIL, 1);
             }
         }
         break;
@@ -278,8 +342,7 @@ void auth_session::read_func()
             {
                 ShowWarningFmt("login_parse: New account attempt <{}> but is disabled in settings.",
                                username);
-                ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CREATE_DISABLED;
-                do_write(1);
+                sendErrorCode(LOGIN_ERROR_CREATE_DISABLED, 1);
                 return;
             }
 
@@ -287,8 +350,7 @@ void auth_session::read_func()
             const auto rset = db::preparedStmt("SELECT accounts.id FROM accounts WHERE accounts.login = ?", username);
             if (!rset)
             {
-                ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CREATE;
-                do_write(1);
+                sendErrorCode(LOGIN_ERROR_CREATE, 1);
                 return;
             }
 
@@ -304,8 +366,7 @@ void auth_session::read_func()
                 }
                 else
                 {
-                    ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CREATE;
-                    do_write(1);
+                    sendErrorCode(LOGIN_ERROR_CREATE, 1);
                     return;
                 }
 
@@ -322,19 +383,16 @@ void auth_session::read_func()
                                                     accid, username, BCrypt::generateHash(password), strtimecreate, static_cast<uint8>(ACCOUNT_STATUS_CODE::NORMAL), static_cast<uint8>(ACCOUNT_PRIVILEGE_CODE::USER));
                 if (!rset2)
                 {
-                    ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CREATE;
-                    do_write(1);
+                    sendErrorCode(LOGIN_ERROR_CREATE, 1);
                     return;
                 }
 
-                ref<uint8>(buffer_.data(), 0) = LOGIN_SUCCESS_CREATE;
-                do_write(1);
+                sendErrorCode(LOGIN_SUCCESS_CREATE, 1);
                 return;
             }
             else
             {
-                ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CREATE_TAKEN;
-                do_write(1);
+                sendErrorCode(LOGIN_ERROR_CREATE_TAKEN, 1);
                 return;
             }
             break;
@@ -359,8 +417,7 @@ void auth_session::read_func()
                 // It's a BCrypt hash, so we can validate it.
                 if (!BCrypt::validatePassword(password, passHash))
                 {
-                    ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CHANGE_PASSWORD;
-                    do_write(1);
+                    sendErrorCode(LOGIN_ERROR_CHANGE_PASSWORD, 1);
                     return;
                 }
             }
@@ -373,8 +430,7 @@ void auth_session::read_func()
                 {
                     if (rset->get<std::string>(0) != passHash)
                     {
-                        ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CHANGE_PASSWORD;
-                        do_write(1);
+                        sendErrorCode(LOGIN_ERROR_CHANGE_PASSWORD, 1);
                         return;
                     }
                     else
@@ -383,8 +439,7 @@ void auth_session::read_func()
                         db::preparedStmt("UPDATE accounts SET accounts.password = ? WHERE accounts.login = ?", passHash.c_str(), username);
                         if (!BCrypt::validatePassword(password, passHash))
                         {
-                            ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CHANGE_PASSWORD;
-                            do_write(1);
+                            sendErrorCode(LOGIN_ERROR_CHANGE_PASSWORD, 1);
                             return;
                         }
                     }
@@ -398,8 +453,8 @@ void auth_session::read_func()
             if (rset == nullptr || rset->rowsCount() == 0)
             {
                 ShowWarningFmt("login_parse: user <{}> could not be found using the provided information. Aborting.", username);
-                ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR;
-                do_write(1);
+
+                sendErrorCode(LOGIN_ERROR, 1);
                 return;
             }
 
@@ -411,20 +466,17 @@ void auth_session::read_func()
             if (status & ACCOUNT_STATUS_CODE::BANNED)
             {
                 ShowInfoFmt("login_parse: banned user <{}> detected. Aborting.", username);
-                ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CHANGE_PASSWORD;
-                do_write(1);
+
+                sendErrorCode(LOGIN_ERROR_CHANGE_PASSWORD, 1);
             }
 
             if (status & ACCOUNT_STATUS_CODE::NORMAL)
             {
-                // Account info verified, grab password
-                std::string updated_password = asStringFromUntrustedSource(buffer_.data() + 0x40, 32);
-
+                // Account info verified, update password
                 if (updated_password == "")
                 {
                     ShowWarningFmt("login_parse: Empty password: Could not update password for user <{}>.", username);
-                    ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CHANGE_PASSWORD;
-                    do_write(1);
+                    sendErrorCode(LOGIN_ERROR_CHANGE_PASSWORD, 1);
                     return;
                 }
 
@@ -435,14 +487,25 @@ void auth_session::read_func()
                 if (!rset2)
                 {
                     ShowWarningFmt("login_parse: Error trying to update password in database for user <{}>.", username);
-                    ref<uint8>(buffer_.data(), 0) = LOGIN_ERROR_CHANGE_PASSWORD;
-                    do_write(1);
+                    sendErrorCode(LOGIN_ERROR_CHANGE_PASSWORD, 1);
                     return;
                 }
 
-                std::memset(buffer_.data(), 0, 33);
-                ref<uint8>(buffer_.data(), 0) = LOGIN_SUCCESS_CHANGE_PASSWORD;
-                do_write(33);
+                if (!isJson)
+                {
+                    std::memset(buffer_.data(), 0, 33);
+                    ref<uint8>(buffer_.data(), 0) = LOGIN_SUCCESS_CHANGE_PASSWORD;
+                    do_write(33);
+                }
+                else
+                {
+                    json loginErrorChangePasswordReply;
+                    loginErrorChangePasswordReply["result"]       = LOGIN_SUCCESS_CHANGE_PASSWORD;
+                    loginErrorChangePasswordReply["account_id"]   = 0;
+                    loginErrorChangePasswordReply["session_hash"] = "";
+
+                    sendJsonAsBuffer(loginErrorChangePasswordReply);
+                }
 
                 ShowInfoFmt("login_parse: password updated for account {} successfully.", accid);
                 return;
