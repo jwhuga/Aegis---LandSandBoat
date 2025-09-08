@@ -34,27 +34,6 @@ LOCK TABLES `mob_pets` WRITE;
 /*!40000 ALTER TABLE `mob_pets` DISABLE KEYS */;
 
 -- ------------------------------------------------------------
--- Phanauet_Channel (Zone 1)
--- ------------------------------------------------------------
-
-INSERT INTO `mob_pets` VALUES (16781327,1,14,'Stubborn_Dredvodd','Orcs_Wyvern');
-
--- ------------------------------------------------------------
--- Carpenters_Landing (Zone 2)
--- ------------------------------------------------------------
-
-INSERT INTO `mob_pets` VALUES (16785713,1,15,'Cryptonberry_Assassin','Tonberrys_Elemental');
-
--- ------------------------------------------------------------
--- Bibiki_Bay (Zone 4)
--- ------------------------------------------------------------
-
-INSERT INTO `mob_pets` VALUES (16793746,1,9,'Goblin_Pathfinder','Goblins_Rarab');
-INSERT INTO `mob_pets` VALUES (16793751,1,9,'Hobgoblin_Animalier','Goblins_Rarab');
-INSERT INTO `mob_pets` VALUES (16793777,1,9,'Hobgoblin_Animalier','Goblins_Rarab');
-INSERT INTO `mob_pets` VALUES (16793797,1,9,'Hobgoblin_Animalier','Goblins_Rarab');
-
--- ------------------------------------------------------------
 -- Uleguerand_Range (Zone 5)
 -- ------------------------------------------------------------
 
