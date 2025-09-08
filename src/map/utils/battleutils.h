@@ -22,7 +22,6 @@
 #ifndef _BATTLEUTILS_H
 #define _BATTLEUTILS_H
 
-#include "blue_spell.h"
 #include "common/cbasetypes.h"
 #include "merit.h"
 #include "packets/weather.h"
@@ -32,6 +31,7 @@
 
 #include "entities/battleentity.h"
 
+class CMobEntity;
 class CAbility;
 class CAttack;
 class CItemWeapon;
