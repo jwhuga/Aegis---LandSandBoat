@@ -562,8 +562,9 @@ void CMobController::CastSpell(SpellID spellid)
                         // randomly select a target
                         PCastTarget = PMob->PAI->TargetFind->m_targets[xirand::GetRandomNumber(PMob->PAI->TargetFind->m_targets.size())];
 
-                        // only target if are on same action
-                        if (PMob->PAI->IsEngaged() == PCastTarget->PAI->IsEngaged())
+                        // revert target to self if not on same action
+                        // TODO can engaged mobs buff idle mobs?
+                        if (PMob->PAI->IsEngaged() != PCastTarget->PAI->IsEngaged())
                         {
                             PCastTarget = PMob;
                         }
