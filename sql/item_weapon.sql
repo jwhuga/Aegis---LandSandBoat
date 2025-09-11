@@ -4399,6 +4399,7 @@ INSERT INTO `item_weapon` VALUES (21482,'compensator',26,1,242,0,0,1,1,480,89,0)
 INSERT INTO `item_weapon` VALUES (21483,'malison',26,1,242,0,0,1,1,480,92,0);
 INSERT INTO `item_weapon` VALUES (21484,'malison_+1',26,1,242,0,0,1,1,466,93,0);
 INSERT INTO `item_weapon` VALUES (21485,'fomalhaut',26,1,269,0,0,1,1,600,167,0);
+INSERT INTO `item_weapon` VALUES (21490,'aged_humus',0,77,0,0,0,1,1,2295,257,0);
 INSERT INTO `item_weapon` VALUES (21492,'insipid_broth',0,0,0,0,0,0,1,2211,6734,0);
 INSERT INTO `item_weapon` VALUES (21493,'deepwater_broth',0,0,0,0,0,0,1,2212,6735,0);
 INSERT INTO `item_weapon` VALUES (21494,'wetlands_broth',0,0,0,0,0,0,1,2213,9552,0);
