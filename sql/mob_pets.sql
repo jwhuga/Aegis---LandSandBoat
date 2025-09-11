@@ -134,18 +134,6 @@ INSERT INTO `mob_pets` VALUES (16875733,1,15,'Fomor_Summoner','Fomors_Elemental'
 INSERT INTO `mob_pets` VALUES (16875735,1,9,'Fomor_Beastmaster','Fomors_Bat');
 
 -- ------------------------------------------------------------
--- Misareaux_Coast (Zone 25)
--- ------------------------------------------------------------
-
-INSERT INTO `mob_pets` VALUES (16879727,6,9,'Gigas_Warwolf','Gigass_Sheep');
-INSERT INTO `mob_pets` VALUES (16879740,5,9,'Gigas_Warwolf','Gigass_Sheep');
-INSERT INTO `mob_pets` VALUES (16879762,2,9,'Gigas_Warwolf','Gigass_Sheep');
-INSERT INTO `mob_pets` VALUES (16879770,6,9,'Gigas_Warwolf','Gigass_Sheep');
-INSERT INTO `mob_pets` VALUES (16879783,6,9,'Gigas_Warwolf','Gigass_Sheep');
-INSERT INTO `mob_pets` VALUES (16879818,2,15,'Fomor_Summoner','Fomors_Elemental');
-INSERT INTO `mob_pets` VALUES (16879886,1,14,'Fomor_Dragoon','Fomors_Wyvern');
-
--- ------------------------------------------------------------
 -- Phomiuna_Aqueducts (Zone 27)
 -- ------------------------------------------------------------
 
