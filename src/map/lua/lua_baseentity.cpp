@@ -15292,7 +15292,7 @@ uint8 CLuaBaseEntity::getWeaponSkillType(uint8 slotID)
 
 uint8 CLuaBaseEntity::getWeaponSubSkillType(uint8 slotID)
 {
-    auto* PChar   = static_cast<CCharEntity*>(m_PBaseEntity);
+    auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     if (!PChar)
     {
