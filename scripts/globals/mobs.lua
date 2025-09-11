@@ -944,7 +944,7 @@ xi.mob.callPets = function(mob, petIds, params)
                         local newtarget = owner and owner:getTarget() or nil
                         if newtarget then
                             petArg:updateEnmity(newtarget)
-                        elseif owner:isDead() then
+                        elseif owner and owner:isDead() then
                             petArg:setHP(0)
                         elseif not petArg:hasFollowTarget() then
                             petArg:follow(owner, xi.followType.ROAM)
