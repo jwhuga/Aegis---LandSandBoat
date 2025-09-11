@@ -2518,6 +2518,8 @@ INSERT INTO `mob_skill_lists` VALUES ('Jug_Hippogryph',753,749);
 INSERT INTO `mob_skill_lists` VALUES ('Jug_Hippogryph',753,750);
 INSERT INTO `mob_skill_lists` VALUES ('Jug_Hippogryph',753,751);
 INSERT INTO `mob_skill_lists` VALUES ('Jug_Hippogryph',753,752);
+INSERT INTO `mob_skill_lists` VALUES ('Jug_Hippogryph',753,797);
+INSERT INTO `mob_skill_lists` VALUES ('Jug_Hippogryph',753,798);
 INSERT INTO `mob_skill_lists` VALUES ('Jug_Apkallu',755,756);
 INSERT INTO `mob_skill_lists` VALUES ('Jug_Apkallu',755,757);
 INSERT INTO `mob_skill_lists` VALUES ('Jug_Pugil',756,758);
