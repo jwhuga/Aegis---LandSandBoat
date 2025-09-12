@@ -636,6 +636,7 @@ INSERT INTO `abilities` VALUES (779,'spider_web',9,25,257,2,102,0,0,0,2000,0,6,1
 -- INSERT INTO `abilities` VALUES (786,'disembowel',22,1,1,0,300,0,0,???,2000,0,6,20.0,0,450,900,0,0,NULL);
 -- INSERT INTO `abilities` VALUES (787,'extirpating_salvo',22,1,1,0,300,0,0,???,2000,0,6,20.0,0,450,900,0,0,NULL);
 INSERT INTO `abilities` VALUES (790,'frenzied_rage',9,25,257,1,102,0,0,0,2000,0,6,18.0,0,2,60,0,0,NULL);
+INSERT INTO `abilities` VALUES (791,'rhinowrecker',9,25,257,2,102,0,0,0,2000,0,6,18.0,0,2,60,0,0,NULL);
 INSERT INTO `abilities` VALUES (795,'crossthrash',9,25,257,2,102,0,0,0,2000,0,6,18.0,0,2,60,0,0,NULL);
 INSERT INTO `abilities` VALUES (796,'predatory_glare',9,25,257,2,102,0,0,0,2000,0,6,18.0,0,2,60,0,0,NULL);
 INSERT INTO `abilities` VALUES (797,'hoof_volley',9,25,257,3,102,0,0,0,2000,0,6,18.0,0,2,60,0,0,NULL);
