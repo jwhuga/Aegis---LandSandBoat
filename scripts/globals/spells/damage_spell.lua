@@ -589,7 +589,7 @@ xi.spells.damage.calculateMagicBonusDiff = function(caster, target, spellId, ski
     local magicBonusDiff = 1 -- The variable we want to calculate
     local casterJob      = caster:getMainJob()
     local mab            = caster:getMod(xi.mod.MATT) + cardinalChantBonus(caster, target, xi.direction.EAST, spellId, skillType)
-    local mabCrit        = caster:getMod(xi.mod.MAGIC_CRITHITRATE) + cardinalChantBonus(caster, target, xi.direction.NORTH, spellId, skillType)
+    local mabCritChance  = caster:getMod(xi.mod.MAGIC_CRITHITRATE) + cardinalChantBonus(caster, target, xi.direction.NORTH, spellId, skillType)
     local mDefBarBonus   = 0
 
     -- Ninja spell bonuses
@@ -634,8 +634,8 @@ xi.spells.damage.calculateMagicBonusDiff = function(caster, target, spellId, ski
         mab = mab + caster:getMod(xi.mod.NIN_NUKE_BONUS_GEAR)
     end
 
-    if math.random(1, 100) <= mabCrit then
-        mab = mab + 10 + caster:getMod(xi.mod.MAGIC_CRIT_DMG_INCREASE)
+    if math.random(1, 100) <= mabCritChance then
+        mab = mab + utils.clamp(10 + caster:getMod(xi.mod.MAGIC_CRIT_DMG_INCREASE), 10, 40)
     end
 
     -- Bar Spells bonuses and BLM merits.
