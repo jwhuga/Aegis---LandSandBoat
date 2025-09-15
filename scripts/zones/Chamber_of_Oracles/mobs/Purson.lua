@@ -21,7 +21,7 @@ entity.onMobSpawn = function(mob)
 end
 
 entity.onMobEngage = function(mob, target)
-    mob:setLocalVar('BloodWeaponTimer', GetSystemTime())
+    mob:setLocalVar('BloodWeaponTimer', GetSystemTime() + 15)  -- First use of Blood Weapon is 15 seconds after engaging.
 end
 
 entity.onMobFight = function(mob, target)
