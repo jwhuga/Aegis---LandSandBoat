@@ -742,7 +742,6 @@ public:
     EFFECT          getPostActionEffectCleanup();
 
     void setID(uint16 id);
-    void setMobSkillID(uint16 id);
     void setJob(JOBTYPE Job);
     void setLevel(uint8 level);
     void setAnimationID(uint16 animationID);
@@ -782,7 +781,6 @@ private:
     int32           m_VE;
     uint16          m_meritModID;
     std::string     m_name;
-    uint16          m_mobskillId;
     ACTIONTYPE      m_actionType{};
     EFFECT          m_cleanupEffect{};
 };
