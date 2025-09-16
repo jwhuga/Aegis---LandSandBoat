@@ -84,7 +84,7 @@ xi.mobSkill =
 
     FAMILIAR_1               =  740, -- "Tango with a Tracker" Shikaree X
 
-    GREAT_WHIRLWIND          =  803,
+    GREAT_WHIRLWIND_1        =  803,
 
     DISPELLING_WIND          =  813,
     DEADLY_DRIVE             =  814,

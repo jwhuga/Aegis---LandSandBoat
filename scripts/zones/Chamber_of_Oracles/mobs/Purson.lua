@@ -33,7 +33,7 @@ end
 
 entity.onMobSkillTarget = function(target, mob, skill) -- Will reset enmity on main target when using Great Whirlwind
     local skillID = skill:getID()
-    if skillID == xi.mobSkill.GREAT_WHIRLWIND then
+    if skillID == xi.mobSkill.GREAT_WHIRLWIND_1 then
         mob:resetEnmity(target)
     end
 end
