@@ -20,7 +20,8 @@ zoneObject.onInitialize = function(zone)
     zone:registerCylindricalTriggerArea(5, 144.07, -178.0, 7.5) -- I-7
     zone:registerCylindricalTriggerArea(6, -378.7, -142.0, 7.5) -- I-9
     zone:registerCylindricalTriggerArea(7, -420.69, -186.3, 7.5) -- H-10
-    zone:registerCylindricalTriggerArea(8, -620.16, -177.9, 7.5) -- G-10 (Zikko)
+    zone:registerCylindricalTriggerArea(8, -620.16, -177.9, 7.5) -- G-10
+    zone:registerCylindricalTriggerArea(9, -620.16, -177.9, 15) -- Zikko
 end
 
 zoneObject.onZoneIn = function(player, prevZone)
@@ -52,6 +53,18 @@ zoneObject.afterZoneIn = function(player)
     player:entityVisualPacket('2pc1')
 end
 
+local function triggerZikkoSpawnAttempt(player)
+    local zikko = GetMobByID(ID.mob.ZIKKO)
+    if
+        zikko and
+        not zikko:isSpawned() and
+        player:hasStatusEffect(xi.effect.WEIGHT) and
+        GetSystemTime() > zikko:getLocalVar('cooldown')
+    then
+        SpawnMob(ID.mob.ZIKKO):updateEnmity(player)
+    end
+end
+
 zoneObject.onTriggerAreaEnter = function(player, triggerArea)
     local triggerAreaID = triggerArea:getTriggerAreaID()
 
@@ -81,6 +94,16 @@ zoneObject.onTriggerAreaEnter = function(player, triggerArea)
                 end
             end
         end
+
+        -- the trigger for area 9 will occur before entering the weight area, so check again here
+        if triggerAreaID == 8 then
+            triggerZikkoSpawnAttempt(player)
+        end
+    end
+
+    -- Zikko can spawn even if you aren't in the part of the swamp that weighs you down
+    if triggerAreaID == 9 then
+        triggerZikkoSpawnAttempt(player)
     end
 end
 

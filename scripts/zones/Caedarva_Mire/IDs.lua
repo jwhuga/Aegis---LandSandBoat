@@ -67,6 +67,7 @@ zones[xi.zone.CAEDARVA_MIRE] =
         PEALLAIDH_PH_OFFSET   = GetFirstID('Wild_Karakul'), -- These are 270IDs away. Use offset in case of weird shift.
         TYGER                 = GetFirstID('Tyger'),
         VERDELET              = GetFirstID('Verdelet'),
+        ZIKKO                 = GetFirstID('Zikko'),
     },
     npc =
     {
