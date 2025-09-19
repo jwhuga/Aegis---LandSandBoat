@@ -49,17 +49,17 @@ entity.onTrigger = function(player, npc)
         {
             {
                 { item = xi.item.HI_POTION_TANK, weight = 100 },
-                { item =     0,                   weight = 900 },
+                { item =     0,                  weight = 900 },
             },
 
             {
                 { item = xi.item.RERAISER, weight = 300 },
-                { item =    0,              weight = 700 },
+                { item =    0,             weight = 700 },
             },
 
             {
                 { item = xi.item.HI_RERAISER, weight = 500 },
-                { item =    0,                 weight = 500 },
+                { item =    0,                weight = 500 },
             },
         },
     }

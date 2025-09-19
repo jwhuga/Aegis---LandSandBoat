@@ -1357,7 +1357,7 @@ function utils.selectFromLootGroups(actor, lootTable)
         return selectedLoot
     end
 
-    for _, lootGroup in ipairs(lootTable) do
+    for i, lootGroup in ipairs(lootTable) do
         local max = 0
 
         -- not ipairs because we might have string keys alongside the individual items in each lootGroup

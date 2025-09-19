@@ -41,7 +41,7 @@ entity.onTrigger = function(player, npc)
 
             {
                 { item = xi.item.REMEDY, weight = 530 },
-                { item = 0,               weight = 470 },
+                { item = 0,              weight = 470 },
             },
         },
 
@@ -53,7 +53,7 @@ entity.onTrigger = function(player, npc)
 
             {
                 { item = xi.item.REMEDY, weight = 530 },
-                { item = 0,               weight = 470 },
+                { item = 0,              weight = 470 },
             },
         },
     }
