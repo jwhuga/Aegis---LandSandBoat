@@ -1329,3 +1329,72 @@ function utils.timeIsBefore(current, target)
 
     return current.hour < target.hour
 end
+
+-- Assigns loot to the treasurepool for "player"
+-- loot is chosen by randomly assigning based on weights from loot groups within lootTable. Example:
+--[[
+lootTable =
+{
+    {
+        quantity = 2,
+        { item = xi.item.REMEDY, weight = 900 },
+        { item = 0,              weight = 100 },
+    },
+
+    {
+        { item = xi.item.REMEDY, weight = 200 },
+        { item = 0,              weight = 800 },
+    },
+
+--]]
+
+---@param player CBaseEntity
+---@param lootTable table<table>
+---@return table
+function utils.selectFromLootGroups(actor, lootTable)
+    local selectedLoot = {}
+    if not actor or not actor:getName() then
+        return selectedLoot
+    end
+
+    for _, lootGroup in ipairs(lootTable) do
+        local max = 0
+
+        -- not ipairs because we might have string keys alongside the individual items in each lootGroup
+        for j, entry in pairs(lootGroup) do
+            if type(entry) == 'table' then
+                max = max + entry.weight
+
+                if entry.item == nil then
+                    print(fmt('[ERROR] Player ({}) has encountered nil item at index {} of lootGroup with index {}', actor:getName(), j, i))
+                end
+            end
+        end
+
+        local quantity = lootGroup.quantity or 1
+
+        for j = 1, quantity do
+            local roll    = math.random(max)
+            local current = 0
+
+            for _, entry in pairs(lootGroup) do
+                if type(entry) == 'table' then
+                    current = current + entry.weight
+
+                    if current >= roll then
+                        -- xi.item.NONE gives a chance to drop nothing from a group
+                        if entry.item == 0 or entry.item == nil then
+                            break
+                        end
+
+                        table.insert(selectedLoot, entry)
+
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    return selectedLoot
+end
