@@ -28,6 +28,9 @@ entity.onMobInitialize = function(mob)
             end
         end
     end)
+
+    mob:addImmunity(xi.immunity.DARK_SLEEP)
+    mob:addImmunity(xi.immunity.LIGHT_SLEEP)
 end
 
 entity.onMobDeath = function(mob, player, optParams)
