@@ -75,11 +75,10 @@ end
 entity.onMobWeaponSkill = function(target, mob, skill)
     -- Typhoons twice above 50%, three times below 50%
     local typhoonCount = mob:getLocalVar('TyphoonCount')
-    local isBelow50 = mob:getHPP() < 50
-    local maxTyphoons = isBelow50 and 3 or 2
+    local maxTyphoons = mob:getHPP() < 50 and 2 or 1
 
-    if typhoonCount < maxTyphoons - 1 then
-        mob:useMobAbility(539)
+    if typhoonCount < maxTyphoons then
+        mob:useMobAbility(xi.mobSkill.TYPHOON)
         mob:setLocalVar('TyphoonCount', typhoonCount + 1)
     else
         mob:setLocalVar('TyphoonCount', 0)
