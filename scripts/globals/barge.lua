@@ -81,9 +81,16 @@ local bargeSchedule =
 }
 
 local getNextEvent = function(currentTime, schedule)
-    local nextEvent = schedule[#schedule]
-    local prevEventEndTime = schedule[#schedule].endTime - 1440
+    local nextEvent = schedule[1]
+    if
+        schedule[#schedule].endTime <= currentTime or -- currentTime after the last event
+        schedule[1].endTime > currentTime             -- currentTime before first event
+    then
+        -- next event is first of the day
+        return schedule[1]
+    end
 
+    local prevEventEndTime = 0
     for i, currEvent in ipairs(schedule) do
         if
             prevEventEndTime <= currentTime and
@@ -113,9 +120,10 @@ xi.barge.timekeeperOnTrigger = function(player, location, eventId)
     local nextEvent = getNextEvent(currentTime, schedule)
 
     local gameMins = nextEvent.endTime - currentTime
-    if gameMins < 0 then
+    if nextEvent.endTime < currentTime then
         -- next event is before current time because it's near the end of the day, add a cycle
-        gameMins = gameMins + 1440
+        -- nextEvent.endTime - currentTime underflows so add 1440 first
+        gameMins = 1440 + nextEvent.endTime - currentTime
     end
 
     local earthSecs = gameMins * 60 / 25 -- one earth second is 25 game seconds
