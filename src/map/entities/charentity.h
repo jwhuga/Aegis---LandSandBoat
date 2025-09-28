@@ -40,6 +40,7 @@
 
 #include "automatonentity.h"
 #include "battleentity.h"
+#include "packets/s2c/base.h"
 #include "petentity.h"
 
 #include "utils/fishingutils.h"
@@ -441,7 +442,18 @@ public:
     void pushPacket(Args&&... args)
     {
         // TODO: This could hook into pooling of packet objects, etc.
-        pushPacket(std::make_unique<T>(std::forward<Args>(args)...));
+        auto packet = std::make_unique<T>(std::forward<Args>(args)...);
+
+        // Auto-set default size for newer-style packets, but only if the constructor did not set it.
+        if constexpr (requires { typename T::PacketData; })
+        {
+            if (packet->getSize() == 0)
+            {
+                packet->setSize(sizeof(T::PacketData));
+            }
+        }
+
+        pushPacket(std::move(packet));
     }
 
     void   pushPacket(std::unique_ptr<CBasicPacket>&&);                                   // Push packet to packet list
