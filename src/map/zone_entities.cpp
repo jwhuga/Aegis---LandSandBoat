@@ -38,7 +38,6 @@
 #include "entities/npcentity.h"
 #include "entities/trustentity.h"
 
-#include "packets/change_music.h"
 #include "packets/char_sync.h"
 #include "packets/entity_update.h"
 #include "packets/wide_scan.h"
@@ -46,6 +45,7 @@
 #include "lua/luautils.h"
 
 #include "battlefield.h"
+#include "packets/s2c/0x05f_music.h"
 #include "utils/battleutils.h"
 #include "utils/charutils.h"
 #include "utils/moduleutils.h"
@@ -457,13 +457,13 @@ void CZoneEntities::WeatherChange(WEATHER weather)
     }
 }
 
-void CZoneEntities::MusicChange(uint16 BlockID, uint16 MusicTrackID)
+void CZoneEntities::MusicChange(MusicSlot slotId, uint16 trackId)
 {
     TracyZoneScoped;
 
     FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PChar, m_charList)
     {
-        PChar->pushPacket<CChangeMusicPacket>(BlockID, MusicTrackID);
+        PChar->pushPacket<GP_SERV_COMMAND_MUSIC>(slotId, trackId);
     }
 }
 

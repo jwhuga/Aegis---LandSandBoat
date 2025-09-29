@@ -29,6 +29,7 @@
 #include "utils/battleutils.h"
 #include "utils/charutils.h"
 
+enum class MusicSlot : uint16_t;
 enum class ChocoboColor : uint8_t;
 class CBaseEntity;
 class CCharEntity;
@@ -169,7 +170,7 @@ public:
     void  setWeather(uint8 weatherType); // Set Weather condition (GM COMMAND)
 
     // PC Instructions
-    void changeMusic(uint16 blockID, uint16 musicTrackID);                  // Sets the specified music Track for specified music block.
+    void changeMusic(MusicSlot slotId, uint16 trackId) const;               // Sets the specified music Track for specified music block.
     void sendMenu(uint32 menu);                                             // Displays a menu (AH,Raise,Tractor,MH etc)
     bool sendGuild(uint16 guildID, uint8 open, uint8 close, uint8 holiday); // Sends guild shop menu
     void openSendBox() const;                                               // Opens send box (to deliver items)
