@@ -241,8 +241,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/treasure_find_item.h
     ${CMAKE_CURRENT_SOURCE_DIR}/treasure_lot_item.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/treasure_lot_item.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/weather.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/weather.h
     ${CMAKE_CURRENT_SOURCE_DIR}/wide_scan.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/wide_scan.h
     ${CMAKE_CURRENT_SOURCE_DIR}/wide_scan_track.cpp
