@@ -29,8 +29,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/caught_fish.h
     ${CMAKE_CURRENT_SOURCE_DIR}/caught_monster.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/caught_monster.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/change_music.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/change_music.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_abilities.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/char_abilities.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_appearance.cpp

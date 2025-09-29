@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,20 +19,16 @@
 ===========================================================================
 */
 
-#include "change_music.h"
+#pragma once
 
-CChangeMusicPacket::CChangeMusicPacket(uint16 BlockID, uint16 MusicTrackID)
+enum class MusicSlot : uint16_t
 {
-    // Block IDs:
-    // 0 Background Music (Day time, 7:00 -> 18:00)
-    // 1 Background Music (Night time, 18:00 -> 7:00)
-    // 2 SoloBattle Music
-    // 3 Party Battle Music
-    // 4 Chocobo/Mount Music
-
-    this->setType(0x5F);
-    this->setSize(0x08);
-
-    ref<uint16>(0x04) = BlockID;      // block
-    ref<uint16>(0x06) = MusicTrackID; // music
-}
+    ZoneDay     = 0,
+    ZoneNight   = 1,
+    CombatSolo  = 2,
+    CombatParty = 3,
+    Mount       = 4,
+    Dead        = 5,
+    MogHouse    = 6,
+    Fishing     = 7,
+};

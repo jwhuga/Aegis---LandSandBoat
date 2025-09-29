@@ -1,7 +1,7 @@
 ﻿/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,17 +19,12 @@
 ===========================================================================
 */
 
-#ifndef _CCHANGEMUSICPACKET_H
-#define _CCHANGEMUSICPACKET_H
+#include "0x05f_music.h"
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
-
-class CChangeMusicPacket : public CBasicPacket
+GP_SERV_COMMAND_MUSIC::GP_SERV_COMMAND_MUSIC(const MusicSlot slotId, const uint16 trackId)
 {
-public:
-    CChangeMusicPacket(uint16 BlockID, uint16 MusicTrackID);
-};
+    auto& packet = this->data();
 
-#endif
+    packet.Slot     = slotId;
+    packet.MusicNum = trackId;
+}
