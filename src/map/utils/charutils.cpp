@@ -744,7 +744,7 @@ namespace charutils
                 PChar->petZoningInfo.petHP        = petHP;
                 PChar->petZoningInfo.petID        = rset->get<uint8>("pet_id");
                 PChar->petZoningInfo.petMP        = rset->get<int16>("pet_mp");
-                PChar->petZoningInfo.petType      = static_cast<PET_TYPE>(rset->get<uint8>("pet_type"));
+                PChar->petZoningInfo.petType      = rset->get<PET_TYPE>("pet_type");
                 PChar->petZoningInfo.petLevel     = rset->get<uint8>("pet_level");
                 PChar->petZoningInfo.respawnPet   = true;
                 auto jugTimestamp                 = static_cast<uint32>(PChar->getCharVar("jugpet-spawn-time"));

@@ -384,7 +384,7 @@ void CZone::LoadZoneSettings()
         m_zoneMusic.m_bSongM    = rset->get<uint8>("battlemulti");
         m_tax                   = static_cast<uint16>(rset->get<float>("tax") * 100); // tax for bazaar
         m_miscMask              = rset->get<uint16>("misc");
-        m_zoneType              = static_cast<ZONE_TYPE>(rset->get<uint16>("zonetype"));
+        m_zoneType              = rset->get<ZONE_TYPE>("zonetype");
 
         if (rset->getOrDefault<std::string>("bcnmname", "") != "") // bcnmid cannot be used now, because they start from scratch
         {
