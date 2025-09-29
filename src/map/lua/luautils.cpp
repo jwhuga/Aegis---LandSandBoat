@@ -3297,7 +3297,7 @@ namespace luautils
             return;
         }
 
-        uint8 weather = PMob->loc.zone->GetWeather();
+        auto weather = PMob->loc.zone->GetWeather();
 
         auto result = onMobDisengage(PMob, weather);
         if (!result.valid())
@@ -3695,14 +3695,14 @@ namespace luautils
         }
     }
 
-    void OnZoneWeatherChange(uint16 ZoneID, uint8 weather)
+    void OnZoneWeatherChange(const uint16 zoneId, Weather weather)
     {
         TracyZoneScoped;
 
-        CZone* PZone = zoneutils::GetZone(ZoneID);
+        CZone* PZone = zoneutils::GetZone(zoneId);
         if (PZone == nullptr)
         {
-            ShowWarning("Invalid ZoneID passed to function (%d).", ZoneID);
+            ShowWarning("Invalid ZoneID passed to function (%d).", zoneId);
             return;
         }
 

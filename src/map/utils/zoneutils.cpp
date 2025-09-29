@@ -30,6 +30,7 @@
 #include "conquest_system.h"
 #include "entities/mobentity.h"
 #include "entities/npcentity.h"
+#include "enums/weather.h"
 #include "items/item_weapon.h"
 #include "lua/luautils.h"
 #include "map_networking.h"
@@ -83,11 +84,11 @@ namespace zoneutils
             {
                 if (!PZone->m_WeatherVector.empty())
                 {
-                    PZone->SetWeather(static_cast<WEATHER>(PZone->m_WeatherVector.at(0).common));
+                    PZone->SetWeather(static_cast<Weather>(PZone->m_WeatherVector.at(0).common));
                 }
                 else
                 {
-                    PZone->SetWeather(WEATHER_NONE); // If not weather data found, initialize with WEATHER_NONE
+                    PZone->SetWeather(Weather::None); // If not weather data found, initialize with WEATHER_NONE
                 }
             }
         }
@@ -1195,9 +1196,9 @@ namespace zoneutils
         return GetCurrentRegion(zoneId) != REGION_TYPE::UNKNOWN ? CONTINENT_TYPE::THE_MIDDLE_LANDS : CONTINENT_TYPE::OTHER_AREAS;
     }
 
-    auto GetWeatherElement(const WEATHER weather) -> int
+    auto GetWeatherElement(const Weather weather) -> int
     {
-        if (weather >= MAX_WEATHER_ID)
+        if (!magic_enum::enum_contains<Weather>(weather))
         {
             ShowWarning("zoneutils::GetWeatherElement() - Invalid weather passed to function.");
             return 0;
@@ -1228,7 +1229,7 @@ namespace zoneutils
             8, // WEATHER_GLOOM
             8, // WEATHER_DARKNESS
         };
-        return Element[weather];
+        return Element[static_cast<uint16_t>(weather)];
     }
 
     /************************************************************************

@@ -77,7 +77,7 @@ public:
     void TransportDepart(uint16 boundary, uint16 prevZoneId, uint16 transportId); // ship/boat is leaving, passengers need to be collected
 
     void TOTDChange(vanadiel_time::TOTD TOTD); // process the world's reactions to changing time of day
-    void WeatherChange(WEATHER weather);
+    void WeatherChange(Weather weather);
     void MusicChange(MusicSlot slotId, uint16 trackId);
 
     void PushPacket(CBaseEntity*, GLOBAL_MESSAGE_TYPE, const std::unique_ptr<CBasicPacket>&); // send a global package within the zone
