@@ -146,7 +146,7 @@
 #include "packets/monipulator2.h"
 #include "packets/objective_utility.h"
 #include "packets/quest_mission_log.h"
-#include "packets/release.h"
+#include "packets/s2c/0x052_eventucoff.h"
 #include "packets/roe_questlog.h"
 #include "packets/s2c/0x039_mapschedulor.h"
 #include "packets/s2c/0x05f_music.h"
@@ -1335,18 +1335,18 @@ void CLuaBaseEntity::release()
 
     auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
-    RELEASE_TYPE releaseType = RELEASE_TYPE::STANDARD;
+    GP_SERV_COMMAND_EVENTUCOFF_MODE releaseType = GP_SERV_COMMAND_EVENTUCOFF_MODE::Standard;
 
     if (PChar->isInEvent())
     {
         // Message: Event skipped
-        releaseType = RELEASE_TYPE::SKIPPING;
+        releaseType = GP_SERV_COMMAND_EVENTUCOFF_MODE::CancelEvent;
         PChar->pushPacket<CMessageSystemPacket>(0, 0, MsgStd::EventSkipped);
     }
 
     PChar->inSequence = false;
-    PChar->pushPacket<CReleasePacket>(PChar, releaseType);
-    PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::EVENT);
+    PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, releaseType);
+    PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::EventRecvPending);
     PChar->endCurrentEvent();
 }
 

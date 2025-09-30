@@ -43,7 +43,7 @@
 #include "packets/message_standard.h"
 #include "packets/message_system.h"
 #include "packets/message_text.h"
-#include "packets/release.h"
+#include "packets/s2c/0x052_eventucoff.h"
 
 #include "ai/ai_container.h"
 #include "ai/controllers/player_controller.h"
@@ -3251,7 +3251,7 @@ void CCharEntity::skipEvent()
     if (!m_Locked && !isInEvent() && (!currentEvent->cutsceneOptions.empty() || currentEvent->interruptText != 0))
     {
         pushPacket<CMessageSystemPacket>(0, 0, MsgStd::EventSkipped);
-        pushPacket<CReleasePacket>(this, RELEASE_TYPE::SKIPPING);
+        pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(this, GP_SERV_COMMAND_EVENTUCOFF_MODE::CancelEvent);
         m_Substate = CHAR_SUBSTATE::SUBSTATE_NONE;
 
         if (currentEvent->interruptText != 0)
