@@ -50,6 +50,7 @@
 #include "battleutils.h"
 #include "charutils.h"
 #include "enums/key_items.h"
+#include "enums/weather.h"
 #include "item_container.h"
 #include "itemutils.h"
 #include "map_engine.h"
@@ -324,16 +325,16 @@ namespace fishingutils
         return modifier;
     }
 
-    float GetWeatherModifier(CCharEntity* PChar)
+    auto GetWeatherModifier(const CCharEntity* PChar) -> float
     {
-        WEATHER weather    = zoneutils::GetZone(PChar->getZone())->GetWeather();
-        float   weatherMod = 1.0f;
+        const auto weather    = zoneutils::GetZone(PChar->getZone())->GetWeather();
+        float      weatherMod = 1.0f;
 
-        if (weather == WEATHER_RAIN)
+        if (weather == Weather::Rain)
         {
             weatherMod = 1.1f;
         }
-        else if (weather == WEATHER_SQUALL)
+        else if (weather == Weather::Squall)
         {
             weatherMod = 1.2f;
         }
