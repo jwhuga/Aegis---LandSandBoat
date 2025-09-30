@@ -763,10 +763,16 @@ int32 MapNetworking::send_parse(uint8* buff, size_t* buffsize, MapSession* map_s
 
         db::preparedStmt("UPDATE accounts_sessions SET session_key = ? WHERE charid = ? LIMIT 1",
                          map_session_data->blowfish.key, PChar->id);
-        message::send(ipc::CharZone{
-            .charId            = PChar->id,
-            .destinationZoneId = PChar->loc.destination,
-        });
+
+        // see https://github.com/atom0s/XiPackets/blob/main/world/server/0x000B/README.md
+        // GP_GAME_LOGOUT_STATE::GP_GAME_LOGOUT_STATE_LOGOUT = disconnect/logout/shutdown
+        if (map_session_data->zone_type != 1)
+        {
+            message::send(ipc::CharZone{
+                .charId            = PChar->id,
+                .destinationZoneId = PChar->loc.destination,
+            });
+        }
 
         PChar->PSession->PChar.reset(); // destroy PChar
     }
