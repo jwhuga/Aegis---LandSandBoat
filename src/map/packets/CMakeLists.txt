@@ -85,8 +85,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/event.h
     ${CMAKE_CURRENT_SOURCE_DIR}/event_string.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/event_string.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/event_update.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/event_update.h
     ${CMAKE_CURRENT_SOURCE_DIR}/event_update_string.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/event_update_string.h
     ${CMAKE_CURRENT_SOURCE_DIR}/fishing.cpp

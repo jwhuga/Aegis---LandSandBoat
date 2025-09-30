@@ -118,7 +118,7 @@
 #include "packets/entity_update.h"
 #include "packets/event.h"
 #include "packets/event_string.h"
-#include "packets/event_update.h"
+#include "packets/s2c/0x05c_pendingnum.h"
 #include "packets/event_update_string.h"
 #include "packets/guild_menu.h"
 #include "packets/guild_menu_buy.h"
@@ -1238,7 +1238,7 @@ void CLuaBaseEntity::updateEvent(sol::variadic_args va)
         }
     }
 
-    static_cast<CCharEntity*>(m_PBaseEntity)->pushPacket<CEventUpdatePacket>(params);
+    static_cast<CCharEntity*>(m_PBaseEntity)->pushPacket<GP_SERV_COMMAND_PENDINGNUM>(params);
 }
 
 /************************************************************************

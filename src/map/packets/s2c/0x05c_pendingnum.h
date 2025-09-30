@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,20 +19,21 @@
 ===========================================================================
 */
 
-#include "event_update.h"
-#include "entities/charentity.h"
+#pragma once
 
-CEventUpdatePacket::CEventUpdatePacket(std::vector<std::pair<uint8, uint32>> const& params)
+#include "base.h"
+#include <utility>
+#include <vector>
+
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x005C
+// This packet is sent by the server to update the clients event work parameters.
+class GP_SERV_COMMAND_PENDINGNUM final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_PENDINGNUM, GP_SERV_COMMAND_PENDINGNUM>
 {
-    this->setType(0x5C);
-    this->setSize(0x24);
-
-    for (auto paramPair : params)
+public:
+    struct PacketData
     {
-        // Only params 0 through 7 are valid
-        if (paramPair.first <= 7)
-        {
-            ref<uint32>(0x0004 + paramPair.first * 4) = paramPair.second;
-        }
-    }
-}
+        int32_t num[8];
+    };
+
+    GP_SERV_COMMAND_PENDINGNUM(const std::vector<std::pair<uint8_t, uint32_t>>& params);
+};
