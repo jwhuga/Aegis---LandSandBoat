@@ -119,7 +119,7 @@
 #include "packets/event.h"
 #include "packets/event_string.h"
 #include "packets/s2c/0x05c_pendingnum.h"
-#include "packets/event_update_string.h"
+#include "packets/s2c/0x05d_pendingstr.h"
 #include "packets/guild_menu.h"
 #include "packets/guild_menu_buy.h"
 #include "packets/independent_animation.h"
@@ -1273,7 +1273,7 @@ void CLuaBaseEntity::updateEventString(sol::variadic_args va)
     uint32 param7 = va.get_type(11) == sol::type::number ? va.get<uint32>(11) : 0;
     uint32 param8 = va.get_type(12) == sol::type::number ? va.get<uint32>(12) : 0;
 
-    PChar->pushPacket<CEventUpdateStringPacket>(string0, string1, string2, string3, param0, param1, param2, param3, param4, param5, param6, param7, param8);
+    PChar->pushPacket<GP_SERV_COMMAND_PENDINGSTR>(string0, string1, string2, string3, param0, param1, param2, param3, param4, param5, param6, param7, param8);
 }
 
 /************************************************************************
