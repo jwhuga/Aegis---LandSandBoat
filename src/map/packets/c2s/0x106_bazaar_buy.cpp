@@ -23,7 +23,7 @@
 
 #include "common/async.h"
 #include "entities/charentity.h"
-#include "packets/bazaar_close.h"
+#include "packets/s2c/0x107_bazaar_close.h"
 #include "packets/bazaar_confirmation.h"
 #include "packets/bazaar_item.h"
 #include "packets/bazaar_purchase.h"
@@ -185,7 +185,7 @@ void GP_CLI_COMMAND_BAZAAR_BUY::process(MapSession* PSession, CCharEntity* PChar
 
                 if (BazaarIsEmpty)
                 {
-                    PCustomer->pushPacket<CBazaarClosePacket>(PTarget);
+                    PCustomer->pushPacket<GP_SERV_COMMAND_BAZAAR_CLOSE>(PTarget);
 
                     DebugBazaarsFmt("Bazaar Interaction [Bazaar Emptied] - Buyer: {}, Seller: {}", PChar->name, PTarget->name);
                 }
