@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,28 +19,19 @@
 ===========================================================================
 */
 
-#ifndef _CRELEASEPACKET_H
-#define _CRELEASEPACKET_H
+#include "0x052_eventucoff.h"
+#include "entities/charentity.h"
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
-
-enum class RELEASE_TYPE : uint8
+GP_SERV_COMMAND_EVENTUCOFF::GP_SERV_COMMAND_EVENTUCOFF(CCharEntity* PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE mode)
 {
-    STANDARD    = 0,
-    EVENT       = 1,
-    SKIPPING    = 2,
-    PLAYERINPUT = 3, /* Used by player input based event updates. Packet 0x060 (String and Numerical)*/
-    FISHING     = 4
-};
+    auto& packet = this->data();
 
-class CCharEntity;
+    packet.Mode = mode;
+    // For Mode 2, pack the event ID.
+    if (mode == GP_SERV_COMMAND_EVENTUCOFF_MODE::CancelEvent && PChar->currentEvent)
+    {
+        packet.Mode = static_cast<GP_SERV_COMMAND_EVENTUCOFF_MODE>(static_cast<uint32_t>(packet.Mode) | PChar->currentEvent->eventId << 8);
+    }
 
-class CReleasePacket : public CBasicPacket
-{
-public:
-    CReleasePacket(CCharEntity* PChar, RELEASE_TYPE releaseType = RELEASE_TYPE::STANDARD);
-};
-
-#endif
+    PChar->m_Substate = CHAR_SUBSTATE::SUBSTATE_NONE;
+}

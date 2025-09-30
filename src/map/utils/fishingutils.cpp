@@ -39,7 +39,7 @@
 #include "packets/message_standard.h"
 #include "packets/message_system.h"
 #include "packets/message_text.h"
-#include "packets/release.h"
+#include "packets/s2c/0x052_eventucoff.h"
 
 #include "entities/battleentity.h"
 #include "entities/mobentity.h"
@@ -1921,7 +1921,7 @@ namespace fishingutils
             PChar->hookedFish = nullptr;
         }
 
-        PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+        PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
     }
 
     void StartFishing(CCharEntity* PChar)
@@ -1932,14 +1932,14 @@ namespace fishingutils
         {
             ShowWarning("Fishing is currently disabled");
             PChar->pushPacket<CChatMessagePacket>(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_1, "Fishing is currently disabled");
-            PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+            PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
             return;
         }
 
         if (PChar->GetMLevel() < settings::get<uint8>("map.FISHING_MIN_LEVEL"))
         {
             PChar->pushPacket<CChatMessagePacket>(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_1, "Your level is too low to fish.");
-            PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+            PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
             return;
         }
 
@@ -1955,7 +1955,7 @@ namespace fishingutils
         if (PChar->nextFishTime > vanaTime)
         {
             PChar->pushPacket<CMessageTextPacket>(PChar, MessageOffset + FISHMESSAGEOFFSET_CANNOTFISH_MOMENT);
-            PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+            PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
             return;
         }
         else
@@ -1986,7 +1986,7 @@ namespace fishingutils
             {
                 PChar->pushPacket<CMessageTextPacket>(PChar, MessageOffset + FISHMESSAGEOFFSET_CANNOTFISH_MOMENT);
                 PChar->pushPacket<CMessageSystemPacket>(0, 0, MsgStd::CannotUseCommandAtTheMoment);
-                PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+                PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
 
                 return;
             }
@@ -1998,7 +1998,7 @@ namespace fishingutils
             if ((Rod == nullptr) || !(Rod->isType(ITEM_WEAPON)) || (Rod->getSkillType() != SKILL_FISHING))
             {
                 PChar->pushPacket<CMessageTextPacket>(PChar, MessageOffset + FISHMESSAGEOFFSET_NOROD);
-                PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+                PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
 
                 return;
             }
@@ -2007,7 +2007,7 @@ namespace fishingutils
             if ((Bait == nullptr) || !(Bait->isType(ITEM_WEAPON)) || (Bait->getSkillType() != SKILL_FISHING))
             {
                 PChar->pushPacket<CMessageTextPacket>(PChar, MessageOffset + FISHMESSAGEOFFSET_NOBAIT);
-                PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+                PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
 
                 return;
             }
@@ -2024,13 +2024,13 @@ namespace fishingutils
             else
             {
                 PChar->pushPacket<CMessageSystemPacket>(0, 0, MsgStd::CannotUseCommandAtTheMoment);
-                PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+                PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
             }
         }
         else
         {
             PChar->pushPacket<CMessageSystemPacket>(0, 0, MsgStd::CannotUseCommandAtTheMoment);
-            PChar->pushPacket<CReleasePacket>(PChar, RELEASE_TYPE::FISHING);
+            PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::Fishing);
 
             return;
         }
