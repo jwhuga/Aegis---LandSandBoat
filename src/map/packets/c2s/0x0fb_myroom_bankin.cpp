@@ -27,7 +27,7 @@
 #include "lua/luautils.h"
 #include "packets/char_status.h"
 #include "packets/inventory_count.h"
-#include "packets/inventory_finish.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/inventory_item.h"
 #include "packets/inventory_size.h"
 #include "packets/s2c/0x01f_item_list.h"
@@ -114,7 +114,7 @@ void GP_CLI_COMMAND_MYROOM_BANKIN::process(MapSession* PSession, CCharEntity* PC
                 PChar->loc.zone->SpawnConditionalNPCs(PChar);
             }
             PChar->pushPacket<CInventoryItemPacket>(PItem, MyroomCategory, PItem->getSlotID());
-            PChar->pushPacket<CInventoryFinishPacket>();
+            PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
         }
         else
         {

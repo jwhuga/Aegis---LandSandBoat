@@ -25,7 +25,7 @@
 
 #include "packets/char_status.h"
 #include "packets/chat_message.h"
-#include "packets/inventory_finish.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x01f_item_list.h"
 #include "packets/inventory_item.h"
 #include "packets/linkshell_equip.h"
@@ -239,7 +239,7 @@ void CLinkshell::ChangeMemberRank(const std::string& MemberName, const uint8 req
                 charutils::SaveCharStats(PMember);
                 charutils::SaveCharEquip(PMember);
 
-                PMember->pushPacket<CInventoryFinishPacket>();
+                PMember->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
                 PMember->pushPacket<CCharStatusPacket>(PMember);
                 return;
             }
@@ -312,7 +312,7 @@ void CLinkshell::RemoveMemberByName(const std::string& MemberName, uint8 request
             charutils::SaveCharStats(PMember);
             charutils::SaveCharEquip(PMember);
 
-            PMember->pushPacket<CInventoryFinishPacket>();
+            PMember->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
             PMember->pushPacket<CCharStatusPacket>(PMember);
             if (breakLinkshell)
             {

@@ -31,7 +31,7 @@
 
 #include "packets/char_skills.h"
 #include "packets/char_status.h"
-#include "packets/inventory_finish.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x01f_item_list.h"
 #include "packets/inventory_item.h"
 #include "packets/message_basic.h"
@@ -1278,7 +1278,7 @@ namespace synthutils
                 PChar->pushPacket<CInventoryItemPacket>(PItem, LOC_INVENTORY, invSlotID);
             }
 
-            PChar->pushPacket<CInventoryFinishPacket>();
+            PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
 
             // Use appropiate message (Regular or desynthesis)
             const auto message = PChar->CraftContainer->getCraftType() == CRAFT_DESYNTHESIS ? SYNTH_SUCCESS_DESYNTH : SYNTH_SUCCESS;

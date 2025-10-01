@@ -25,7 +25,7 @@
 #include "items/item_flowerpot.h"
 #include "packets/char_status.h"
 #include "packets/furniture_interact.h"
-#include "packets/inventory_finish.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/inventory_item.h"
 #include "utils/charutils.h"
 
@@ -56,6 +56,6 @@ void GP_CLI_COMMAND_MYROOM_PLANT_STOP::process(MapSession* PSession, CCharEntity
                          PItem->m_extra, PChar->id, PItem->getLocationID(), PItem->getSlotID());
 
         PChar->pushPacket<CInventoryItemPacket>(PItem, MyroomPlantCategory, MyroomPlantItemIndex);
-        PChar->pushPacket<CInventoryFinishPacket>();
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
     }
 }

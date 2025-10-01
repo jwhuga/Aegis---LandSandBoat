@@ -28,7 +28,7 @@
 #include "items/item_linkshell.h"
 #include "linkshell.h"
 #include "packets/char_status.h"
-#include "packets/inventory_finish.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/inventory_item.h"
 #include "packets/linkshell_equip.h"
 #include "packets/s2c/0x01f_item_list.h"
@@ -103,7 +103,7 @@ namespace
                              PItemLinkshell->m_extra, PChar->id, PItemLinkshell->getLocationID(), PItemLinkshell->getSlotID());
 
             PChar->pushPacket<CInventoryItemPacket>(PItemLinkshell, PItemLinkshell->getLocationID(), PItemLinkshell->getSlotID());
-            PChar->pushPacket<CInventoryFinishPacket>();
+            PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
             PChar->pushPacket<CMessageStandardPacket>(MsgStd::LinkshellNoLongerExists);
 
             return;
@@ -211,6 +211,6 @@ void GP_CLI_COMMAND_GROUP_COMLINK_ACTIVE::process(MapSession* PSession, CCharEnt
         break;
     }
 
-    PChar->pushPacket<CInventoryFinishPacket>();
+    PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
     PChar->pushPacket<CCharStatusPacket>(PChar);
 }

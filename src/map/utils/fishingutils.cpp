@@ -33,7 +33,7 @@
 #include "packets/chat_message.h"
 #include "packets/entity_animation.h"
 #include "packets/fishing.h"
-#include "packets/inventory_finish.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/message_special.h"
 #include "packets/message_standard.h"
 #include "packets/message_system.h"
@@ -1358,7 +1358,7 @@ namespace fishingutils
 
                     if (SendUpdate)
                     {
-                        PChar->pushPacket<CInventoryFinishPacket>();
+                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
                     }
                 }
             }
@@ -1393,7 +1393,7 @@ namespace fishingutils
                 uint8 location = PRanged->getLocationID();
                 charutils::UpdateItem(PChar, location, PRanged->getSlotID(), -1);
                 charutils::AddItem(PChar, location, PRod->brokenRodId, 1);
-                PChar->pushPacket<CInventoryFinishPacket>();
+                PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
             }
         }
     }
