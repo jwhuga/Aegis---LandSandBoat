@@ -24,22 +24,24 @@
 #include "base.h"
 
 enum class ItemLockFlg : uint8_t;
+enum CONTAINER_ID : uint8;
 class CItem;
 
-// https://github.com/atom0s/XiPackets/tree/main/world/server/0x001F
-// This packet is sent by the server to inform the client of an item within a container.
-class GP_SERV_COMMAND_ITEM_LIST final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_ITEM_LIST, GP_SERV_COMMAND_ITEM_LIST>
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x0020
+// This packet is sent by the server to populate an items full information.
+class GP_SERV_COMMAND_ITEM_ATTR final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_ITEM_ATTR, GP_SERV_COMMAND_ITEM_ATTR>
 {
 public:
     struct PacketData
     {
-        uint32_t    ItemNum;      // PS2: ItemNum
-        uint16_t    ItemNo;       // PS2: ItemNo
-        uint8_t     Category;     // PS2: Category
-        uint8_t     ItemIndex;    // PS2: ItemIndex
-        ItemLockFlg LockFlg;      // PS2: LockFlg
-        uint8_t     padding00[3]; // Undocumented padding
+        uint32_t     ItemNum;   // PS2: ItemNum
+        uint32_t     Price;     // PS2: Price
+        uint16_t     ItemNo;    // PS2: ItemNo
+        CONTAINER_ID Category;  // PS2: Category
+        uint8_t      ItemIndex; // PS2: ItemIndex
+        ItemLockFlg  LockFlg;   // PS2: LockFlg
+        uint8_t      Attr[24];  // PS2: Attr TODO: Make structs for each possible exdata
     };
 
-    GP_SERV_COMMAND_ITEM_LIST(const CItem* PItem, ItemLockFlg flag);
+    GP_SERV_COMMAND_ITEM_ATTR(CItem* PItem, CONTAINER_ID locationId, uint8_t slotId);
 };

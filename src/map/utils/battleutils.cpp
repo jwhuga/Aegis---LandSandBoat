@@ -33,8 +33,8 @@
 
 #include "packets/char_health.h"
 #include "packets/char_status.h"
-#include "packets/s2c/0x01d_item_same.h"
 #include "packets/message_basic.h"
+#include "packets/s2c/0x01d_item_same.h"
 
 #include "lua/luautils.h"
 

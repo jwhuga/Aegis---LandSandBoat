@@ -26,7 +26,7 @@
 #include "packets/char_status.h"
 #include "packets/furniture_interact.h"
 #include "packets/s2c/0x01d_item_same.h"
-#include "packets/inventory_item.h"
+#include "packets/s2c/0x020_item_attr.h"
 #include "utils/charutils.h"
 
 namespace
@@ -55,7 +55,7 @@ void GP_CLI_COMMAND_MYROOM_PLANT_STOP::process(MapSession* PSession, CCharEntity
         db::preparedStmt("UPDATE char_inventory SET extra = ? WHERE charid = ? AND location = ? AND slot = ? LIMIT 1",
                          PItem->m_extra, PChar->id, PItem->getLocationID(), PItem->getSlotID());
 
-        PChar->pushPacket<CInventoryItemPacket>(PItem, MyroomPlantCategory, MyroomPlantItemIndex);
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, static_cast<CONTAINER_ID>(MyroomPlantCategory), MyroomPlantItemIndex);
         PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
     }
 }

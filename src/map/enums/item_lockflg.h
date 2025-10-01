@@ -25,11 +25,12 @@
 
 // Used in GP_SERV_COMMAND_ITEM_* packets LockFlg
 // TODO: This needs to be checked and compared with client.
-enum class LockFlg : uint8_t
+enum class ItemLockFlg : uint8_t
 {
     Normal    = 0x00,
     NoDrop    = 0x05,
     NoSelect  = 0x0F,
     Linkshell = 0x13,
+    Unknown0  = 0x19,
     Mannequin = 0x1B,
 };

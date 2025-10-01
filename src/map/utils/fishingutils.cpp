@@ -33,11 +33,11 @@
 #include "packets/chat_message.h"
 #include "packets/entity_animation.h"
 #include "packets/fishing.h"
-#include "packets/s2c/0x01d_item_same.h"
 #include "packets/message_special.h"
 #include "packets/message_standard.h"
 #include "packets/message_system.h"
 #include "packets/message_text.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x043_talknumname.h"
 #include "packets/s2c/0x052_eventucoff.h"
 

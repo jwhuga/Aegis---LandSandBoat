@@ -23,7 +23,7 @@
 #include "entities/charentity.h"
 #include "item_container.h"
 #include "packets/s2c/0x01d_item_same.h"
-#include "packets/inventory_item.h"
+#include "packets/s2c/0x020_item_attr.h"
 
 /************************************************************************
  *                                                                       *
@@ -175,7 +175,7 @@ void CCharRecastContainer::Check()
                     uint8  containerID = id & 0xFF;
                     CItem* PItem       = m_PChar->getStorage(containerID)->GetItem(slotID);
 
-                    m_PChar->pushPacket<CInventoryItemPacket>(PItem, containerID, slotID);
+                    m_PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, static_cast<CONTAINER_ID>(containerID), slotID);
                     m_PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
                 }
                 if (type == RECAST_ITEM || type == RECAST_MAGIC || type == RECAST_LOOT)

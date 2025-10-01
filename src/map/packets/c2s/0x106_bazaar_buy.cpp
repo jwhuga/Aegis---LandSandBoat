@@ -26,7 +26,7 @@
 #include "packets/bazaar_confirmation.h"
 #include "packets/bazaar_item.h"
 #include "packets/s2c/0x01d_item_same.h"
-#include "packets/inventory_item.h"
+#include "packets/s2c/0x020_item_attr.h"
 #include "packets/s2c/0x106_bazaar_buy.h"
 #include "packets/s2c/0x107_bazaar_close.h"
 #include "utils/charutils.h"
@@ -150,7 +150,7 @@ void GP_CLI_COMMAND_BAZAAR_BUY::process(MapSession* PSession, CCharEntity* PChar
 
         charutils::UpdateItem(PTarget, LOC_INVENTORY, BazaarItemIndex, -static_cast<int32>(BuyNum));
 
-        PTarget->pushPacket<CInventoryItemPacket>(PBazaar->GetItem(BazaarItemIndex), LOC_INVENTORY, BazaarItemIndex);
+        PTarget->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PBazaar->GetItem(BazaarItemIndex), LOC_INVENTORY, BazaarItemIndex);
         PTarget->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
 
         DebugBazaarsFmt("Bazaar Interaction [Purchase Successful] - Buyer: {}, Seller: {}, Item: {}, Qty: {}, Cost: {}", PChar->name, PTarget->name, PItem->getName(), BuyNum, PriceWithTax);
