@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,25 +19,27 @@
 ===========================================================================
 */
 
-#ifndef _CINVENTORYASSIGHPACKET_H
-#define _CINVENTORYASSIGHPACKET_H
+#pragma once
 
-#include "common/cbasetypes.h"
+#include "base.h"
 
-#include "basic.h"
-
-#define INV_NORMAL    0x00
-#define INV_NODROP    0x05
-#define INV_NOSELECT  0x0F
-#define INV_LINKSHELL 0x13
-#define INV_MANNEQUIN 0x1B // Equipped to the mannequin
-
+enum class LockFlg : uint8_t;
 class CItem;
 
-class CInventoryAssignPacket : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x001F
+// This packet is sent by the server to inform the client of an item within a container.
+class GP_SERV_COMMAND_ITEM_LIST final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_ITEM_LIST, GP_SERV_COMMAND_ITEM_LIST>
 {
 public:
-    CInventoryAssignPacket(CItem* PItem, uint8 Flag);
-};
+    struct PacketData
+    {
+        uint32_t ItemNum;      // PS2: ItemNum
+        uint16_t ItemNo;       // PS2: ItemNo
+        uint8_t  Category;     // PS2: Category
+        uint8_t  ItemIndex;    // PS2: ItemIndex
+        LockFlg  LockFlg;      // PS2: LockFlg
+        uint8_t  padding00[3]; // Undocumented padding
+    };
 
-#endif
+    GP_SERV_COMMAND_ITEM_LIST(const CItem* PItem, LockFlg flag);
+};

@@ -31,8 +31,8 @@
 
 #include "packets/char_skills.h"
 #include "packets/char_status.h"
-#include "packets/inventory_assign.h"
 #include "packets/inventory_finish.h"
+#include "packets/s2c/0x01f_item_list.h"
 #include "packets/inventory_item.h"
 #include "packets/message_basic.h"
 #include "packets/synth_animation.h"
@@ -45,6 +45,7 @@
 #include "trade_container.h"
 
 #include "charutils.h"
+#include "enums/item_lockflg.h"
 #include "enums/key_items.h"
 #include "itemutils.h"
 #include "zone.h"
@@ -946,7 +947,7 @@ namespace synthutils
                     }
                     else
                     {
-                        PChar->pushPacket<CInventoryAssignPacket>(PItem, INV_NORMAL);
+                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::Normal);
                     }
                 }
                 invSlotID = nextSlotID;
@@ -1034,7 +1035,7 @@ namespace synthutils
                     }
                     else
                     {
-                        PChar->pushPacket<CInventoryAssignPacket>(PItem, INV_NORMAL);
+                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::Normal);
                     }
                 }
                 invSlotID = nextSlotID;
@@ -1181,7 +1182,7 @@ namespace synthutils
                 if (CItem* PCraftItem = PChar->getStorage(LOC_INVENTORY)->GetItem(invSlotID); PCraftItem != nullptr)
                 {
                     PCraftItem->setSubType(ITEM_LOCKED);
-                    PChar->pushPacket<CInventoryAssignPacket>(PCraftItem, INV_NOSELECT);
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PCraftItem, LockFlg::NoSelect);
                 }
             }
         }

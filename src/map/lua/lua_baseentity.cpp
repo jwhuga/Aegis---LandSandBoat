@@ -92,6 +92,7 @@
 #include "entities/npcentity.h"
 #include "entities/petentity.h"
 #include "entities/trustentity.h"
+#include "enums/item_lockflg.h"
 #include "items/item_furnishing.h"
 #include "items/item_linkshell.h"
 
@@ -121,8 +122,8 @@
 #include "packets/guild_menu_buy.h"
 #include "packets/independent_animation.h"
 #include "packets/instance_entry.h"
-#include "packets/inventory_assign.h"
 #include "packets/inventory_finish.h"
+#include "packets/s2c/0x01f_item_list.h"
 #include "packets/inventory_item.h"
 #include "packets/inventory_size.h"
 #include "packets/key_items.h"
@@ -4790,7 +4791,7 @@ bool CLuaBaseEntity::addLinkpearl(std::string const& lsname, bool equip)
                     PItemLinkPearl->setSubType(ITEM_LOCKED);
                     PChar->equip[SLOT_LINK2]    = PItemLinkPearl->getSlotID();
                     PChar->equipLoc[SLOT_LINK2] = LOC_INVENTORY;
-                    PChar->pushPacket<CInventoryAssignPacket>(PItemLinkPearl, INV_LINKSHELL);
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItemLinkPearl, LockFlg::Linkshell);
                     charutils::SaveCharEquip(PChar);
                     PChar->pushPacket<CLinkshellEquipPacket>(PChar, PItemLinkPearl->GetLSID());
                     PChar->pushPacket<CInventoryItemPacket>(PItemLinkPearl, LOC_INVENTORY, PItemLinkPearl->getSlotID());

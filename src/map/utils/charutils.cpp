@@ -47,8 +47,8 @@
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/conquest_map.h"
-#include "packets/inventory_assign.h"
 #include "packets/inventory_count.h"
+#include "packets/s2c/0x01f_item_list.h"
 #include "packets/inventory_finish.h"
 #include "packets/inventory_item.h"
 #include "packets/key_items.h"
@@ -98,6 +98,7 @@
 #include "battleutils.h"
 #include "blueutils.h"
 #include "charutils.h"
+#include "enums/item_lockflg.h"
 #include "itemutils.h"
 #include "map_engine.h"
 #include "petutils.h"
@@ -1305,7 +1306,7 @@ namespace charutils
             if (PItem != nullptr)
             {
                 PItem->setSubType(ITEM_LOCKED);
-                PChar->pushPacket<CInventoryAssignPacket>(PItem, INV_NODROP);
+                PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::NoDrop);
             }
         }
 
@@ -1315,7 +1316,7 @@ namespace charutils
             PItem->setSubType(ITEM_LOCKED);
 
             PChar->pushPacket<CInventoryItemPacket>(PItem, PChar->equipLoc[SLOT_LINK1], PChar->equip[SLOT_LINK1]);
-            PChar->pushPacket<CInventoryAssignPacket>(PItem, INV_LINKSHELL);
+            PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::Linkshell);
             PChar->pushPacket<CLinkshellEquipPacket>(PChar, 1);
         }
 
@@ -1325,7 +1326,7 @@ namespace charutils
             PItem->setSubType(ITEM_LOCKED);
 
             PChar->pushPacket<CInventoryItemPacket>(PItem, PChar->equipLoc[SLOT_LINK2], PChar->equip[SLOT_LINK2]);
-            PChar->pushPacket<CInventoryAssignPacket>(PItem, INV_LINKSHELL);
+            PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::Linkshell);
             PChar->pushPacket<CLinkshellEquipPacket>(PChar, 2);
         }
 
@@ -1841,7 +1842,7 @@ namespace charutils
             PChar->PLatentEffectContainer->DelLatentEffects(((CItemEquipment*)PItem)->getReqLvl(), equipSlotID);
             PChar->delPetModifiers(&((CItemEquipment*)PItem)->petModList);
 
-            PChar->pushPacket<CInventoryAssignPacket>(PItem, INV_NORMAL); // ???
+            PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::Normal); // ???
             PChar->pushPacket<CEquipPacket>(0, equipSlotID, LOC_INVENTORY);
 
             switch (equipSlotID)
@@ -2859,7 +2860,7 @@ namespace charutils
                     luautils::OnItemEquip(PChar, PItem);
 
                     PChar->pushPacket<CEquipPacket>(slotID, equipSlotID, containerID);
-                    PChar->pushPacket<CInventoryAssignPacket>(PItem, INV_NODROP);
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::NoDrop);
                 }
             }
         }

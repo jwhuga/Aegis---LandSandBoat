@@ -25,8 +25,8 @@
 
 #include "packets/char_status.h"
 #include "packets/chat_message.h"
-#include "packets/inventory_assign.h"
 #include "packets/inventory_finish.h"
+#include "packets/s2c/0x01f_item_list.h"
 #include "packets/inventory_item.h"
 #include "packets/linkshell_equip.h"
 #include "packets/message_standard.h"
@@ -38,6 +38,7 @@
 #include "items/item_linkshell.h"
 #include "linkshell.h"
 
+#include "enums/item_lockflg.h"
 #include "items.h"
 #include "packets/c2s/0x0e2_set_lsmsg.h"
 #include "packets/linkshell_message.h"
@@ -230,7 +231,7 @@ void CLinkshell::ChangeMemberRank(const std::string& MemberName, const uint8 req
                                          m_id, static_cast<uint8>(PItemLinkshell->GetLSType()), PMember->id);
                     }
 
-                    PMember->pushPacket<CInventoryAssignPacket>(PItemLinkshell, INV_NORMAL);
+                    PMember->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItemLinkshell, LockFlg::Normal);
                     PMember->pushPacket<CLinkshellEquipPacket>(PMember, lsID);
                     PMember->pushPacket<CInventoryItemPacket>(PItemLinkshell, LocationID, SlotID);
                 }
@@ -280,7 +281,7 @@ void CLinkshell::RemoveMemberByName(const std::string& MemberName, uint8 request
                     PMember->updatemask |= UPDATE_HP;
                 }
 
-                PMember->pushPacket<CInventoryAssignPacket>(PItemLinkshell, INV_NORMAL);
+                PMember->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItemLinkshell, LockFlg::Normal);
                 PMember->pushPacket<CLinkshellEquipPacket>(PMember, lsNum);
             }
 
