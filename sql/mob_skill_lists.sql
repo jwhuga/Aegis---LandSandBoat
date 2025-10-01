@@ -125,8 +125,9 @@ INSERT INTO `mob_skill_lists` VALUES ('Avatar_Ifrit_Misc',38,844);
 INSERT INTO `mob_skill_lists` VALUES ('Avatar_Ifrit_Misc',38,845);
 INSERT INTO `mob_skill_lists` VALUES ('Avatar_Ifrit_Misc',38,846);
 INSERT INTO `mob_skill_lists` VALUES ('Avatar_Ifrit_Misc',38,847);
-INSERT INTO `mob_skill_lists` VALUES ('Ixion_Melee',39,2341); -- di hoof attack
-INSERT INTO `mob_skill_lists` VALUES ('Ixion_Melee',39,2342); -- di horn attack
+INSERT INTO `mob_skill_lists` VALUES ('Ixion_Melee',39,2329); -- di_horn_attack
+INSERT INTO `mob_skill_lists` VALUES ('Ixion_Melee',39,2330); -- di_bite_attack
+INSERT INTO `mob_skill_lists` VALUES ('Ixion_Melee',39,2331); -- di_kick_attack
 INSERT INTO `mob_skill_lists` VALUES ('Avatar_Leviathan_Misc',40,858);
 INSERT INTO `mob_skill_lists` VALUES ('Avatar_Leviathan_Misc',40,859);
 INSERT INTO `mob_skill_lists` VALUES ('Avatar_Leviathan_Misc',40,860);
@@ -4168,11 +4169,8 @@ INSERT INTO `mob_skill_lists` VALUES ('Exoplate_Phase_3',2059,1000);
 INSERT INTO `mob_skill_lists` VALUES ('Infernal_Swarm',2060,334);
 INSERT INTO `mob_skill_lists` VALUES ('Infernal_Swarm',2060,335);
 
-INSERT INTO `mob_skill_lists` VALUES ('Dark_Ixion',2061,2334);
-INSERT INTO `mob_skill_lists` VALUES ('Dark_Ixion',2061,2335);
-INSERT INTO `mob_skill_lists` VALUES ('Dark_Ixion',2061,2336);
-INSERT INTO `mob_skill_lists` VALUES ('Dark_Ixion',2061,2337);
-INSERT INTO `mob_skill_lists` VALUES ('Dark_Ixion',2061,2338);
+INSERT INTO `mob_skill_lists` VALUES ('Dark_Ixion',2061,2333); -- di_glow, to telegraph next mobskill
+INSERT INTO `mob_skill_lists` VALUES ('Dark_Ixion',2061,2337); -- damsel memento
 
 INSERT INTO `mob_skill_lists` VALUES ('Gladiatorial_Weapon',2062,396);
 INSERT INTO `mob_skill_lists` VALUES ('Gladiatorial_Weapon',2062,397);
