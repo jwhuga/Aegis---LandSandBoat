@@ -23,7 +23,7 @@
 
 #include "base.h"
 
-enum class LockFlg : uint8_t;
+enum class ItemLockFlg : uint8_t;
 enum CONTAINER_ID : uint8;
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x001E
@@ -36,7 +36,7 @@ public:
         uint32_t     ItemNum;   // PS2: ItemNum
         CONTAINER_ID Category;  // PS2: Category
         uint8_t      ItemIndex; // PS2: ItemIndex
-        LockFlg      LockFlg;   // PS2: LockFlg
+        ItemLockFlg  LockFlg;   // PS2: LockFlg
         uint8_t      padding00; // Undocumented padding? 0x00 or 0xFF seen.
     };
 

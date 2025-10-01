@@ -31,10 +31,10 @@
 
 #include "packets/char_skills.h"
 #include "packets/char_status.h"
+#include "packets/message_basic.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x01f_item_list.h"
-#include "packets/inventory_item.h"
-#include "packets/message_basic.h"
+#include "packets/s2c/0x020_item_attr.h"
 #include "packets/synth_animation.h"
 #include "packets/synth_message.h"
 #include "packets/synth_result.h"
@@ -947,7 +947,7 @@ namespace synthutils
                     }
                     else
                     {
-                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::Normal);
+                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, ItemLockFlg::Normal);
                     }
                 }
                 invSlotID = nextSlotID;
@@ -1035,7 +1035,7 @@ namespace synthutils
                     }
                     else
                     {
-                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, LockFlg::Normal);
+                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItem, ItemLockFlg::Normal);
                     }
                 }
                 invSlotID = nextSlotID;
@@ -1182,7 +1182,7 @@ namespace synthutils
                 if (CItem* PCraftItem = PChar->getStorage(LOC_INVENTORY)->GetItem(invSlotID); PCraftItem != nullptr)
                 {
                     PCraftItem->setSubType(ITEM_LOCKED);
-                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PCraftItem, LockFlg::NoSelect);
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PCraftItem, ItemLockFlg::NoSelect);
                 }
             }
         }
@@ -1275,7 +1275,7 @@ namespace synthutils
                     db::preparedStmt("UPDATE char_inventory SET signature = ? WHERE charid = ? AND location = 0 AND slot = ? LIMIT 1",
                                      PChar->name, PChar->id, invSlotID);
                 }
-                PChar->pushPacket<CInventoryItemPacket>(PItem, LOC_INVENTORY, invSlotID);
+                PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItem, LOC_INVENTORY, invSlotID);
             }
 
             PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();

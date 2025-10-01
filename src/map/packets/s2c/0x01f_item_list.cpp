@@ -23,7 +23,7 @@
 
 #include "utils/itemutils.h"
 
-GP_SERV_COMMAND_ITEM_LIST::GP_SERV_COMMAND_ITEM_LIST(const CItem* PItem, const LockFlg flag)
+GP_SERV_COMMAND_ITEM_LIST::GP_SERV_COMMAND_ITEM_LIST(const CItem* PItem, const ItemLockFlg flag)
 {
     auto& packet = this->data();
 

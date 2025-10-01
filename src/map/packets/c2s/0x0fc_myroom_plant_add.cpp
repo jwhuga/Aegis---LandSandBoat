@@ -27,7 +27,7 @@
 #include "packets/char_status.h"
 #include "packets/furniture_interact.h"
 #include "packets/s2c/0x01d_item_same.h"
-#include "packets/inventory_item.h"
+#include "packets/s2c/0x020_item_attr.h"
 #include "utils/charutils.h"
 #include "utils/gardenutils.h"
 
@@ -109,7 +109,7 @@ void GP_CLI_COMMAND_MYROOM_PLANT_ADD::process(MapSession* PSession, CCharEntity*
 
         PChar->pushPacket<CFurnitureInteractPacket>(PPotItem, MyroomPlantCategory, MyroomPlantItemIndex);
 
-        PChar->pushPacket<CInventoryItemPacket>(PPotItem, MyroomPlantCategory, MyroomPlantItemIndex);
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PPotItem, static_cast<CONTAINER_ID>(MyroomPlantCategory), MyroomPlantItemIndex);
 
         charutils::UpdateItem(PChar, MyroomAddCategory, MyroomAddItemIndex, -1);
         PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();

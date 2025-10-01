@@ -122,10 +122,6 @@
 #include "packets/guild_menu_buy.h"
 #include "packets/independent_animation.h"
 #include "packets/instance_entry.h"
-#include "packets/s2c/0x01d_item_same.h"
-#include "packets/s2c/0x01f_item_list.h"
-#include "packets/inventory_item.h"
-#include "packets/inventory_size.h"
 #include "packets/key_items.h"
 #include "packets/linkshell_equip.h"
 #include "packets/menu_jobpoints.h"
@@ -144,6 +140,10 @@
 #include "packets/objective_utility.h"
 #include "packets/quest_mission_log.h"
 #include "packets/roe_questlog.h"
+#include "packets/s2c/0x01c_item_max.h"
+#include "packets/s2c/0x01d_item_same.h"
+#include "packets/s2c/0x01f_item_list.h"
+#include "packets/s2c/0x020_item_attr.h"
 #include "packets/s2c/0x039_mapschedulor.h"
 #include "packets/s2c/0x052_eventucoff.h"
 #include "packets/s2c/0x05c_pendingnum.h"
@@ -4791,10 +4791,10 @@ bool CLuaBaseEntity::addLinkpearl(std::string const& lsname, bool equip)
                     PItemLinkPearl->setSubType(ITEM_LOCKED);
                     PChar->equip[SLOT_LINK2]    = PItemLinkPearl->getSlotID();
                     PChar->equipLoc[SLOT_LINK2] = LOC_INVENTORY;
-                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItemLinkPearl, LockFlg::Linkshell);
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItemLinkPearl, ItemLockFlg::Linkshell);
                     charutils::SaveCharEquip(PChar);
                     PChar->pushPacket<CLinkshellEquipPacket>(PChar, PItemLinkPearl->GetLSID());
-                    PChar->pushPacket<CInventoryItemPacket>(PItemLinkPearl, LOC_INVENTORY, PItemLinkPearl->getSlotID());
+                    PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItemLinkPearl, LOC_INVENTORY, PItemLinkPearl->getSlotID());
                     PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
                     charutils::LoadInventory(PChar);
                 }
@@ -4885,7 +4885,7 @@ void CLuaBaseEntity::changeContainerSize(uint8 locationID, int8 newSize)
         auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
         PChar->getStorage(locationID)->AddBuff(newSize);
-        PChar->pushPacket<CInventorySizePacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_MAX>(PChar);
         charutils::SaveCharInventoryCapacity(PChar);
     }
     else
