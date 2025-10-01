@@ -23,6 +23,13 @@ local keyType =
     SKELETON_KEY = 4,
 }
 
+local respawnType =
+{
+    IMMEDIATE =    5,
+    TRAP      =  180,
+    SPECIAL   =  900,
+    REGULAR   = 1800,
+}
 -----------------------------------
 -- Tables
 -----------------------------------
@@ -39,6 +46,7 @@ local npcTable =
     ['Treasure_Chest' ] = 1,
     ['Treasure_Coffer'] = 2,
 }
+
 local keyTable =
 {
     [xi.zone.PSOXJA                ] = { xi.item.PSOXJA_CHEST_KEY,     0                             },
@@ -126,44 +134,44 @@ local mapTable =
 local levelTable =
 {
     -- [zoneId] = { chest_level, coffer_level },
-    [xi.zone.PSOXJA                ] = { 53,  0 },
-    [xi.zone.OLDTON_MOVALPOLOS     ] = { 43,  0 },
-    [xi.zone.NEWTON_MOVALPOLOS     ] = {  0, 53 },
-    [xi.zone.SACRARIUM             ] = { 53,  0 },
-    [xi.zone.RUAUN_GARDENS         ] = {  0, 53 },
-    [xi.zone.FORT_GHELSBA          ] = { 53,  0 },
-    [xi.zone.YUGHOTT_GROTTO        ] = { 53,  0 },
-    [xi.zone.PALBOROUGH_MINES      ] = { 43,  0 },
-    [xi.zone.GIDDEUS               ] = { 43,  0 },
-    [xi.zone.BEADEAUX              ] = { 43, 53 },
-    [xi.zone.DAVOI                 ] = { 43,  0 },
-    [xi.zone.MONASTIC_CAVERN       ] = {  0, 53 },
-    [xi.zone.CASTLE_OZTROJA        ] = { 43, 53 },
-    [xi.zone.THE_BOYAHDA_TREE      ] = {  0, 53 },
-    [xi.zone.MIDDLE_DELKFUTTS_TOWER] = { 43,  0 },
-    [xi.zone.UPPER_DELKFUTTS_TOWER ] = { 43,  0 },
-    [xi.zone.TEMPLE_OF_UGGALEPIH   ] = {  0, 53 },
-    [xi.zone.DEN_OF_RANCOR         ] = {  0, 53 },
-    [xi.zone.CASTLE_ZVAHL_BAILEYS  ] = { 53, 53 },
-    [xi.zone.CASTLE_ZVAHL_KEEP     ] = { 53,  0 },
-    [xi.zone.TORAIMARAI_CANAL      ] = {  0, 53 },
-    [xi.zone.KUFTAL_TUNNEL         ] = {  0, 53 },
-    [xi.zone.SEA_SERPENT_GROTTO    ] = { 53, 53 },
-    [xi.zone.VELUGANNON_PALACE     ] = {  0, 53 },
-    [xi.zone.KING_RANPERRES_TOMB   ] = { 43,  0 },
-    [xi.zone.DANGRUF_WADI          ] = { 43,  0 },
-    [xi.zone.INNER_HORUTOTO_RUINS  ] = { 43,  0 },
-    [xi.zone.ORDELLES_CAVES        ] = { 43,  0 },
-    [xi.zone.OUTER_HORUTOTO_RUINS  ] = { 43,  0 },
-    [xi.zone.THE_ELDIEME_NECROPOLIS] = { 43, 53 },
-    [xi.zone.GUSGEN_MINES          ] = { 43,  0 },
-    [xi.zone.CRAWLERS_NEST         ] = { 43, 53 },
-    [xi.zone.MAZE_OF_SHAKHRAMI     ] = { 43,  0 },
-    [xi.zone.GARLAIGE_CITADEL      ] = { 43, 53 },
-    [xi.zone.FEIYIN                ] = { 53,  0 },
-    [xi.zone.IFRITS_CAULDRON       ] = {  0, 53 },
-    [xi.zone.QUICKSAND_CAVES       ] = {  0, 53 },
-    [xi.zone.LABYRINTH_OF_ONZOZO   ] = { 43,  0 },
+    [xi.zone.PSOXJA                ] = { 50,  0 },
+    [xi.zone.OLDTON_MOVALPOLOS     ] = { 50,  0 },
+    [xi.zone.NEWTON_MOVALPOLOS     ] = {  0, 70 },
+    [xi.zone.SACRARIUM             ] = { 50,  0 },
+    [xi.zone.RUAUN_GARDENS         ] = {  0, 70 },
+    [xi.zone.FORT_GHELSBA          ] = { 20,  0 },
+    [xi.zone.YUGHOTT_GROTTO        ] = { 20,  0 },
+    [xi.zone.PALBOROUGH_MINES      ] = { 30,  0 },
+    [xi.zone.GIDDEUS               ] = { 20,  0 },
+    [xi.zone.BEADEAUX              ] = { 40, 60 },
+    [xi.zone.DAVOI                 ] = { 40,  0 },
+    [xi.zone.MONASTIC_CAVERN       ] = {  0, 60 },
+    [xi.zone.CASTLE_OZTROJA        ] = { 40, 60 },
+    [xi.zone.THE_BOYAHDA_TREE      ] = {  0, 60 },
+    [xi.zone.MIDDLE_DELKFUTTS_TOWER] = { 35,  0 },
+    [xi.zone.UPPER_DELKFUTTS_TOWER ] = { 35,  0 },
+    [xi.zone.TEMPLE_OF_UGGALEPIH   ] = {  0, 60 },
+    [xi.zone.DEN_OF_RANCOR         ] = {  0, 65 },
+    [xi.zone.CASTLE_ZVAHL_BAILEYS  ] = { 50, 60 },
+    [xi.zone.CASTLE_ZVAHL_KEEP     ] = { 50,  0 },
+    [xi.zone.TORAIMARAI_CANAL      ] = {  0, 60 },
+    [xi.zone.KUFTAL_TUNNEL         ] = {  0, 60 },
+    [xi.zone.SEA_SERPENT_GROTTO    ] = { 40, 55 },
+    [xi.zone.VELUGANNON_PALACE     ] = {  0, 70 },
+    [xi.zone.KING_RANPERRES_TOMB   ] = { 15,  0 },
+    [xi.zone.DANGRUF_WADI          ] = { 15,  0 },
+    [xi.zone.INNER_HORUTOTO_RUINS  ] = { 15,  0 },
+    [xi.zone.ORDELLES_CAVES        ] = { 30,  0 },
+    [xi.zone.OUTER_HORUTOTO_RUINS  ] = { 15,  0 },
+    [xi.zone.THE_ELDIEME_NECROPOLIS] = { 50, 60 },
+    [xi.zone.GUSGEN_MINES          ] = { 30,  0 },
+    [xi.zone.CRAWLERS_NEST         ] = { 50, 55 },
+    [xi.zone.MAZE_OF_SHAKHRAMI     ] = { 30,  0 },
+    [xi.zone.GARLAIGE_CITADEL      ] = { 50, 60 },
+    [xi.zone.FEIYIN                ] = { 45,  0 },
+    [xi.zone.IFRITS_CAULDRON       ] = {  0, 60 },
+    [xi.zone.QUICKSAND_CAVES       ] = {  0, 55 },
+    [xi.zone.LABYRINTH_OF_ONZOZO   ] = { 40,  0 },
 }
 
 local posTable =
@@ -1578,23 +1586,75 @@ local lootTable =
 -----------------------------------
 -- Local functions
 -----------------------------------
-local function moveTreasure(npc, mimicSpawned)
+local function moveTreasure(npc, respawnTime)
     local zoneId         = npc:getZoneID()
     local containerType  = npcTable[npc:getName()]
     local positions      = posTable[zoneId][containerType]
     local chosenPosition = positions[math.random(1, #positions)]
+    local hideTime       = respawnTime or 1800
 
-    if not mimicSpawned then
-        npc:hideNPC(5)
-    end
+    npc:hideNPC(hideTime)
 
-    npc:queue(3000, function(entity)
-        entity:setPos(chosenPosition[1], chosenPosition[2], chosenPosition[3], chosenPosition[4])
+    npc:queue(3000, function(npcEntity)
+        npcEntity:setPos(chosenPosition[1], chosenPosition[2], chosenPosition[3], chosenPosition[4])
+        npcEntity:entityAnimationPacket(xi.animationString.STATUS_VISIBLE)
+        npcEntity:setLocalVar('traded', 0)
     end)
 end
 
--- Meant specifically to be used for quests. Bypasses loot AND returns a message ID.
-local function handleTreasure(player, npc, trade, bypassType, bypassReward)
+local function openAndMoveTreasure(npc, respawnTime)
+    npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_GLOW)
+    npc:setLocalVar('opened', 1)
+
+    npc:queue(10000, function(npcEntity)
+        npcEntity:entityAnimationPacket(xi.animationString.STATUS_DISAPPEAR)
+    end)
+
+    npc:queue(12000, function(npcEntity)
+        npcEntity:setLocalVar('opened', 0)
+        moveTreasure(npcEntity, respawnTime)
+    end)
+end
+
+local function trapAndMoveTreasure(npc, respawnTime)
+    npc:entityAnimationPacket(xi.animationString.OPEN_CRATE_SMOKE)
+    npc:setLocalVar('opened', 1)
+
+    npc:queue(10000, function(npcEntity)
+        npcEntity:entityAnimationPacket(xi.animationString.STATUS_DISAPPEAR)
+    end)
+
+    npc:queue(12000, function(npcEntity)
+        npcEntity:setLocalVar('opened', 0)
+        moveTreasure(npcEntity, respawnTime)
+    end)
+end
+
+-----------------------------------
+-- Public functions
+-----------------------------------
+xi.treasure.initZone = function(zone)
+    local zoneId = zone:getID()
+    local ID     = zones[zoneId]
+
+    if ID.npc.TREASURE_CHEST then
+        local npc = GetNPCByID(ID.npc.TREASURE_CHEST)
+        if npc then
+            npc:setStatus(xi.status.NORMAL)
+            moveTreasure(npc, respawnType.IMMEDIATE)
+        end
+    end
+
+    if ID.npc.TREASURE_COFFER then
+        local npc = GetNPCByID(ID.npc.TREASURE_COFFER)
+        if npc then
+            npc:setStatus(xi.status.NORMAL)
+            moveTreasure(npc, respawnType.IMMEDIATE)
+        end
+    end
+end
+
+xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     -- Treasure data.
     local zoneId        = player:getZoneID()
     local ID            = zones[zoneId]
@@ -1606,19 +1666,18 @@ local function handleTreasure(player, npc, trade, bypassType, bypassReward)
     local treasureMap   = mapTable[zoneId][containerType]
     local itemTable     = lootTable[zoneId][containerType]
 
-    -- Delete sneak and invisible.
-    player:delStatusEffect(xi.effect.SNEAK)
-    player:delStatusEffect(xi.effect.INVISIBLE)
+    -- Early return: Treasure is doing treasure things.
+    if
+        npc:getLocalVar('opened') == 0 and
+        npc:getLocalVar('traded') == 0
+    then
+        return
+    end
 
     -----------------------------------
     -- Validate trade.
     -----------------------------------
     local keyUsed = 0
-
-    -- Early return: Too many traded items.
-    if trade:getItemCount() ~= 1 then
-        return ID.text.CHEST_UNLOCKED + 7, treasureKey
-    end
 
     -- Validate zone key.
     if trade:getItemQty(treasureKey) == 1 then
@@ -1636,51 +1695,86 @@ local function handleTreasure(player, npc, trade, bypassType, bypassReward)
         end
     end
 
-    if keyUsed == 0 then
-        return ID.text.CHEST_UNLOCKED + 7, treasureKey
+    -- Early return: Invalid trade.
+    if
+        keyUsed == 0 or
+        trade:getItemCount() ~= 1
+    then
+        player:messageSpecial(ID.text.CHEST_UNLOCKED + 7, treasureKey)
+        return
+    end
+
+    -- Early return: Player has no room for items.
+    if player:getFreeSlotsCount() == 0 then
+        player:messageSpecial(ID.text.CHEST_UNLOCKED - 5)
+        return
+    end
+
+    -- Early return: Can't lockpick while weakened.
+    if
+        keyUsed ~= keyType.ZONE_KEY and
+        player:hasStatusEffect(xi.effect.WEAKNESS)
+    then
+        player:messageSpecial(ID.text.CHEST_UNLOCKED + 3)
+        return
     end
 
     -----------------------------------
     -- Attempt to open treasure.
     -----------------------------------
-    if keyUsed ~= keyType.ZONE_KEY then
-        -- Can't lockpick while weakened.
-        if player:hasStatusEffect(xi.effect.WEAKNESS) then
-            return ID.text.CHEST_UNLOCKED + 3, 0
-        end
+    -- Player animations.
+    player:sendEmote(npc, xi.emote.KNEEL, xi.emoteMode.MOTION)
+    player:delStatusEffect(xi.effect.SNEAK)
+    player:delStatusEffect(xi.effect.DEODORIZE)
+    npc:setLocalVar('traded', 1)
 
+    if keyUsed ~= keyType.ZONE_KEY then
         local levelFactor = utils.clamp(player:getMainLvl() / treasureLevel, 0, 2)
         local successRate = utils.clamp(25 * levelFactor + thiefKeyInfo[keyUsed][2], 0, 95)
 
         -- Fail.
         if math.random(1, 100) > successRate then
-            player:confirmTrade()
+            player:tradeComplete()
 
             local outcome = math.random(1, containerType + 1)
             -- Nothing happens
             if outcome == 1 then
-                return ID.text.CHEST_UNLOCKED + 1, player:getID()
+                player:timer(3000, function(playerEntity)
+                    playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED + 1, playerEntity:getID())
+                    npc:setLocalVar('traded', 0)
+                end)
+
+                return
 
             -- It's a trap!
             elseif outcome == 2 then
-                player:addStatusEffect(xi.effect.WEAKNESS, 1, 0, math.random(300, 10800)) -- 5 minutes to 3 hours
+                player:timer(3000, function(playerEntity)
+                    playerEntity:addStatusEffect(xi.effect.WEAKNESS, 1, 0, math.random(300, 10800)) -- 5 minutes to 3 hours
+                    playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED + 2)
+                    trapAndMoveTreasure(npc, respawnType.TRAP)
+                end)
 
-                return ID.text.CHEST_UNLOCKED + 2, 0
+                return
 
             -- Mimic (Coffers only)
             else
-                local mimicId = ID.mob.MIMIC
-                local mimic   = GetMobByID(mimicId)
+                player:timer(3000, function(playerEntity)
+                    local mimicId = ID.mob.MIMIC
+                    local mimic   = GetMobByID(mimicId)
 
-                if not mimic then
-                    return ID.text.CHEST_UNLOCKED + 1, player:getID()
-                end
+                    if not mimic then
+                        player:messageSpecial(ID.text.CHEST_UNLOCKED + 1, player:getID())
+                        npc:setLocalVar('traded', 0)
+                        return
+                    end
 
-                mimic:setSpawn(npc:getXPos(), npc:getYPos(), npc:getZPos(), npc:getRotPos())
-                npcUtil.popFromQM(player, npc, mimicId, { claim = true, hide = 5 })
-                moveTreasure(npc, true)
+                    mimic:setSpawn(npc:getXPos(), npc:getYPos(), npc:getZPos(), npc:getRotPos())
+                    npcUtil.popFromQM(player, npc, mimicId, { claim = true, hide = 5 })
+                    moveTreasure(npc, respawnType.IMMEDIATE)
+                    player:messageSpecial(ID.text.CHEST_UNLOCKED + 4)
+                end)
 
-                return ID.text.CHEST_UNLOCKED + 4, 0
+                return
             end
         end
     end
@@ -1689,22 +1783,29 @@ local function handleTreasure(player, npc, trade, bypassType, bypassReward)
     -- Handle quest item reward.
     -----------------------------------
     if bypassType == 1 then
-        if npcUtil.giveItem(player, bypassReward) then
-            player:confirmTrade()
-            moveTreasure(npc, false)
-        end
+        player:timer(3000, function(playerEntity)
+            if npcUtil.giveItem(player, bypassReward) then
+                playerEntity:tradeComplete()
+                openAndMoveTreasure(npc, respawnType.SPECIAL)
+                playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
+            end
+        end)
 
-        return ID.text.CHEST_UNLOCKED, 0
+        npc:setLocalVar('traded', 0)
+        return
 
     -----------------------------------
     -- Handle quest Key Item reward.
     -----------------------------------
     elseif bypassType == 2 then
-        npcUtil.giveKeyItem(player, bypassReward)
-        player:confirmTrade()
-        moveTreasure(npc, false)
+        player:timer(3000, function(playerEntity)
+            npcUtil.giveKeyItem(playerEntity, bypassReward)
+            playerEntity:tradeComplete()
+            openAndMoveTreasure(npc, respawnType.SPECIAL)
+            playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
+        end)
 
-        return ID.text.CHEST_UNLOCKED, 0
+        return
     end
 
     -----------------------------------
@@ -1714,20 +1815,26 @@ local function handleTreasure(player, npc, trade, bypassType, bypassReward)
         treasureMap > 0 and
         not player:hasKeyItem(treasureMap)
     then
-        npcUtil.giveKeyItem(player, treasureMap)
-        player:confirmTrade()
-        moveTreasure(npc, false)
+        player:timer(3000, function(playerEntity)
+            npcUtil.giveKeyItem(playerEntity, treasureMap)
+            playerEntity:tradeComplete()
+            openAndMoveTreasure(npc, respawnType.SPECIAL)
+            playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
+        end)
 
-        return ID.text.CHEST_UNLOCKED, 0
+        return
     end
 
     -----------------------------------
     -- Handle Illusion.
     -----------------------------------
     if GetSystemTime() < npc:getLocalVar('illusionCooldown') then
-        moveTreasure(npc, false)
+        player:timer(3000, function(playerEntity)
+            moveTreasure(npc, respawnType.SPECIAL)
+            playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED + 6)
+        end)
 
-        return ID.text.CHEST_UNLOCKED + 6, 0
+        return
     end
 
     -----------------------------------
@@ -1735,9 +1842,9 @@ local function handleTreasure(player, npc, trade, bypassType, bypassReward)
     -----------------------------------
     local roll   = math.random(1, 1000)
     local itemId = xi.item.NONE
-    local sum    = 0
+    local weight = 0
     for i = 1, #itemTable do
-        local weight = sum + itemTable[i][2]
+        weight = weight + itemTable[i][2]
         if roll <= weight then
             itemId = itemTable[i][1]
             break
@@ -1766,67 +1873,31 @@ local function handleTreasure(player, npc, trade, bypassType, bypassReward)
         gilAmount       = math.floor(gilAmount / #playersInZoneTable)
 
         -- Distribute gil.
-        for i = 1, #playersInZoneTable do
-            npcUtil.giveCurrency(playersInZoneTable[i], 'gil', gilAmount)
-        end
-    end
+        player:timer(3000, function(playerEntity)
+            for i = 1, #playersInZoneTable do
+                npcUtil.giveCurrency(playersInZoneTable[i], 'gil', gilAmount)
+            end
+
+            playerEntity:tradeComplete()
+            openAndMoveTreasure(npc, respawnType.REGULAR)
+            playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
+        end)
 
     -- Items (Gems or others)
-    player:addTreasure(itemId, npc)
+    else
+        player:timer(3000, function(playerEntity)
+            playerEntity:addTreasure(itemId, npc)
+            playerEntity:tradeComplete()
+            openAndMoveTreasure(npc, respawnType.REGULAR)
+            playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
+        end)
+    end
 
+    -- Handle illusion timers.
     if containerType == treasureType.CHEST then
         npc:setLocalVar('illusionCooldown', GetSystemTime() + math.random(xi.settings.main.CHEST_MIN_ILLUSION_TIME, xi.settings.main.CHEST_MAX_ILLUSION_TIME))
     else
         npc:setLocalVar('illusionCooldown', GetSystemTime() + math.random(xi.settings.main.COFFER_MIN_ILLUSION_TIME, xi.settings.main.COFFER_MAX_ILLUSION_TIME))
-    end
-
-    player:confirmTrade()
-    moveTreasure(npc, false)
-
-    return ID.text.CHEST_UNLOCKED, 0
-end
-
------------------------------------
--- Public functions
------------------------------------
-xi.treasure.initZone = function(zone)
-    local zoneId = zone:getID()
-    local ID     = zones[zoneId]
-
-    if ID.npc.TREASURE_CHEST then
-        local npc = GetNPCByID(ID.npc.TREASURE_CHEST)
-        if npc then
-            npc:setStatus(xi.status.NORMAL)
-            moveTreasure(npc, false)
-        end
-    end
-
-    if ID.npc.TREASURE_COFFER then
-        local npc = GetNPCByID(ID.npc.TREASURE_COFFER)
-        if npc then
-            npc:setStatus(xi.status.NORMAL)
-            moveTreasure(npc, false)
-        end
-    end
-end
-
-xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
-    -- Handle treasure logic.
-    local messageId, parameter = handleTreasure(player, npc, trade, bypassType, bypassReward)
-
-    -- Handle messages.
-    if messageId == 0 then
-        return
-    end
-
-    -- Regular treasure.
-    if bypassType == 0 then
-        player:messageSpecial(messageId, parameter)
-        return
-
-    -- Bypassed treasure (quest/mission interacted. Interaction needs to handle the message.)
-    else
-        return messageId, parameter
     end
 end
 
@@ -1835,5 +1906,10 @@ xi.treasure.onTrigger = function(player, npc)
     local messageId   = zones[zoneId].text.CHEST_UNLOCKED + 7
     local keyRequired = keyTable[zoneId][npcTable[npc:getName()]]
 
-    player:messageSpecial(messageId, keyRequired)
+    if
+        npc:getLocalVar('opened') == 0 and
+        npc:getLocalVar('traded') == 0
+    then
+        player:messageSpecial(messageId, keyRequired)
+    end
 end
