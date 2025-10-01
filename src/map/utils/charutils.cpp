@@ -49,7 +49,7 @@
 #include "packets/conquest_map.h"
 #include "packets/inventory_count.h"
 #include "packets/s2c/0x01f_item_list.h"
-#include "packets/inventory_finish.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/inventory_item.h"
 #include "packets/key_items.h"
 #include "packets/s2c/0x01e_item_num.h"
@@ -1330,7 +1330,7 @@ namespace charutils
             PChar->pushPacket<CLinkshellEquipPacket>(PChar, 2);
         }
 
-        PChar->pushPacket<CInventoryFinishPacket>(); // "Finish" type
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>(); // "Finish" type
     }
 
     /************************************************************************
@@ -1419,7 +1419,7 @@ namespace charutils
             }
 
             PChar->pushPacket<CInventoryItemPacket>(PItem, LocationID, SlotID);
-            PChar->pushPacket<CInventoryFinishPacket>();
+            PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
         }
         else
         {
@@ -1656,7 +1656,7 @@ namespace charutils
         {
             ShowInfo("Player %s DROPPING itemID: %s (%u) quantity: %u", PChar->getName(), itemutils::GetItemPointer(ItemID)->getName(), ItemID, quantity);
             PChar->pushPacket<CMessageStandardPacket>(nullptr, ItemID, quantity, MsgStd::ThrowAway);
-            PChar->pushPacket<CInventoryFinishPacket>();
+            PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
         }
     }
 
@@ -2641,7 +2641,7 @@ namespace charutils
             }
             PChar->pushPacket<CMessageStandardPacket>(nullptr, PItem->getID(), quantity, MsgStd::ThrowAway);
         }
-        PChar->pushPacket<CInventoryFinishPacket>();
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
     }
 
     void EmptyRecycleBin(CCharEntity* PChar)

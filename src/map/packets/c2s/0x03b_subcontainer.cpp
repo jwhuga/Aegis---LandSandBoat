@@ -25,7 +25,7 @@
 #include "enums/item_lockflg.h"
 #include "items/item_equipment.h"
 #include "packets/inventory_count.h"
-#include "packets/inventory_finish.h"
+#include "packets/s2c/0x01d_item_same.h"
 #include "packets/inventory_item.h"
 #include "packets/s2c/0x01f_item_list.h"
 
@@ -170,7 +170,7 @@ void GP_CLI_COMMAND_SUBCONTAINER::process(MapSession* PSession, CCharEntity* PCh
     {
         PChar->pushPacket<CInventoryItemPacket>(PMannequin, Category1, ItemIndex1);
         PChar->pushPacket<CInventoryCountPacket>(Category1, ItemIndex1, headId, bodyId, handsId, legId, feetId, mainId, subId, rangeId);
-        PChar->pushPacket<CInventoryFinishPacket>();
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
     }
     else
     {
