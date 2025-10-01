@@ -22,15 +22,16 @@
 #include "0x0c4_group_comlink_active.h"
 
 #include "entities/charentity.h"
+#include "enums/item_lockflg.h"
 #include "item_container.h"
 #include "items.h"
 #include "items/item_linkshell.h"
 #include "linkshell.h"
 #include "packets/char_status.h"
-#include "packets/inventory_assign.h"
 #include "packets/inventory_finish.h"
 #include "packets/inventory_item.h"
 #include "packets/linkshell_equip.h"
+#include "packets/s2c/0x01f_item_list.h"
 #include "utils/charutils.h"
 #include "utils/itemutils.h"
 
@@ -125,7 +126,7 @@ namespace
                 linkshell::DelOnlineMember(PChar, POldItemLinkshell);
 
                 POldItemLinkshell->setSubType(ITEM_UNLOCKED);
-                PChar->pushPacket<CInventoryAssignPacket>(POldItemLinkshell, INV_NORMAL);
+                PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(POldItemLinkshell, LockFlg::Normal);
             }
         }
 
@@ -139,7 +140,7 @@ namespace
             PChar->updatemask |= UPDATE_HP;
         }
 
-        PChar->pushPacket<CInventoryAssignPacket>(PItemLinkshell, INV_LINKSHELL);
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItemLinkshell, LockFlg::Linkshell);
         charutils::SaveCharStats(PChar);
         charutils::SaveCharEquip(PChar);
 
@@ -158,7 +159,7 @@ namespace
             PChar->updatemask |= UPDATE_HP;
         }
 
-        PChar->pushPacket<CInventoryAssignPacket>(PItemLinkshell, INV_NORMAL);
+        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PItemLinkshell, LockFlg::Linkshell);
         charutils::SaveCharStats(PChar);
         charutils::SaveCharEquip(PChar);
 

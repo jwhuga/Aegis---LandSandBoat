@@ -22,14 +22,15 @@
 #include "0x0fb_myroom_bankin.h"
 
 #include "entities/charentity.h"
+#include "enums/item_lockflg.h"
 #include "items/item_furnishing.h"
 #include "lua/luautils.h"
 #include "packets/char_status.h"
-#include "packets/inventory_assign.h"
 #include "packets/inventory_count.h"
 #include "packets/inventory_finish.h"
 #include "packets/inventory_item.h"
 #include "packets/inventory_size.h"
+#include "packets/s2c/0x01f_item_list.h"
 #include "utils/charutils.h"
 namespace
 {
@@ -77,7 +78,7 @@ void GP_CLI_COMMAND_MYROOM_BANKIN::process(MapSession* PSession, CCharEntity* PC
                         {
                             continue;
                         }
-                        PChar->pushPacket<CInventoryAssignPacket>(PEquippedItem, INV_NORMAL);
+                        PChar->pushPacket<GP_SERV_COMMAND_ITEM_LIST>(PEquippedItem, LockFlg::Normal);
                         PItem->m_extra[10 + i] = 0;
                     }
                 }

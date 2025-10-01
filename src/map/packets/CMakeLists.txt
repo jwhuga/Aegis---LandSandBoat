@@ -103,8 +103,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/independent_animation.h
     ${CMAKE_CURRENT_SOURCE_DIR}/instance_entry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/instance_entry.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/inventory_assign.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/inventory_assign.h
     ${CMAKE_CURRENT_SOURCE_DIR}/inventory_count.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/inventory_count.h
     ${CMAKE_CURRENT_SOURCE_DIR}/inventory_finish.cpp
