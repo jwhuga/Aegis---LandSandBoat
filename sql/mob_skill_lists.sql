@@ -3155,7 +3155,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Amarok',930,1788); -- Ululation
 INSERT INTO `mob_skill_lists` VALUES ('Amarok',930,1789); -- Magma_Hoplon
 -- 931: free
 INSERT INTO `mob_skill_lists` VALUES ('Battlerigged_Chariot',932,2054); -- Diffusion_ray
-INSERT INTO `mob_skill_lists` VALUES ('Battlerigged_Chariot',932,2055); -- Intertia_stream
+INSERT INTO `mob_skill_lists` VALUES ('Battlerigged_Chariot',932,2055); -- Inertia_stream
 INSERT INTO `mob_skill_lists` VALUES ('Bennu',933,399); -- Scratch
 INSERT INTO `mob_skill_lists` VALUES ('Bennu',933,400); -- Triple_Attack
 INSERT INTO `mob_skill_lists` VALUES ('Bennu',933,401); -- Gliding_Spike
@@ -3195,7 +3195,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Smiter',942,2620); -- Seismic_Im
 INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Smiter',942,2622); -- Arm_Cannon
 INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Smiter',942,2623); -- Ballistic_Kick
 INSERT INTO `mob_skill_lists` VALUES ('Ironclad_Smiter',942,2624); -- Scapula_Beam
-INSERT INTO `mob_skill_lists` VALUES ('Long-Barreled_Chariot',943,2055); -- Intertia_stream
+INSERT INTO `mob_skill_lists` VALUES ('Long-Barreled_Chariot',943,2055); -- Inertia_stream
 INSERT INTO `mob_skill_lists` VALUES ('Long-Barreled_Chariot',943,2056); -- Discharge
 INSERT INTO `mob_skill_lists` VALUES ('Long-Barreled_Chariot',943,2058); -- PW_Homing_missile
 INSERT INTO `mob_skill_lists` VALUES ('Orthrus',944,1785); -- Lava_Spit
@@ -3268,7 +3268,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Empousa_Ground',961,2423); -- Triumphant_
 INSERT INTO `mob_skill_lists` VALUES ('Empousa_Ground',961,2424); -- Terror_eye
 INSERT INTO `mob_skill_lists` VALUES ('Empousa_Ground',961,2425); -- Bloody_claw
 INSERT INTO `mob_skill_lists` VALUES ('Impervious_Chariot',963,2054); -- Diffusion_ray
-INSERT INTO `mob_skill_lists` VALUES ('Impervious_Chariot',963,2055); -- Intertia_stream
+INSERT INTO `mob_skill_lists` VALUES ('Impervious_Chariot',963,2055); -- Inertia_stream
 INSERT INTO `mob_skill_lists` VALUES ('Impervious_Chariot',963,2056); -- Discharge
 INSERT INTO `mob_skill_lists` VALUES ('Indrik',964,2337); -- Damsel_memento
 INSERT INTO `mob_skill_lists` VALUES ('Indrik',964,2338); -- Rampant_stance
@@ -3298,7 +3298,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Pantokrator',968,1533); -- Pile_Pitch
 INSERT INTO `mob_skill_lists` VALUES ('Pantokrator',968,1534); -- Guided_Missile
 -- INSERT INTO `mob_skill_lists` VALUES ('Pantokrator',968,1539); -- Rear_Lasers
 INSERT INTO `mob_skill_lists` VALUES ('Refitted_Chariot',969,2054); -- Diffusion_ray
-INSERT INTO `mob_skill_lists` VALUES ('Refitted_Chariot',969,2055); -- Intertia_stream
+INSERT INTO `mob_skill_lists` VALUES ('Refitted_Chariot',969,2055); -- Inertia_stream
 INSERT INTO `mob_skill_lists` VALUES ('Refitted_Chariot',969,2056); -- Discharge
 INSERT INTO `mob_skill_lists` VALUES ('Resheph',970,362); -- Double_Claw
 INSERT INTO `mob_skill_lists` VALUES ('Resheph',970,365); -- Spinning_Top
@@ -3323,7 +3323,7 @@ INSERT INTO `mob_skill_lists` VALUES ('Alfard',976,1836); -- Nerve_Gas
 -- INSERT INTO `mob_skill_lists` VALUES ('Amphitrite',977,506); -- Palsynyxis
 -- INSERT INTO `mob_skill_lists` VALUES ('Amphitrite',977,507); -- Painful_Whip
 -- INSERT INTO `mob_skill_lists` VALUES ('Amphitrite',977,2693); -- Virulent_Haze
-INSERT INTO `mob_skill_lists` VALUES ('Assailer_Chariot',978,2055); -- Intertia_stream
+INSERT INTO `mob_skill_lists` VALUES ('Assailer_Chariot',978,2055); -- Inertia_stream
 INSERT INTO `mob_skill_lists` VALUES ('Assailer_Chariot',978,2056); -- Discharge
 INSERT INTO `mob_skill_lists` VALUES ('Assailer_Chariot',978,2059); -- PW_Discoid
 INSERT INTO `mob_skill_lists` VALUES ('Azdaja',979,1309); -- Cyclone_Wing
