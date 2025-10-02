@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,10 +19,19 @@
 ===========================================================================
 */
 
-#include "menu_mog.h"
+#pragma once
 
-CMenuMogPacket::CMenuMogPacket()
+#include "base.h"
+
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x002E
+// This packet is sent by the server to inform the client to open the mog house menu.
+class GP_SERV_COMMAND_OPENMOGMENU final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_OPENMOGMENU, GP_SERV_COMMAND_OPENMOGMENU>
 {
-    this->setType(0x2E);
-    this->setSize(0x04);
-}
+public:
+    struct PacketData
+    {
+        // Header only packet
+    };
+
+    GP_SERV_COMMAND_OPENMOGMENU() = default;
+};
