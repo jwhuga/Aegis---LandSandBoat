@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,25 @@
 ===========================================================================
 */
 
-#include "menu_raisetractor.h"
-#include "entities/charentity.h"
+#pragma once
 
-CRaiseTractorMenuPacket::CRaiseTractorMenuPacket(CCharEntity* PChar, REVIVAL_TYPE type)
+#include "base.h"
+
+class CCharEntity;
+
+enum class REVIVAL_TYPE : uint16_t;
+
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x00F9
+// This packet is sent by the server to adjust the clients homepoint menu.
+class GP_SERV_COMMAND_RES final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_RES, GP_SERV_COMMAND_RES>
 {
-    this->setType(0xF9);
-    this->setSize(0x0C);
+public:
+    struct PacketData
+    {
+        uint32_t UniqueNo;  // PS2: UniqueNo (The entity server id)
+        uint16_t ActIndex;  // PS2: ActIndex (The entity target index)
+        uint16_t type;      // PS2: type (Menu adjustment type: 0=reset, 1=raise, 2=tractor)
+    };
 
-    ref<uint32>(0x04) = PChar->id;
-    ref<uint16>(0x08) = PChar->targid;
-
-    ref<uint8>(0x0A) = type;
-}
+    GP_SERV_COMMAND_RES(CCharEntity* PChar, REVIVAL_TYPE type);
+};

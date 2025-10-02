@@ -48,6 +48,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0d3_trophy_solution.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0f6_tracking_state.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0f6_tracking_state.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0f9_res.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0f9_res.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x106_bazaar_buy.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x106_bazaar_buy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x107_bazaar_close.h
