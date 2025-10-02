@@ -37,7 +37,7 @@ GP_SERV_COMMAND_FRIENDPASS::GP_SERV_COMMAND_FRIENDPASS(uint32_t worldPass)
         packet.Type     = 0x06;
 
         // Force to be 10 digits
-        std::string strbuff = fmt::format("{:0>10}", worldPass);
+        const std::string strbuff = fmt::format("{:0>10}", worldPass);
 
         std::memcpy(packet.String, strbuff.c_str(), strbuff.length());
     }

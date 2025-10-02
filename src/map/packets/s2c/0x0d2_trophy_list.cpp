@@ -25,15 +25,15 @@
 #include "entities/baseentity.h"
 #include "treasure_pool.h"
 
-GP_SERV_COMMAND_TROPHY_LIST::GP_SERV_COMMAND_TROPHY_LIST(TreasurePoolItem* PItem, CBaseEntity* PEntity, bool isOldItem)
+GP_SERV_COMMAND_TROPHY_LIST::GP_SERV_COMMAND_TROPHY_LIST(const TreasurePoolItem* PItem, const CBaseEntity* PEntity, const bool isOldItem)
 {
     auto& packet = this->data();
 
-    packet.TrophyItemNum   = 1;                                                                                         // Item Quantity
-    packet.Gold            = 0;                                                                                         // TODO: Gil Found
-    packet.TrophyItemNo    = PItem->ID;                                                                                 // Item ID
-    packet.TrophyItemIndex = PItem->SlotID;                                                                             // Treasure Pool Slot
-    packet.Entry           = isOldItem ? 1 : 0;                                                                         // Old Item
+    packet.TrophyItemNum   = 1;                 // Item Quantity
+    packet.Gold            = 0;                 // TODO: Gil Found
+    packet.TrophyItemNo    = PItem->ID;         // Item ID
+    packet.TrophyItemIndex = PItem->SlotID;     // Treasure Pool Slot
+    packet.Entry           = isOldItem ? 1 : 0; // Old Item
     packet.StartTime       = static_cast<uint32_t>(timer::count_milliseconds(PItem->TimeStamp - timer::start_time));
 
     if (PEntity != nullptr)

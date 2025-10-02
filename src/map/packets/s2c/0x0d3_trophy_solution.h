@@ -33,25 +33,27 @@ enum class GP_TROPHY_SOLUTION_STATE : uint8_t
 };
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x00D3
-// This packet is sent by the server when an item in the treasure pool has had an action taken against it.
+// This packet is sent by the server when an item in the treasure pool has had an action taken against it. (Lot, Pass, Distribution)
 class GP_SERV_COMMAND_TROPHY_SOLUTION final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_TROPHY_SOLUTION, GP_SERV_COMMAND_TROPHY_SOLUTION>
 {
 public:
     struct PacketData
     {
-        uint32_t LootUniqueNo;    // PS2: LootUniqueNo
-        uint32_t EntryUniqueNo;   // PS2: EntryUniqueNo
-        uint16_t LootActIndex;    // PS2: LootActIndex
-        int16_t  LootPoint;       // PS2: LootPoint
-        uint16_t EntryActIndex;   // PS2: EntryActIndex (bits 0-14), EntryFlg (bit 15)
-        int16_t  EntryPoint;      // PS2: EntryPoint
-        uint8_t  TrophyItemIndex; // PS2: TrophyItemIndex
-        uint8_t  JudgeFlg;        // PS2: JudgeFlg
-        uint8_t  sLootName[16];   // PS2: sLootName
-        uint8_t  sLootName2[24];  // PS2: sLootName2
+        uint32_t LootUniqueNo;       // PS2: LootUniqueNo
+        uint32_t EntryUniqueNo;      // PS2: EntryUniqueNo
+        uint16_t LootActIndex;       // PS2: LootActIndex
+        int16_t  LootPoint;          // PS2: LootPoint
+        uint16_t EntryActIndex : 15; // PS2: EntryActIndex
+        uint16_t EntryFlg : 1;       // PS2: EntryFlg
+        int16_t  EntryPoint;         // PS2: EntryPoint
+        uint8_t  TrophyItemIndex;    // PS2: TrophyItemIndex
+        uint8_t  JudgeFlg;           // PS2: JudgeFlg
+        uint8_t  sLootName[16];      // PS2: sLootName
+        uint8_t  sLootName2[16];     // XiPackets states 24. This is 16 on purpose.
+        uint8_t  padding00[6];       // Undocumented padding
     };
 
-    GP_SERV_COMMAND_TROPHY_SOLUTION(uint8_t slotID, GP_TROPHY_SOLUTION_STATE messageType);
-    GP_SERV_COMMAND_TROPHY_SOLUTION(CBaseEntity* PWinner, uint8_t slotID, uint16_t lot, GP_TROPHY_SOLUTION_STATE messageType);
-    GP_SERV_COMMAND_TROPHY_SOLUTION(CBaseEntity* PHighestLotter, uint16_t highestLot, CBaseEntity* PLotter, uint8_t slotID, uint16_t lot);
+    GP_SERV_COMMAND_TROPHY_SOLUTION(uint8_t slotId, GP_TROPHY_SOLUTION_STATE messageType);
+    GP_SERV_COMMAND_TROPHY_SOLUTION(const CBaseEntity* PWinner, uint8_t slotId, uint16_t lot, GP_TROPHY_SOLUTION_STATE messageType);
+    GP_SERV_COMMAND_TROPHY_SOLUTION(const CBaseEntity* PHighestLotter, uint16_t highestLot, const CBaseEntity* PLotter, uint8_t slotId, uint16_t lot);
 };

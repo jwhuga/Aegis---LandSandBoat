@@ -21,11 +21,11 @@
 
 #include "0x03d_shop_sell.h"
 
-GP_SERV_COMMAND_SHOP_SELL::GP_SERV_COMMAND_SHOP_SELL(uint8_t slotID, uint32_t sellPrice)
+GP_SERV_COMMAND_SHOP_SELL::GP_SERV_COMMAND_SHOP_SELL(const uint8_t slotId, const uint32_t sellPrice)
 {
     auto& packet = this->data();
 
     packet.Price             = sellPrice;
-    packet.PropertyItemIndex = slotID;
+    packet.PropertyItemIndex = slotId;
     packet.Type              = 0; // 0 = appraisal
 }

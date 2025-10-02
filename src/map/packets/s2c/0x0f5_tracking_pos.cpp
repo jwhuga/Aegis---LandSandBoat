@@ -28,7 +28,7 @@ GP_SERV_COMMAND_TRACKING_POS::GP_SERV_COMMAND_TRACKING_POS(const CBaseEntity* PE
     auto& packet = this->data();
 
     packet.x = PEntity->loc.p.x;
-    packet.y = PEntity->loc.p.y;
+    packet.y = PEntity->loc.p.y; // TODO: Shouldn't Y and Z be swapped?
     packet.z = PEntity->loc.p.z;
 
     packet.Level    = 1;

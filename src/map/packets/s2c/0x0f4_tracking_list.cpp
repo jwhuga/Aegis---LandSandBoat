@@ -23,7 +23,7 @@
 
 #include "entities/charentity.h"
 
-GP_SERV_COMMAND_TRACKING_LIST::GP_SERV_COMMAND_TRACKING_LIST(CCharEntity* PChar, CBaseEntity* PEntity)
+GP_SERV_COMMAND_TRACKING_LIST::GP_SERV_COMMAND_TRACKING_LIST(const CCharEntity* PChar, CBaseEntity* PEntity)
 {
     auto& packet = this->data();
 
@@ -39,6 +39,7 @@ GP_SERV_COMMAND_TRACKING_LIST::GP_SERV_COMMAND_TRACKING_LIST(CCharEntity* PChar,
     packet.Type = PEntity->objtype / 2;
 
     packet.x = static_cast<int16_t>(PEntity->loc.p.x - PChar->loc.p.x); // Difference in x-value between character and object coordinates
+    // TODO: Shouldn't this be Y?
     packet.z = static_cast<int16_t>(PEntity->loc.p.z - PChar->loc.p.z); // Difference in z-value between character and object coordinates
 
     // TODO: sName

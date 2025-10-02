@@ -30,13 +30,13 @@ class GP_SERV_COMMAND_FRIENDPASS final : public GP_SERV_PACKET<PacketS2C::GP_SER
 public:
     struct PacketData
     {
-        int32_t  leftNum;     // PS2: leftNum
-        int32_t  leftDays;    // PS2: leftDays
-        int32_t  passPop;     // PS2: passPop
-        char     String[16];  // PS2: String
-        char     Type;        // PS2: Type
-        char     unknown21;   // PS2: (New; did not exist.)
-        uint16_t padding00;   // PS2: (New; did not exist.)
+        int32_t  leftNum;    // PS2: leftNum
+        int32_t  leftDays;   // PS2: leftDays
+        int32_t  passPop;    // PS2: passPop
+        char     String[16]; // PS2: String
+        char     Type;       // PS2: Type
+        char     unknown21;  // PS2: (New; did not exist.)
+        uint16_t padding00;  // PS2: (New; did not exist.)
     };
 
     GP_SERV_COMMAND_FRIENDPASS(uint32_t worldPass);

@@ -175,8 +175,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/server_ip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/server_message.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/server_message.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/shop_buy.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/shop_buy.h
     ${CMAKE_CURRENT_SOURCE_DIR}/shop_items.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/shop_items.h
     ${CMAKE_CURRENT_SOURCE_DIR}/shop_menu.cpp

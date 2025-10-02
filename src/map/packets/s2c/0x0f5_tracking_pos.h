@@ -40,13 +40,13 @@ class GP_SERV_COMMAND_TRACKING_POS final : public GP_SERV_PACKET<PacketS2C::GP_S
 public:
     struct PacketData
     {
-        float                   x;        // PS2: x
-        float                   y;        // PS2: y
-        float                   z;        // PS2: z
-        uint8_t                 Level;    // PS2: Level
-        uint8_t                 unused;   // PS2: unused
-        uint16_t                ActIndex; // PS2: ActIndex
-        GP_TRACKING_POS_STATE   State;    // PS2: State
+        float                 x;        // PS2: x
+        float                 y;        // PS2: y
+        float                 z;        // PS2: z
+        uint8_t               Level;    // PS2: Level
+        uint8_t               unused;   // PS2: unused
+        uint16_t              ActIndex; // PS2: ActIndex
+        GP_TRACKING_POS_STATE State;    // PS2: State
     };
 
     GP_SERV_COMMAND_TRACKING_POS(const CBaseEntity* PEntity);
