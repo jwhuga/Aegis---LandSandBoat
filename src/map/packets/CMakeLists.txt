@@ -33,8 +33,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/char_emote_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_emotion.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/char_emotion.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/char_emotion_jump.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/char_emotion_jump.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_equip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/char_equip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_health.cpp
