@@ -38,6 +38,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05d_pendingstr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05f_music.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05f_music.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0b4_config.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0b4_config.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0f4_tracking_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0f4_tracking_list.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0f5_tracking_pos.h

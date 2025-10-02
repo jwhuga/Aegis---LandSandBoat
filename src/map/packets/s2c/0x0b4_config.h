@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,25 @@
 ===========================================================================
 */
 
-#ifndef _CMENUCONFIGPACKET_H
-#define _CMENUCONFIGPACKET_H
+#pragma once
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
+#include "base.h"
+#include "common/mmo.h"
 
 class CCharEntity;
 
-class CMenuConfigPacket : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x00B4
+// This packet is sent by the server to update the clients configuration settings.
+class GP_SERV_COMMAND_CONFIG final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_CONFIG, GP_SERV_COMMAND_CONFIG>
 {
 public:
-    CMenuConfigPacket(CCharEntity* PChar);
-};
+    struct PacketData
+    {
+        SAVE_CONF   ConfData;       // PS2: ConfData
+        uint8_t     unknown00;      // PS2: GmLevel
+        languages_t PartyLanguages; // PS2: (New; did not exist.)
+        uint8_t     unknown01[3];   // PS2: (New; did not exist.)
+    };
 
-#endif
+    GP_SERV_COMMAND_CONFIG(CCharEntity* PChar);
+};
