@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 ===========================================================================
 */
 
-#include "shop_appraise.h"
+#include "0x03d_shop_sell.h"
 
-CShopAppraisePacket::CShopAppraisePacket(uint8 slotID, uint32 sellPrice)
+GP_SERV_COMMAND_SHOP_SELL::GP_SERV_COMMAND_SHOP_SELL(uint8_t slotID, uint32_t sellPrice)
 {
-    this->setType(0x3D);
-    this->setSize(0x10);
+    auto& packet = this->data();
 
-    ref<uint32>(0x04) = sellPrice;
-    ref<uint8>(0x08)  = slotID;
+    packet.Price             = sellPrice;
+    packet.PropertyItemIndex = slotID;
+    packet.Type              = 0; // 0 = appraisal
 }
