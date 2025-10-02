@@ -211,8 +211,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/wide_scan.h
     ${CMAKE_CURRENT_SOURCE_DIR}/wide_scan_track.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/wide_scan_track.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/world_pass.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/world_pass.h
     ${CMAKE_CURRENT_SOURCE_DIR}/zone_in.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/zone_in.h
     ${CMAKE_CURRENT_SOURCE_DIR}/zone_visited.cpp

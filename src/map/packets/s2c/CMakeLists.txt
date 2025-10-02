@@ -28,6 +28,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x058_assist.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05c_pendingnum.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05c_pendingnum.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x059_friendpass.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x059_friendpass.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05d_pendingstr.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05d_pendingstr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05f_music.h
