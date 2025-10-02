@@ -33,13 +33,14 @@ class GP_SERV_COMMAND_TRACKING_LIST final : public GP_SERV_PACKET<PacketS2C::GP_
 public:
     struct PacketData
     {
-        uint16_t ActIndex; // PS2: ActIndex
-        uint8_t  Level;    // PS2: Level
-        uint8_t  Type;     // PS2: Type (bits 0-2), unused (bits 3-7)
-        int16_t  x;        // PS2: x
-        int16_t  z;        // PS2: z
-        uint8_t  sName[16]; // PS2: sName
+        uint32_t ActIndex : 16; // PS2: ActIndex
+        uint32_t Level : 8;     // PS2: Level
+        uint32_t Type : 3;      // PS2: Type
+        uint32_t unused : 5;    // PS2: unused
+        int16_t  x;             // PS2: x
+        int16_t  z;             // PS2: z
+        uint8_t  sName[16];     // PS2: sName
     };
 
-    GP_SERV_COMMAND_TRACKING_LIST(CCharEntity* PChar, CBaseEntity* PEntity);
+    GP_SERV_COMMAND_TRACKING_LIST(const CCharEntity* PChar, CBaseEntity* PEntity);
 };

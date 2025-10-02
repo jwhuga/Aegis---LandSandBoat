@@ -45,5 +45,5 @@ void GP_CLI_COMMAND_FRIENDPASS::process(MapSession* PSession, CCharEntity* PChar
             break;
     }
 
-    PChar->pushPacket<GP_SERV_FRIENDPASS>(Para & 1 ? static_cast<uint32>(xirand::GetRandomNumber(9999999999)) : 0);
+    PChar->pushPacket<GP_SERV_COMMAND_FRIENDPASS>(Para & 1 ? static_cast<uint32>(xirand::GetRandomNumber(9999999999)) : 0);
 }

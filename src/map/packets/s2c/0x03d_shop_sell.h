@@ -24,17 +24,20 @@
 #include "base.h"
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x003D
+// This packet has two handlers and usages:
+// - This packet is sent by the server to inform the client of the value of an item the client wishes to sell. (Item appraisal.)
+// - This packet is sent by the server to inform the client of a completed sale.
 class GP_SERV_COMMAND_SHOP_SELL final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_SHOP_SELL, GP_SERV_COMMAND_SHOP_SELL>
 {
 public:
     struct PacketData
     {
-        uint32_t Price;              // PS2: Price
-        uint8_t  PropertyItemIndex;  // PS2: PropertyItemIndex
-        uint8_t  Type;               // PS2: Type
-        uint16_t padding00;          // PS2: padding00
-        uint32_t Count;              // PS2: Count
+        uint32_t Price;             // PS2: Price
+        uint8_t  PropertyItemIndex; // PS2: PropertyItemIndex
+        uint8_t  Type;              // PS2: (New; did not exist.)
+        uint16_t padding00;         // PS2: (New; did not exist.)
+        uint32_t Count;             // PS2: (New; did not exist.)
     };
 
-    GP_SERV_COMMAND_SHOP_SELL(uint8_t slotID, uint32_t sellPrice);
+    GP_SERV_COMMAND_SHOP_SELL(uint8_t slotId, uint32_t sellPrice);
 };
