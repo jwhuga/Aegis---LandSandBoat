@@ -34,10 +34,14 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05d_pendingstr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05f_music.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05f_music.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0f4_tracking_list.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0f4_tracking_list.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0d2_trophy_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0d2_trophy_list.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0d3_trophy_solution.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0d3_trophy_solution.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0f6_tracking_state.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0f6_tracking_state.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x106_bazaar_buy.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x106_bazaar_buy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x107_bazaar_close.h
