@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,17 +19,26 @@
 ===========================================================================
 */
 
-#ifndef _CWORLDPASSPACKET_H
-#define _CWORLDPASSPACKET_H
+#include "0x059_friendpass.h"
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
-
-class CWorldPassPacket : public CBasicPacket
+GP_SERV_COMMAND_FRIENDPASS::GP_SERV_COMMAND_FRIENDPASS(uint32_t worldPass)
 {
-public:
-    CWorldPassPacket(uint32 WorldPass);
-};
+    auto& packet = this->data();
 
-#endif
+    // TODO: All of this is wrong
+    packet.passPop   = 10000; // price
+    packet.Type      = 0x03;
+    packet.unknown21 = 0x01;
+
+    if (worldPass != 0)
+    {
+        packet.leftNum  = 1;   // number of uses left
+        packet.leftDays = 167; // pass becomes invalid in (hours)
+        packet.Type     = 0x06;
+
+        // Force to be 10 digits
+        std::string strbuff = fmt::format("{:0>10}", worldPass);
+
+        std::memcpy(packet.String, strbuff.c_str(), strbuff.length());
+    }
+}
