@@ -126,7 +126,7 @@
 #include "packets/linkshell_equip.h"
 #include "packets/menu_jobpoints.h"
 #include "packets/menu_merit.h"
-#include "packets/menu_mog.h"
+#include "packets/s2c/0x02e_openmogmenu.h"
 #include "packets/menu_raisetractor.h"
 #include "packets/message_basic.h"
 #include "packets/message_combat.h"
@@ -2491,7 +2491,7 @@ void CLuaBaseEntity::sendMenu(uint32 menu)
     switch (menu)
     {
         case 1:
-            PChar->pushPacket<CMenuMogPacket>();
+            PChar->pushPacket<GP_SERV_COMMAND_OPENMOGMENU>();
             break;
         case 2:
             PChar->pushPacket<CShopMenuPacket>(PChar);
