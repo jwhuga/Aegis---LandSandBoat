@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,29 +19,15 @@
 ===========================================================================
 */
 
-#include "menu_config.h"
+#include "0x0b4_config.h"
 
 #include "entities/charentity.h"
 
-struct GP_SERV_CONFIG
+GP_SERV_COMMAND_CONFIG::GP_SERV_COMMAND_CONFIG(CCharEntity* PChar)
 {
-    uint16_t    id : 9;
-    uint16_t    size : 7;
-    uint16_t    sync;
-    SAVE_CONF   ConfData;       // PS2: ConfData
-    uint8_t     unknown00;      // PS2: GmLevel
-    languages_t PartyLanguages; // PS2: (New; did not exist.)
-    uint8_t     unknown01[3];   // PS2: (New; did not exist.)
-};
+    auto& packet = this->data();
 
-// https://github.com/atom0s/XiPackets/tree/main/world/server/0x00B4
-CMenuConfigPacket::CMenuConfigPacket(CCharEntity* PChar)
-{
-    auto packet = this->as<GP_SERV_CONFIG>();
+    packet.ConfData = PChar->playerConfig;
 
-    packet->id       = 0xB4;
-    packet->size     = roundUpToNearestFour(sizeof(GP_SERV_CONFIG)) / 4;
-    packet->ConfData = PChar->playerConfig;
-
-    std::memcpy(&packet->PartyLanguages, &PChar->search.language, sizeof(packet->PartyLanguages));
+    std::memcpy(&packet.PartyLanguages, &PChar->search.language, sizeof(packet.PartyLanguages));
 }

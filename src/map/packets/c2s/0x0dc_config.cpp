@@ -26,7 +26,7 @@
 #include "packets/char_appearance.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
-#include "packets/menu_config.h"
+#include "packets/s2c/0x0b4_config.h"
 #include "packets/message_standard.h"
 #include "packets/message_system.h"
 #include "utils/charutils.h"
@@ -122,7 +122,7 @@ void GP_CLI_COMMAND_CONFIG::process(MapSession* PSession, CCharEntity* PChar) co
     }
 
     // Retail replies with these packets even if no changes were made.
-    PChar->pushPacket<CMenuConfigPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_CONFIG>(PChar);
     PChar->pushPacket<CCharStatusPacket>(PChar);
 
     if (updated)
