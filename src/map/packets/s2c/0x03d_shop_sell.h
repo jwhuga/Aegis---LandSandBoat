@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,17 +19,22 @@
 ===========================================================================
 */
 
-#ifndef _CSHOPAPPRAISEPACKET_H
-#define _CSHOPAPPRAISEPACKET_H
+#pragma once
 
-#include "common/cbasetypes.h"
+#include "base.h"
 
-#include "basic.h"
-
-class CShopAppraisePacket : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x003D
+class GP_SERV_COMMAND_SHOP_SELL final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_SHOP_SELL, GP_SERV_COMMAND_SHOP_SELL>
 {
 public:
-    CShopAppraisePacket(uint8 slotID, uint32 sellPrice);
-};
+    struct PacketData
+    {
+        uint32_t Price;              // PS2: Price
+        uint8_t  PropertyItemIndex;  // PS2: PropertyItemIndex
+        uint8_t  Type;               // PS2: Type
+        uint16_t padding00;          // PS2: padding00
+        uint32_t Count;              // PS2: Count
+    };
 
-#endif
+    GP_SERV_COMMAND_SHOP_SELL(uint8_t slotID, uint32_t sellPrice);
+};

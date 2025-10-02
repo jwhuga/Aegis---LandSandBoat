@@ -17,6 +17,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x033_eventstr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x039_mapschedulor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x039_mapschedulor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x03d_shop_sell.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x03d_shop_sell.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x043_talknumname.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x043_talknumname.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x04f_equip_clear.h
