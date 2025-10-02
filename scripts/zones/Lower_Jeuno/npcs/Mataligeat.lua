@@ -17,10 +17,6 @@ entity.onTrigger = function(player, npc)
         player:getCharVar('TheRequiemCS') == 3
     then
         player:startEvent(142) -- huh? the bard interred inside eldieme?
-
-    -- PATH OF THE BARD
-    elseif player:getQuestStatus(xi.questLog.JEUNO, xi.quest.id.jeuno.PATH_OF_THE_BARD) == xi.questStatus.QUEST_COMPLETED then
-        player:startEvent(143) -- so now you're one of us, huh?
     end
 end
 
