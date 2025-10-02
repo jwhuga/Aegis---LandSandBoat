@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,26 +19,15 @@
 ===========================================================================
 */
 
-#ifndef _CRAISETRACTORMENUPACKET_H
-#define _CRAISETRACTORMENUPACKET_H
+#include "0x0f9_res.h"
 
-#include "common/cbasetypes.h"
+#include "entities/charentity.h"
 
-#include "basic.h"
-
-enum REVIVAL_TYPE
+GP_SERV_COMMAND_RES::GP_SERV_COMMAND_RES(CCharEntity* PChar, REVIVAL_TYPE type)
 {
-    TYPE_HOMEPOINT = 0,
-    TYPE_RAISE     = 1,
-    TYPE_TRACTOR   = 2
-};
+    auto& packet = this->data();
 
-class CCharEntity;
-
-class CRaiseTractorMenuPacket : public CBasicPacket
-{
-public:
-    CRaiseTractorMenuPacket(CCharEntity* PChar, REVIVAL_TYPE type);
-};
-
-#endif
+    packet.UniqueNo = PChar->id;
+    packet.ActIndex = PChar->targid;
+    packet.type     = static_cast<uint16_t>(type);
+}

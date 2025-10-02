@@ -126,7 +126,7 @@
 #include "packets/linkshell_equip.h"
 #include "packets/menu_jobpoints.h"
 #include "packets/menu_merit.h"
-#include "packets/menu_raisetractor.h"
+#include "packets/s2c/0x0f9_res.h"
 #include "packets/message_basic.h"
 #include "packets/message_combat.h"
 #include "packets/message_name.h"
@@ -12105,7 +12105,7 @@ void CLuaBaseEntity::sendRaise(uint8 raiseLevel)
         {
             PChar->m_hasArise = true;
         }
-        PChar->pushPacket<CRaiseTractorMenuPacket>(PChar, TYPE_RAISE);
+        PChar->pushPacket<GP_SERV_COMMAND_RES>(PChar, TYPE_RAISE);
     }
 }
 
@@ -12162,7 +12162,7 @@ void CLuaBaseEntity::sendTractor(float xPos, float yPos, float zPos, uint8 rotat
         PChar->m_StartActionPos.z        = zPos;
         PChar->m_StartActionPos.rotation = rotation;
 
-        PChar->pushPacket<CRaiseTractorMenuPacket>(PChar, TYPE_TRACTOR);
+        PChar->pushPacket<GP_SERV_COMMAND_RES>(PChar, TYPE_TRACTOR);
     }
 }
 
