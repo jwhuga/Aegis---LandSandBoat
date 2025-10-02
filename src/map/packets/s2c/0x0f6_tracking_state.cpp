@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,27 +19,11 @@
 ===========================================================================
 */
 
-#ifndef _CWIDESCANPACKET_H
-#define _CWIDESCANPACKET_H
+#include "0x0f6_tracking_state.h"
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
-
-enum WIDESCAN_STATUS
+GP_SERV_COMMAND_TRACKING_STATE::GP_SERV_COMMAND_TRACKING_STATE(GP_TRACKING_STATE state)
 {
-    WIDESCAN_BEGIN = 1,
-    WIDESCAN_END   = 2
-};
+    auto& packet = this->data();
 
-class CBaseEntity;
-class CCharEntity;
-
-class CWideScanPacket : public CBasicPacket
-{
-public:
-    CWideScanPacket(WIDESCAN_STATUS status);
-    CWideScanPacket(CCharEntity* PChar, CBaseEntity* PEntity);
-};
-
-#endif
+    packet.State = state;
+}
