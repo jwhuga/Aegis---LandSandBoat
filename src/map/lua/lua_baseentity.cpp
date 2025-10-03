@@ -100,7 +100,7 @@
 #include "packets/auction_house.h"
 #include "packets/char_abilities.h"
 #include "packets/char_appearance.h"
-#include "packets/char_emotion.h"
+#include "packets/s2c/0x05a_motionmes.h"
 #include "packets/char_equip.h"
 #include "packets/char_health.h"
 #include "packets/char_job_extra.h"
@@ -2610,7 +2610,7 @@ void CLuaBaseEntity::sendEmote(const CLuaBaseEntity* target, uint8 emID, uint8 e
         auto targetTargId = PTarget ? PTarget->targid : PEntity->targid;
         PEntity->loc.zone->PushPacket(PEntity,
                                       CHAR_INRANGE,
-                                      std::make_unique<CCharEmotionPacket>(PEntity, targetId, targetTargId, emoteID, emoteMode));
+                                      std::make_unique<GP_SERV_COMMAND_MOTIONMES>(PEntity, targetId, targetTargId, emoteID, emoteMode));
 
         return;
     }
@@ -2621,7 +2621,7 @@ void CLuaBaseEntity::sendEmote(const CLuaBaseEntity* target, uint8 emID, uint8 e
         auto targetTargId = PTarget ? PTarget->targid : PChar->targid;
         PChar->loc.zone->PushPacket(PChar,
                                     CHAR_INRANGE_SELF,
-                                    std::make_unique<CCharEmotionPacket>(PChar, targetId, targetTargId, emoteID, emoteMode, 0));
+                                    std::make_unique<GP_SERV_COMMAND_MOTIONMES>(PChar, targetId, targetTargId, emoteID, emoteMode, 0));
 
         return;
     }
