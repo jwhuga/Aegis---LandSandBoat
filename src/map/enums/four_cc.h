@@ -24,8 +24,9 @@
 #include "common/cbasetypes.h"
 
 // FourCC tags are 4-byte identifiers representing "schedulers" or "animations" used in various packets.
+// Note: Values are byte-swapped for little-endian storage.
 enum class FourCC : uint32_t
 {
-    FadeOut  = 0x6B657375, // "kesu" - The entity fades out and disappears.
-    Sweating = 0x6869746C, // "hitl" - The entity shows a sweating animation.
+    FadeOut  = 0x7573656B, // "kesu" - The entity fades out and disappears.
+    Sweating = 0x6C746968, // "hitl" - The entity shows a sweating animation.
 };

@@ -22,12 +22,12 @@
 #include "0x00f_clstat.h"
 
 #include "entities/charentity.h"
-#include "packets/s2c/0x0ca_inspect_message.h"
 #include "packets/char_abilities.h"
 #include "packets/char_mounts.h"
 #include "packets/char_spells.h"
 #include "packets/char_sync.h"
 #include "packets/merit_points_categories.h"
+#include "packets/s2c/0x0ca_inspect_message.h"
 #include "utils/blacklistutils.h"
 #include "utils/charutils.h"
 

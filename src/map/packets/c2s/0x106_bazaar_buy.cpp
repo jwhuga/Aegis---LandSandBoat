@@ -23,13 +23,13 @@
 
 #include "common/async.h"
 #include "entities/charentity.h"
-#include "packets/s2c/0x109_bazaar_sell.h"
-#include "packets/s2c/0x10a_bazaar_sale.h"
-#include "packets/s2c/0x105_bazaar_list.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x020_item_attr.h"
+#include "packets/s2c/0x105_bazaar_list.h"
 #include "packets/s2c/0x106_bazaar_buy.h"
 #include "packets/s2c/0x107_bazaar_close.h"
+#include "packets/s2c/0x109_bazaar_sell.h"
+#include "packets/s2c/0x10a_bazaar_sale.h"
 #include "utils/charutils.h"
 #include "utils/itemutils.h"
 

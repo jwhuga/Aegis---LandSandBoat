@@ -23,12 +23,12 @@
 
 #include "aman.h"
 #include "entities/charentity.h"
-#include "packets/s2c/0x051_grap_list.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
-#include "packets/s2c/0x0b4_config.h"
 #include "packets/message_standard.h"
 #include "packets/message_system.h"
+#include "packets/s2c/0x051_grap_list.h"
+#include "packets/s2c/0x0b4_config.h"
 #include "utils/charutils.h"
 
 auto GP_CLI_COMMAND_CONFIG::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult

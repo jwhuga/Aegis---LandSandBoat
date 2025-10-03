@@ -54,8 +54,8 @@
 #include "items/item_puppet.h"
 
 #include "packets/action.h"
-#include "packets/s2c/0x05a_motionmes.h"
 #include "packets/chat_message.h"
+#include "packets/s2c/0x05a_motionmes.h"
 #include "packets/s2c/0x0f9_res.h"
 
 #include "utils/battleutils.h"

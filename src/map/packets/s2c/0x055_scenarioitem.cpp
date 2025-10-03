@@ -23,8 +23,6 @@
 
 #include "entities/charentity.h"
 
-#include <cstring>
-
 GP_SERV_COMMAND_SCENARIOITEM::GP_SERV_COMMAND_SCENARIOITEM(const CCharEntity* PChar, const KEYS_TABLE keyTable)
 {
     auto& packet = this->data();
