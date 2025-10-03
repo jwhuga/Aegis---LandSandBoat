@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,21 @@
 ===========================================================================
 */
 
-#ifndef _CBAZAARMESSAGEPACKET_H
-#define _CBAZAARMESSAGEPACKET_H
+#include "0x0ca_inspect_message.h"
 
-#include "common/cbasetypes.h"
+#include "entities/charentity.h"
 
-#include "basic.h"
-
-class CCharEntity;
-
-class CBazaarMessagePacket : public CBasicPacket
+GP_SERV_COMMAND_INSPECT_MESSAGE::GP_SERV_COMMAND_INSPECT_MESSAGE(const CCharEntity* PChar)
 {
-public:
-    CBazaarMessagePacket(CCharEntity* PChar);
-};
+    auto& packet = this->data();
 
-#endif
+    std::memcpy(packet.sInspectMessage, PChar->bazaar.message.c_str(), std::min<size_t>(PChar->bazaar.message.size(), sizeof(packet.sInspectMessage)));
+
+    packet.BazaarFlag = 1;
+    packet.MyFlag     = 1;
+    packet.Race       = 1;
+
+    packet.DesignationNo = PChar->profile.title;
+
+    std::memcpy(packet.sName, PChar->getName().c_str(), std::min<size_t>(PChar->getName().size(), sizeof(packet.sName)));
+}
