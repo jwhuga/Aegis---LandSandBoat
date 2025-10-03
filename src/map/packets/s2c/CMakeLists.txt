@@ -68,6 +68,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x082_guild_buy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x083_guild_buylist.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x083_guild_buylist.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x084_guild_sell.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x084_guild_sell.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x086_guild_open.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x086_guild_open.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0b4_config.h
