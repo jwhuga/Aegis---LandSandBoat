@@ -23,7 +23,7 @@
 
 #include "entities/charentity.h"
 #include "packets/s2c/0x108_bazaar_shopping.h"
-#include "packets/bazaar_item.h"
+#include "packets/s2c/0x105_bazaar_list.h"
 
 auto GP_CLI_COMMAND_BAZAAR_LIST::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {
@@ -58,7 +58,7 @@ void GP_CLI_COMMAND_BAZAAR_LIST::process(MapSession* PSession, CCharEntity* PCha
 
             if ((PItem != nullptr) && (PItem->getCharPrice() != 0))
             {
-                PChar->pushPacket<CBazaarItemPacket>(PItem, SlotID, PChar->loc.zone->GetTax());
+                PChar->pushPacket<GP_SERV_COMMAND_BAZAAR_LIST>(PItem, SlotID, PChar->loc.zone->GetTax());
             }
         }
 
