@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,79 +19,78 @@
 ===========================================================================
 */
 
-#include "char_emotion.h"
+#include "0x05a_motionmes.h"
+
 #include "entities/charentity.h"
 #include "entities/npcentity.h"
 #include "item_container.h"
 #include "items/item_weapon.h"
 
-CCharEmotionPacket::CCharEmotionPacket(const CCharEntity* PChar, const uint32 targetId, const uint16 targetIndex, Emote emoteId, EmoteMode emoteMode, const uint16 extra)
+GP_SERV_COMMAND_MOTIONMES::GP_SERV_COMMAND_MOTIONMES(const CCharEntity* PChar, const uint32 targetId, const uint16 targetIndex, Emote emoteId, EmoteMode emoteMode, const uint16 extra)
 {
-    this->setType(0x5A);
-    this->setSize(0x70);
+    auto& packet = this->data();
 
-    ref<uint32>(0x04) = PChar->id;
-    ref<uint32>(0x08) = targetId;
-    ref<uint16>(0x0C) = PChar->targid;
-    ref<uint16>(0x0E) = targetIndex;
-    ref<uint8>(0x10)  = emoteId == Emote::JOB ? static_cast<uint8>(emoteId) + (extra - 0x1F) : static_cast<uint8>(emoteId);
+    packet.CasUniqueNo = PChar->id;
+    packet.CasActIndex = PChar->targid;
+    packet.TarUniqueNo = targetId;
+    packet.TarActIndex = targetIndex;
+    packet.MesNum      = emoteId == Emote::Job ? static_cast<uint8>(emoteId) + (extra - 0x1F) : static_cast<uint8>(emoteId);
 
-    if (emoteId == Emote::SALUTE)
+    if (emoteId == Emote::Salute)
     {
-        ref<uint16>(0x12) = PChar->profile.nation;
+        packet.Param = PChar->profile.nation;
     }
-    else if (emoteId == Emote::HURRAY)
+    else if (emoteId == Emote::Hurray)
     {
         const auto* PWeapon = PChar->getStorage(PChar->equipLoc[SLOT_MAIN])->GetItem(PChar->equip[SLOT_MAIN]);
         if (PWeapon && PWeapon->getID() != 65535)
         {
-            ref<uint16>(0x12) = PWeapon->getID();
+            packet.Param = PWeapon->getID();
         }
     }
-    else if (emoteId == Emote::AIM)
+    else if (emoteId == Emote::Aim)
     {
-        ref<uint16>(0x12)          = 65535;
+        packet.Param               = 65535;
         const CItemWeapon* PWeapon = static_cast<CItemWeapon*>(PChar->getStorage(PChar->equipLoc[SLOT_RANGED])->GetItem(PChar->equip[SLOT_RANGED]));
         if (PWeapon && PWeapon->getID() != 65535)
         {
             if (PWeapon->getSkillType() == SKILL_THROWING)
             {
-                ref<uint16>(0x12) = PWeapon->getID();
+                packet.Param = PWeapon->getID();
             }
             else if (PWeapon->getSkillType() == SKILL_MARKSMANSHIP || PWeapon->getSkillType() == SKILL_ARCHERY)
             {
                 const CItemWeapon* PAmmo = static_cast<CItemWeapon*>(PChar->getStorage(PChar->equipLoc[SLOT_AMMO])->GetItem(PChar->equip[SLOT_AMMO]));
                 if (PAmmo && PAmmo->getID() != 65535)
                 {
-                    ref<uint16>(0x12) = PWeapon->getID();
+                    packet.Param = PWeapon->getID();
                 }
             }
         }
     }
-    else if (emoteId == Emote::BELL)
+    else if (emoteId == Emote::Bell)
     {
         // No emote text for /bell
-        emoteMode = EmoteMode::MOTION;
+        emoteMode = EmoteMode::Motion;
 
-        ref<uint8>(0x12) = (extra - 0x06);
+        packet.Param = (extra - 0x06);
     }
-    else if (emoteId == Emote::JOB)
+    else if (emoteId == Emote::Job)
     {
-        ref<uint8>(0x12) = (extra - 0x1F);
+        packet.Param = (extra - 0x1F);
     }
 
-    ref<uint8>(0x16) = static_cast<uint8>(emoteMode);
+    packet.Mode = emoteMode;
 }
 
-CCharEmotionPacket::CCharEmotionPacket(const CNpcEntity* PEntity, const uint32 targetId, const uint16 targetIndex, Emote emoteId, EmoteMode emoteMode)
+GP_SERV_COMMAND_MOTIONMES::GP_SERV_COMMAND_MOTIONMES(const CNpcEntity* PEntity, const uint32 targetId, const uint16 targetIndex, Emote emoteId, EmoteMode emoteMode)
 {
-    this->setType(0x5A);
-    this->setSize(0x70);
+    auto& packet = this->data();
 
-    ref<uint32>(0x04) = PEntity->id;
-    ref<uint32>(0x08) = targetId;
-    ref<uint16>(0x0C) = PEntity->targid;
-    ref<uint16>(0x0E) = targetIndex;
-    ref<uint8>(0x10)  = static_cast<uint8>(emoteId);
-    ref<uint8>(0x16)  = static_cast<uint8>(emoteMode);
+    packet.CasUniqueNo = PEntity->id;
+    packet.TarUniqueNo = targetId;
+    packet.CasActIndex = PEntity->targid;
+    packet.TarActIndex = targetIndex;
+    packet.MesNum      = static_cast<uint8>(emoteId);
+    packet.Mode        = emoteMode;
 }
