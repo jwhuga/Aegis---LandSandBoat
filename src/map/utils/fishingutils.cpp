@@ -31,7 +31,7 @@
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/chat_message.h"
-#include "packets/entity_animation.h"
+#include "packets/s2c/0x038_schedulor.h"
 #include "packets/fishing.h"
 #include "packets/message_special.h"
 #include "packets/message_standard.h"
@@ -49,6 +49,7 @@
 
 #include "battleutils.h"
 #include "charutils.h"
+#include "enums/four_cc.h"
 #include "enums/key_items.h"
 #include "enums/weather.h"
 #include "item_container.h"
@@ -2730,7 +2731,7 @@ namespace fishingutils
                     // send then response sense message
                     SendSenseMessage(PChar, response);
                     // play the sweating animation
-                    PChar->pushPacket<CEntityAnimationPacket>(PChar, PChar, "hitl");
+                    PChar->pushPacket<GP_SERV_COMMAND_SCHEDULOR>(PChar, PChar, FourCC::Sweating);
                     PChar->updatemask |= UPDATE_HP;
                     // send the fishing packet
                     PChar->animation = ANIMATION_FISHING_FISH;

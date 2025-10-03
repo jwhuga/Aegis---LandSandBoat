@@ -15,6 +15,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x02e_openmogmenu.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x033_eventstr.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x033_eventstr.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x038_schedulor.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x038_schedulor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x039_mapschedulor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x039_mapschedulor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x03d_shop_sell.h
