@@ -22,8 +22,8 @@
 #include "0x105_bazaar_list.h"
 
 #include "entities/charentity.h"
-#include "packets/s2c/0x108_bazaar_shopping.h"
 #include "packets/s2c/0x105_bazaar_list.h"
+#include "packets/s2c/0x108_bazaar_shopping.h"
 
 auto GP_CLI_COMMAND_BAZAAR_LIST::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {

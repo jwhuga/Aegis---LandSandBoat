@@ -22,9 +22,9 @@
 #include "0x00a_login.h"
 
 #include "entities/charentity.h"
+#include "packets/s2c/0x008_enterzone.h"
 #include "packets/s2c/0x04f_equip_clear.h"
 #include "packets/zone_in.h"
-#include "packets/s2c/0x008_enterzone.h"
 #include "utils/charutils.h"
 #include "utils/gardenutils.h"
 #include "utils/zoneutils.h"

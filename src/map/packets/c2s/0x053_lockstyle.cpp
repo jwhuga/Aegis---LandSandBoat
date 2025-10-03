@@ -22,9 +22,9 @@
 #include "0x053_lockstyle.h"
 
 #include "items/item_equipment.h"
-#include "packets/s2c/0x051_grap_list.h"
 #include "packets/char_sync.h"
 #include "packets/message_standard.h"
+#include "packets/s2c/0x051_grap_list.h"
 #include "utils/charutils.h"
 #include "utils/itemutils.h"
 

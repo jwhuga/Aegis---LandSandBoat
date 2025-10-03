@@ -31,6 +31,7 @@ class CCharEntity;
 class GP_SERV_COMMAND_CONFIG final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_CONFIG, GP_SERV_COMMAND_CONFIG>
 {
 public:
+#pragma pack(push, 1)
     struct PacketData
     {
         SAVE_CONF   ConfData;       // PS2: ConfData
@@ -38,6 +39,7 @@ public:
         languages_t PartyLanguages; // PS2: (New; did not exist.)
         uint8_t     unknown01[3];   // PS2: (New; did not exist.)
     };
+#pragma pack(pop)
 
-    GP_SERV_COMMAND_CONFIG(CCharEntity* PChar);
+    GP_SERV_COMMAND_CONFIG(const CCharEntity* PChar);
 };

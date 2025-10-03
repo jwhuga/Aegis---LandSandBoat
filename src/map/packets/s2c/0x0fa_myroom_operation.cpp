@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2018 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,15 @@
 ===========================================================================
 */
 
-#ifndef _CFURNITUREINTERACTPACKET_H
-#define _CFURNITUREINTERACTPACKET_H
+#include "0x0fa_myroom_operation.h"
 
-#include "common/cbasetypes.h"
+#include "items/item.h"
 
-#include "basic.h"
-
-class CItem;
-
-class CFurnitureInteractPacket : public CBasicPacket
+GP_SERV_COMMAND_MYROOM_OPERATION::GP_SERV_COMMAND_MYROOM_OPERATION(const CItem* PItem, CONTAINER_ID locationId, uint8 slotId)
 {
-public:
-    CFurnitureInteractPacket(CItem* PItem, uint8 LocationID, uint8 slotID);
-};
+    auto& packet = this->data();
 
-#endif
+    packet.MyroomItemNo    = PItem->getID();
+    packet.MyroomCategory  = locationId;
+    packet.MyroomItemIndex = slotId;
+}

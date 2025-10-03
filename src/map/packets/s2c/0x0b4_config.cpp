@@ -23,7 +23,7 @@
 
 #include "entities/charentity.h"
 
-GP_SERV_COMMAND_CONFIG::GP_SERV_COMMAND_CONFIG(CCharEntity* PChar)
+GP_SERV_COMMAND_CONFIG::GP_SERV_COMMAND_CONFIG(const CCharEntity* PChar)
 {
     auto& packet = this->data();
 

@@ -30,46 +30,46 @@ class CCharEntity;
 // PS2: (New; did not exist.)
 struct jobemotes_t
 {
-    uint32_t WAR        : 1;
-    uint32_t MNK        : 1;
-    uint32_t WHM        : 1;
-    uint32_t BLM        : 1;
-    uint32_t RDM        : 1;
-    uint32_t THF        : 1;
-    uint32_t PLD        : 1;
-    uint32_t DRK        : 1;
-    uint32_t BST        : 1;
-    uint32_t BRD        : 1;
-    uint32_t RNG        : 1;
-    uint32_t SAM        : 1;
-    uint32_t NIN        : 1;
-    uint32_t DRG        : 1;
-    uint32_t SMN        : 1;
-    uint32_t BLU        : 1;
-    uint32_t COR        : 1;
-    uint32_t PUP        : 1;
-    uint32_t DNC        : 1;
-    uint32_t SCH        : 1;
-    uint32_t GEO        : 1;
-    uint32_t RUN        : 1;
-    uint32_t unused     : 10;
+    uint32_t WAR : 1;
+    uint32_t MNK : 1;
+    uint32_t WHM : 1;
+    uint32_t BLM : 1;
+    uint32_t RDM : 1;
+    uint32_t THF : 1;
+    uint32_t PLD : 1;
+    uint32_t DRK : 1;
+    uint32_t BST : 1;
+    uint32_t BRD : 1;
+    uint32_t RNG : 1;
+    uint32_t SAM : 1;
+    uint32_t NIN : 1;
+    uint32_t DRG : 1;
+    uint32_t SMN : 1;
+    uint32_t BLU : 1;
+    uint32_t COR : 1;
+    uint32_t PUP : 1;
+    uint32_t DNC : 1;
+    uint32_t SCH : 1;
+    uint32_t GEO : 1;
+    uint32_t RUN : 1;
+    uint32_t unused : 10;
 };
 
 // PS2: (New; did not exist.)
 struct chairemotes_t
 {
-    uint16_t Chair1     : 1; // Chair: Imperial Chair
-    uint16_t Chair2     : 1; // Chair: Decorative Chair
-    uint16_t Chair3     : 1; // Chair: Ornate Stool
-    uint16_t Chair4     : 1; // Chair: Refined Chair
-    uint16_t Chair5     : 1; // Chair: Portable Container
-    uint16_t Chair6     : 1; // Chair: Chocobo Chair
-    uint16_t Chair7     : 1; // Chair: Ephramadian Throne
-    uint16_t Chair8     : 1; // Chair: Shadow Throne
-    uint16_t Chair9     : 1; // Chair: Leaf Bench
-    uint16_t Chair10    : 1; // Chair: Astral Cube
-    uint16_t Chair11    : 1; // Chair: Chocobo Chair II
-    uint16_t unused     : 5;
+    uint16_t Chair1 : 1;  // Chair: Imperial Chair
+    uint16_t Chair2 : 1;  // Chair: Decorative Chair
+    uint16_t Chair3 : 1;  // Chair: Ornate Stool
+    uint16_t Chair4 : 1;  // Chair: Refined Chair
+    uint16_t Chair5 : 1;  // Chair: Portable Container
+    uint16_t Chair6 : 1;  // Chair: Chocobo Chair
+    uint16_t Chair7 : 1;  // Chair: Ephramadian Throne
+    uint16_t Chair8 : 1;  // Chair: Shadow Throne
+    uint16_t Chair9 : 1;  // Chair: Leaf Bench
+    uint16_t Chair10 : 1; // Chair: Astral Cube
+    uint16_t Chair11 : 1; // Chair: Chocobo Chair II
+    uint16_t unused : 5;
 };
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x011A
@@ -79,9 +79,9 @@ class GP_SERV_COMMAND_EMOTE_LIST final : public GP_SERV_PACKET<PacketS2C::GP_SER
 public:
     struct PacketData
     {
-        jobemotes_t     JobEmotes;
-        chairemotes_t   Chairs;
-        uint16_t        padding00;
+        jobemotes_t   JobEmotes;
+        chairemotes_t Chairs;
+        uint16_t      padding00;
     };
 
     GP_SERV_COMMAND_EMOTE_LIST(const CCharEntity* PChar);

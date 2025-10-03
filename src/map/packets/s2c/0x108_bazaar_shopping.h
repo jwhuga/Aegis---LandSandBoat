@@ -27,7 +27,7 @@
 
 class CCharEntity;
 
-enum class GP_SERV_COMMAND_BAZAAR_SHOPPING_STATE : uint8_t
+enum class GP_SERV_COMMAND_BAZAAR_SHOPPING_STATE : uint32_t
 {
     Enter = 0,
     Exit  = 1,
