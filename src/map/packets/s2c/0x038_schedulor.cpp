@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,22 +19,29 @@
 ===========================================================================
 */
 
-#include "entity_animation.h"
+#include "0x038_schedulor.h"
 
 #include "entities/baseentity.h"
 
-const char* CEntityAnimationPacket::Fade_Out = "kesu";
-
-CEntityAnimationPacket::CEntityAnimationPacket(CBaseEntity* PEntity, CBaseEntity* PTarget, const char type[4])
+GP_SERV_COMMAND_SCHEDULOR::GP_SERV_COMMAND_SCHEDULOR(const CBaseEntity* PEntity, const CBaseEntity* PTarget, FourCC anim)
 {
-    this->setType(0x38);
-    this->setSize(0x14);
+    auto& packet = this->data();
 
-    ref<uint32>(0x04) = PEntity->id;
-    ref<uint32>(0x08) = PTarget->id;
+    packet.UniqueNoCas  = PEntity->id;
+    packet.UniqueNoTar  = PTarget->id;
+    packet.id           = anim;
+    packet.ActIndexCast = PEntity->targid;
+    packet.ActIndexTar  = PTarget->targid;
+}
 
-    std::memcpy(buffer_.data() + 0x0C, type, 4);
+GP_SERV_COMMAND_SCHEDULOR::GP_SERV_COMMAND_SCHEDULOR(const CBaseEntity* PEntity, const CBaseEntity* PTarget, const char anim[4])
+{
+    auto& packet = this->data();
 
-    ref<uint16>(0x10) = PEntity->targid;
-    ref<uint16>(0x12) = PTarget->targid;
+    packet.UniqueNoCas  = PEntity->id;
+    packet.UniqueNoTar  = PTarget->id;
+    packet.ActIndexCast = PEntity->targid;
+    packet.ActIndexTar  = PTarget->targid;
+
+    std::memcpy(&packet.id, anim, 4);
 }

@@ -1,7 +1,7 @@
 ﻿/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,25 +19,13 @@
 ===========================================================================
 */
 
-#ifndef _CENTITYANIMATIONPACKET_H
-#define _CENTITYANIMATIONPACKET_H
+#pragma once
 
 #include "common/cbasetypes.h"
 
-#include "basic.h"
-
-/************************************************************************
- *   Animates an entity in some fashion.  The parameter is a 4 byte
- *   ASCII word that the client will parse (and change to a proper anim)
- ************************************************************************/
-
-class CBaseEntity;
-
-class CEntityAnimationPacket : public CBasicPacket
+// FourCC tags are 4-byte identifiers representing "schedulers" or "animations" used in various packets.
+enum class FourCC : uint32_t
 {
-public:
-    static const char* Fade_Out;
-    CEntityAnimationPacket(CBaseEntity* PEntity, CBaseEntity* PTarget, const char type[4]);
+    FadeOut  = 0x6B657375, // "kesu" - The entity fades out and disappears.
+    Sweating = 0x6869746C, // "hitl" - The entity shows a sweating animation.
 };
-
-#endif

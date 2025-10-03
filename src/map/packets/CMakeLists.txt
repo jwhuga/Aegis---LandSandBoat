@@ -65,8 +65,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/cs_position.h
     ${CMAKE_CURRENT_SOURCE_DIR}/delivery_box.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/delivery_box.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/entity_animation.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/entity_animation.h
     ${CMAKE_CURRENT_SOURCE_DIR}/entity_enable_list.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/entity_enable_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/entity_set_name.cpp
@@ -159,8 +157,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/roe_sparkupdate.h
     ${CMAKE_CURRENT_SOURCE_DIR}/roe_update.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/roe_update.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/send_blacklist.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/send_blacklist.h
     ${CMAKE_CURRENT_SOURCE_DIR}/server_ip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/server_ip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/server_message.cpp

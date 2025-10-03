@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,20 +19,27 @@
 ===========================================================================
 */
 
-#ifndef _CSTOPDOWNLOADINGPACKET_H
-#define _CSTOPDOWNLOADINGPACKET_H
+#pragma once
 
-#include "basic.h"
 #include "common/cbasetypes.h"
-#include "common/mmo.h"
-#include <vector>
 
-class CCharEntity;
+#include "base.h"
 
-class CSendBlacklist : public CBasicPacket
+enum class FourCC : uint32_t;
+class CBaseEntity;
+
+class GP_SERV_COMMAND_SCHEDULOR final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_SCHEDULOR, GP_SERV_COMMAND_SCHEDULOR>
 {
 public:
-    CSendBlacklist(CCharEntity* PChar, std::vector<std::pair<uint32, std::string>> blacklist, bool resetClientBlist, bool lastBlistPacket);
-};
+    struct PacketData
+    {
+        uint32_t UniqueNoCas;  // PS2: UniqueNoCas
+        uint32_t UniqueNoTar;  // PS2: UniqueNoTar
+        FourCC   id;           // PS2: id (FourCC code tag for scheduler)
+        uint16_t ActIndexCast; // PS2: ActIndexCast
+        uint16_t ActIndexTar;  // PS2: ActIndexTar
+    };
 
-#endif
+    GP_SERV_COMMAND_SCHEDULOR(const CBaseEntity* PEntity, const CBaseEntity* PTarget, FourCC anim);
+    GP_SERV_COMMAND_SCHEDULOR(const CBaseEntity* PEntity, const CBaseEntity* PTarget, const char anim[4]);
+};
