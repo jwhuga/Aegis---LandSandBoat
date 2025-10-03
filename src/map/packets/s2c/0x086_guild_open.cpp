@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,28 +19,30 @@
 ===========================================================================
 */
 
+#include "0x086_guild_open.h"
+
 #include "common/utils.h"
 
-#include "guild_menu.h"
-
-CGuildMenuPacket::CGuildMenuPacket(GUILDSTATUS status, uint8 open, uint8 close, uint8 holiday)
+GP_SERV_COMMAND_GUILD_OPEN::GP_SERV_COMMAND_GUILD_OPEN(const GP_SERV_COMMAND_GUILD_OPEN_STAT status, const uint8 open, const uint8 close, const uint8 holiday)
 {
-    this->setType(0x86);
-    this->setSize(0x0C);
+    auto& packet = this->data();
 
-    ref<uint8>(0x04) = status;
+    packet.Stat = status;
 
     switch (status)
     {
-        case GUILD_OPEN:
-        case GUILD_CLOSE:
+        case GP_SERV_COMMAND_GUILD_OPEN_STAT::Open:
+        case GP_SERV_COMMAND_GUILD_OPEN_STAT::Close:
         {
-            packBitsBE(buffer_.data() + 0x08, 0xFFFFFF, open, close - open);
+            // Pack guild hours into Time field (bits representing open to close hours)
+            uint32 time = 0xFFFFFF;
+            packBitsBE(reinterpret_cast<uint8*>(&time), 0xFFFFFF, open, close - open);
+            packet.Time = time;
         }
         break;
-        case GUILD_HOLYDAY:
+        case GP_SERV_COMMAND_GUILD_OPEN_STAT::Holiday:
         {
-            ref<uint8>(0x08) = holiday;
+            packet.Time = holiday;
         }
         break;
     }
