@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,15 +19,15 @@
 ===========================================================================
 */
 
-#ifndef _CKEYITEMSPACKET_H
-#define _CKEYITEMSPACKET_H
+#pragma once
 
 #include "common/cbasetypes.h"
 
-#include "basic.h"
+#include "base.h"
 
-// There is no relationship between table numbers and key item types
+class CCharEntity;
 
+// TODO: Do we really need this enum?
 enum KEYS_TABLE : uint8
 {
     KEYS_TABLE_0,
@@ -41,12 +41,18 @@ enum KEYS_TABLE : uint8
 #define MAX_KEYS_TABLE 7
 DECLARE_FORMAT_AS_UNDERLYING(KEYS_TABLE);
 
-class CCharEntity;
-
-class CKeyItemsPacket : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x0055
+// This packet is sent by the server to populate the clients key item information.
+class GP_SERV_COMMAND_SCENARIOITEM final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_SCENARIOITEM, GP_SERV_COMMAND_SCENARIOITEM>
 {
 public:
-    CKeyItemsPacket(CCharEntity* PChar, KEYS_TABLE KeyTable);
-};
+    struct PacketData
+    {
+        uint32_t GetItemFlag[16];  // PS2: GetItemFlag
+        uint32_t LookItemFlag[16]; // PS2: LookItemFlag
+        uint16_t TableIndex;       // PS2: (New; did not exist.)
+        uint16_t padding00;        // PS2: (New; did not exist.)
+    };
 
-#endif
+    GP_SERV_COMMAND_SCENARIOITEM(const CCharEntity* PChar, KEYS_TABLE keyTable);
+};

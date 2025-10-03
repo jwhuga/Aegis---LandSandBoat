@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,24 +19,24 @@
 ===========================================================================
 */
 
-#include <cstring>
+#include "0x055_scenarioitem.h"
 
 #include "entities/charentity.h"
-#include "key_items.h"
 
-CKeyItemsPacket::CKeyItemsPacket(CCharEntity* PChar, KEYS_TABLE KeyTable)
+#include <cstring>
+
+GP_SERV_COMMAND_SCENARIOITEM::GP_SERV_COMMAND_SCENARIOITEM(const CCharEntity* PChar, const KEYS_TABLE keyTable)
 {
-    this->setType(0x55);
-    this->setSize(0x88);
+    auto& packet = this->data();
 
-    if (KeyTable >= MAX_KEYS_TABLE)
+    if (keyTable >= MAX_KEYS_TABLE)
     {
-        ShowWarning("KeyTable (%d) exceeds MAX_KEYS_TABLE.", KeyTable);
+        ShowWarningFmt("KeyTable ({}) exceeds MAX_KEYS_TABLE.", keyTable);
         return;
     }
 
-    std::memcpy(buffer_.data() + 0x04, &(PChar->keys.tables[KeyTable].keyList), 0x40);
-    std::memcpy(buffer_.data() + 0x44, &(PChar->keys.tables[KeyTable].seenList), 0x40);
+    std::memcpy(packet.GetItemFlag, &(PChar->keys.tables[keyTable].keyList), sizeof(packet.GetItemFlag));
+    std::memcpy(packet.LookItemFlag, &(PChar->keys.tables[keyTable].seenList), sizeof(packet.LookItemFlag));
 
-    ref<uint8>(0x84) = KeyTable;
+    packet.TableIndex = keyTable;
 }

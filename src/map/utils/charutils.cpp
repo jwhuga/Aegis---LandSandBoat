@@ -47,7 +47,7 @@
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/conquest_map.h"
-#include "packets/key_items.h"
+#include "packets/s2c/0x055_scenarioitem.h"
 #include "packets/linkshell_equip.h"
 #include "packets/menu_jobpoints.h"
 #include "packets/menu_merit.h"
@@ -1257,7 +1257,7 @@ namespace charutils
     {
         for (uint8 table = 0; table < MAX_KEYS_TABLE; table++)
         {
-            PChar->pushPacket<CKeyItemsPacket>(PChar, (KEYS_TABLE)table);
+            PChar->pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(PChar, static_cast<KEYS_TABLE>(table));
         }
     }
 
