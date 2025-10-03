@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,20 +19,19 @@
 ===========================================================================
 */
 
-#include <cstring>
-
-#include "bazaar_check.h"
+#include "0x108_bazaar_shopping.h"
 
 #include "entities/charentity.h"
 
-CBazaarCheckPacket::CBazaarCheckPacket(CCharEntity* PChar, BAZAARCHECK type)
+#include <cstring>
+
+GP_SERV_COMMAND_BAZAAR_SHOPPING::GP_SERV_COMMAND_BAZAAR_SHOPPING(const CCharEntity* PChar, const GP_SERV_COMMAND_BAZAAR_SHOPPING_STATE state)
 {
-    this->setType(0x108);
-    this->setSize(0x22);
+    auto& packet = this->data();
 
-    ref<uint32>(0x04) = PChar->id;
-    ref<uint8>(0x08)  = type;
-    ref<uint16>(0x0E) = PChar->targid;
+    packet.UniqueNo = PChar->id;
+    packet.State    = state;
+    packet.ActIndex = PChar->targid;
 
-    std::memcpy(buffer_.data() + 0x10, PChar->getName().c_str(), PChar->getName().size());
+    std::memcpy(packet.sName, PChar->getName().c_str(), std::min<size_t>(PChar->getName().size(), sizeof(packet.sName)));
 }
