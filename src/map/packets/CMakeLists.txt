@@ -9,8 +9,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/auction_house.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/auction_house.h
     ${CMAKE_CURRENT_SOURCE_DIR}/basic.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/bazaar_item.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/bazaar_item.h
     ${CMAKE_CURRENT_SOURCE_DIR}/campaign_map.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/campaign_map.h
     ${CMAKE_CURRENT_SOURCE_DIR}/caught_fish.cpp
@@ -91,8 +89,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/jobpoint_details.h
     ${CMAKE_CURRENT_SOURCE_DIR}/jobpoint_update.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/jobpoint_update.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/key_items.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/key_items.h
     ${CMAKE_CURRENT_SOURCE_DIR}/linkshell_equip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/linkshell_equip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/linkshell_message.cpp

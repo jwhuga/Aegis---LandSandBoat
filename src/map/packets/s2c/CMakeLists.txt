@@ -32,6 +32,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x04f_equip_clear.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x052_eventucoff.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x052_eventucoff.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x055_scenarioitem.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x055_scenarioitem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x057_weather.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x057_weather.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x058_assist.h

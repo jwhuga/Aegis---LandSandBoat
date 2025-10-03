@@ -35,7 +35,7 @@
 #include "packets/char_update.h"
 #include "packets/entity_update.h"
 #include "packets/event.h"
-#include "packets/key_items.h"
+#include "packets/s2c/0x055_scenarioitem.h"
 #include "packets/message_special.h"
 #include "packets/message_standard.h"
 #include "packets/message_system.h"
@@ -2857,17 +2857,17 @@ void CCharEntity::UpdateMoghancement()
         uint8 currentTable = m_moghancementID >> 9;
         if (newTable == currentTable)
         {
-            pushPacket<CKeyItemsPacket>(this, static_cast<KEYS_TABLE>(newTable));
+            pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(this, static_cast<KEYS_TABLE>(newTable));
         }
         else
         {
             if (newTable != 0)
             {
-                pushPacket<CKeyItemsPacket>(this, static_cast<KEYS_TABLE>(newTable));
+                pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(this, static_cast<KEYS_TABLE>(newTable));
             }
             if (currentTable != 0)
             {
-                pushPacket<CKeyItemsPacket>(this, static_cast<KEYS_TABLE>(currentTable));
+                pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(this, static_cast<KEYS_TABLE>(currentTable));
             }
         }
         charutils::SaveKeyItems(this);

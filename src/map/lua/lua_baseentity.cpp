@@ -122,7 +122,7 @@
 #include "packets/guild_menu_buy.h"
 #include "packets/independent_animation.h"
 #include "packets/instance_entry.h"
-#include "packets/key_items.h"
+#include "packets/s2c/0x055_scenarioitem.h"
 #include "packets/linkshell_equip.h"
 #include "packets/menu_jobpoints.h"
 #include "packets/menu_merit.h"
@@ -8821,7 +8821,7 @@ void CLuaBaseEntity::addKeyItem(const KeyItem keyItemID) const
     }
 
     charutils::addKeyItem(PChar, keyItemID);
-    PChar->pushPacket<CKeyItemsPacket>(PChar, static_cast<KEYS_TABLE>(table));
+    PChar->pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(PChar, static_cast<KEYS_TABLE>(table));
 
     if (table == 6)
     {
@@ -8875,7 +8875,7 @@ void CLuaBaseEntity::delKeyItem(const KeyItem keyItemID) const
     }
 
     charutils::delKeyItem(PChar, keyItemID);
-    PChar->pushPacket<CKeyItemsPacket>(PChar, static_cast<KEYS_TABLE>(table));
+    PChar->pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(PChar, static_cast<KEYS_TABLE>(table));
 
     charutils::SaveKeyItems(PChar);
 }
@@ -8924,7 +8924,7 @@ void CLuaBaseEntity::unseenKeyItem(const KeyItem keyItemID) const
     }
 
     charutils::unseenKeyItem(PChar, keyItemID);
-    PChar->pushPacket<CKeyItemsPacket>(PChar, static_cast<KEYS_TABLE>(table));
+    PChar->pushPacket<GP_SERV_COMMAND_SCENARIOITEM>(PChar, static_cast<KEYS_TABLE>(table));
 
     charutils::SaveKeyItems(PChar);
 }
