@@ -35,9 +35,7 @@ GP_SERV_COMMAND_GUILD_OPEN::GP_SERV_COMMAND_GUILD_OPEN(const GP_SERV_COMMAND_GUI
         case GP_SERV_COMMAND_GUILD_OPEN_STAT::Close:
         {
             // Pack guild hours into Time field (bits representing open to close hours)
-            uint32 time = 0xFFFFFF;
-            packBitsBE(reinterpret_cast<uint8*>(&time), 0xFFFFFF, open, close - open);
-            packet.Time = time;
+            packBitsBE(reinterpret_cast<uint8*>(&packet.Time), 0xFFFFFF, open, close - open);
         }
         break;
         case GP_SERV_COMMAND_GUILD_OPEN_STAT::Holiday:
