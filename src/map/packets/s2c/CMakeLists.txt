@@ -14,6 +14,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x020_item_attr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x022_item_trade_res.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x022_item_trade_res.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x025_item_trade_mylist.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x025_item_trade_mylist.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x026_item_subcontainer.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x026_item_subcontainer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x02e_openmogmenu.h
