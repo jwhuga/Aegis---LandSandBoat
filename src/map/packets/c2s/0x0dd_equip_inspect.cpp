@@ -20,7 +20,7 @@
 #include "entities/mobentity.h"
 #include "items/item_weapon.h"
 #include "mob_modifier.h"
-#include "packets/bazaar_message.h"
+#include "packets/s2c/0x0ca_inspect_message.h"
 #include "packets/char_check.h"
 #include "packets/message_basic.h"
 #include "packets/message_standard.h"
@@ -123,7 +123,7 @@ void GP_CLI_COMMAND_EQUIP_INSPECT::process(MapSession* PSession, CCharEntity* PC
                     PCharTarget->pushPacket<CMessageStandardPacket>(PChar, 0, 0, MsgStd::Examine);
                 }
 
-                PChar->pushPacket<CBazaarMessagePacket>(PCharTarget);
+                PChar->pushPacket<GP_SERV_COMMAND_INSPECT_MESSAGE>(PCharTarget);
                 PChar->pushPacket<CCheckPacket>(PChar, PCharTarget);
             }
         }

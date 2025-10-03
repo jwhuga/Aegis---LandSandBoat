@@ -22,7 +22,7 @@
 #include "0x00f_clstat.h"
 
 #include "entities/charentity.h"
-#include "packets/bazaar_message.h"
+#include "packets/s2c/0x0ca_inspect_message.h"
 #include "packets/char_abilities.h"
 #include "packets/char_mounts.h"
 #include "packets/char_spells.h"
@@ -47,7 +47,7 @@ void GP_CLI_COMMAND_CLSTAT::process(MapSession* PSession, CCharEntity* PChar) co
     PChar->pushPacket<CCharMountsPacket>(PChar);
     PChar->pushPacket<CCharAbilitiesPacket>(PChar);
     PChar->pushPacket<CCharSyncPacket>(PChar);
-    PChar->pushPacket<CBazaarMessagePacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_INSPECT_MESSAGE>(PChar);
     PChar->pushPacket<CMeritPointsCategoriesPacket>(PChar);
 
     charutils::SendInventory(PChar);
