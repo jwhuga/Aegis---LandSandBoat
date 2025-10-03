@@ -173,7 +173,5 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/trade_update.h
     ${CMAKE_CURRENT_SOURCE_DIR}/zone_in.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/zone_in.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/zone_visited.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/zone_visited.h
     PARENT_SCOPE
 )

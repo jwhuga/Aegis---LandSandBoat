@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,13 @@
 ===========================================================================
 */
 
-#include "zone_visited.h"
-
-#include <cstring>
+#include "0x008_enterzone.h"
 
 #include "entities/charentity.h"
 
-CZoneVisitedPacket::CZoneVisitedPacket(CCharEntity* PChar)
+GP_SERV_COMMAND_ENTERZONE::GP_SERV_COMMAND_ENTERZONE(const CCharEntity* PChar)
 {
-    this->setType(0x08);
-    this->setSize(0x34);
+    auto& packet = this->data();
 
-    std::memcpy(buffer_.data() + 4, PChar->m_ZonesVisitedList, 38);
+    std::memcpy(packet.EnterZoneTbl, PChar->m_ZonesVisitedList, sizeof(packet.EnterZoneTbl));
 }

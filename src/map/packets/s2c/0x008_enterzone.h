@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,23 @@
 ===========================================================================
 */
 
-#ifndef _CZONEVISITEDPACKET_H_
-#define _CZONEVISITEDPACKET_H_
+#pragma once
 
 #include "common/cbasetypes.h"
 
-#include "basic.h"
+#include "base.h"
 
 class CCharEntity;
 
-class CZoneVisitedPacket : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x0008
+// This packet is sent by the server to inform the client of the zones it has previously entered.
+class GP_SERV_COMMAND_ENTERZONE final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_ENTERZONE, GP_SERV_COMMAND_ENTERZONE>
 {
 public:
-    CZoneVisitedPacket(CCharEntity* PChar);
-};
+    struct PacketData
+    {
+        uint8_t EnterZoneTbl[48]; // PS2: EnterZoneTbl
+    };
 
-#endif
+    GP_SERV_COMMAND_ENTERZONE(const CCharEntity* PChar);
+};
