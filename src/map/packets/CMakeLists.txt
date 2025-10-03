@@ -155,8 +155,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/synth_suggestion.h
     ${CMAKE_CURRENT_SOURCE_DIR}/objective_utility.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/objective_utility.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/trade_action.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/trade_action.h
     ${CMAKE_CURRENT_SOURCE_DIR}/trade_item.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/trade_item.h
     ${CMAKE_CURRENT_SOURCE_DIR}/trade_request.cpp
