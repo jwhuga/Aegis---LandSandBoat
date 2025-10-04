@@ -68,6 +68,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05f_music.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x06f_combine_ans.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x06f_combine_ans.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x070_combine_inf.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x070_combine_inf.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x082_guild_buy.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x082_guild_buy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x083_guild_buylist.h
