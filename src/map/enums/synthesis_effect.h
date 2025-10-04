@@ -1,7 +1,7 @@
 ﻿/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,23 +19,20 @@
 ===========================================================================
 */
 
-#ifndef _CSYNTHRESULTMESSAGEPACKET_H
-#define _CSYNTHRESULTMESSAGEPACKET_H
+#pragma once
 
 #include "common/cbasetypes.h"
-#include "common/utils.h"
 
-#include "packets/synth_message.h"
-
-#include "basic.h"
-
-class CBaseEntity;
-class CCharEntity;
-
-class CSynthResultMessagePacket : public CBasicPacket
+// Synthesis elemental effects to be used in packets.
+enum class SynthesisEffect : int16_t
 {
-public:
-    CSynthResultMessagePacket(CCharEntity* PChar, SYNTH_MESSAGE messageID, uint16 itemID = 0, uint8 quantity = 0);
+    None      = 0x0000,
+    Water     = 0x0010,
+    Wind      = 0x0011,
+    Fire      = 0x0012,
+    Earth     = 0x0013,
+    Lightning = 0x0014,
+    Ice       = 0x0015,
+    Light     = 0x0016,
+    Dark      = 0x0017
 };
-
-#endif
