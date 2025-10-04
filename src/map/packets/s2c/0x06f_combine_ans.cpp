@@ -48,8 +48,8 @@ GP_SERV_COMMAND_COMBINE_ANS::GP_SERV_COMMAND_COMBINE_ANS(const CCharEntity* PCha
 
             if (PChar->CraftContainer->getQuantity(skillID - 40) > skillValue)
             {
-                skillValue        = PChar->CraftContainer->getQuantity(skillID - 40);
-                packet.UpKind[i]  = skillID;
+                skillValue       = PChar->CraftContainer->getQuantity(skillID - 40);
+                packet.UpKind[i] = skillID;
             }
         }
     }
@@ -58,8 +58,8 @@ GP_SERV_COMMAND_COMBINE_ANS::GP_SERV_COMMAND_COMBINE_ANS(const CCharEntity* PCha
 
     for (uint8 slotID = 1; slotID <= 8; ++slotID) // recipe materials
     {
-        const uint16 slotItemID             = PChar->CraftContainer->getItemID(slotID);
-        packet.MaterialNo[slotID - 1]       = slotItemID;
+        const uint16 slotItemID       = PChar->CraftContainer->getItemID(slotID);
+        packet.MaterialNo[slotID - 1] = slotItemID;
 
         if (PChar->CraftContainer->getQuantity(slotID) == 0)
         {
