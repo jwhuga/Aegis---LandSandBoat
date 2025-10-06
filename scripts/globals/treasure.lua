@@ -1006,8 +1006,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,             450 }, -- Gil
-            { xi.item.COUGAR_BAGHNAKHS, 450 }, -- Item
+            { xi.item.NONE,             675 }, -- Gil
+            { xi.item.COUGAR_BAGHNAKHS, 225 }, -- Item
             { xi.item.AMBER_STONE,       20 },
             { xi.item.AMETHYST,          20 },
             { xi.item.LAPIS_LAZULI,      20 },
@@ -1020,8 +1020,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,             450 }, -- Gil
-            { xi.item.COUGAR_BAGHNAKHS, 450 }, -- Item
+            { xi.item.NONE,             675 }, -- Gil
+            { xi.item.COUGAR_BAGHNAKHS, 225 }, -- Item
             { xi.item.AMBER_STONE,       20 },
             { xi.item.AMETHYST,          20 },
             { xi.item.LAPIS_LAZULI,      20 },
@@ -1034,8 +1034,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,            440 }, -- Gil
-            { xi.item.FLAME_BOOMERANG, 440 }, -- Item
+            { xi.item.NONE,            660 }, -- Gil
+            { xi.item.FLAME_BOOMERANG, 220 }, -- Item
             { xi.item.AMBER_STONE,      20 },
             { xi.item.AMETHYST,         20 },
             { xi.item.CLEAR_TOPAZ,      20 },
@@ -1049,8 +1049,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,           440 }, -- Gil
-            { xi.item.SHIELD_EARRING, 440 }, -- Item
+            { xi.item.NONE,           660 }, -- Gil
+            { xi.item.SHIELD_EARRING, 220 }, -- Item
             { xi.item.AMBER_STONE,     20 },
             { xi.item.AMETHYST,        20 },
             { xi.item.CLEAR_TOPAZ,     20 },
@@ -1064,8 +1064,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,        440 }, -- Gil
-            { xi.item.ADEPTS_ROPE, 440 }, -- Item
+            { xi.item.NONE,        660 }, -- Gil
+            { xi.item.ADEPTS_ROPE, 220 }, -- Item
             { xi.item.AMETRINE,     20 },
             { xi.item.GARNET,       20 },
             { xi.item.GOSHENITE,    20 },
@@ -1075,8 +1075,8 @@ local lootTable =
         },
         [treasureType.COFFER] =
         {
-            { xi.item.NONE,            410 }, -- Gil
-            { xi.item.SCROLL_OF_BURST, 410 }, -- Item
+            { xi.item.NONE,            615 }, -- Gil
+            { xi.item.SCROLL_OF_BURST, 205 }, -- Item
             { xi.item.AQUAMARINE,       20 },
             { xi.item.CHRYSOBERYL,      20 },
             { xi.item.FLUORITE,         20 },
@@ -1093,8 +1093,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,          420 }, -- Gil
-            { xi.item.ELECTRUM_RING, 420 }, -- Item
+            { xi.item.NONE,          630 }, -- Gil
+            { xi.item.ELECTRUM_RING, 210 }, -- Item
             { xi.item.AMETRINE,       20 },
             { xi.item.GARNET,         20 },
             { xi.item.GOSHENITE,      20 },
@@ -1110,8 +1110,8 @@ local lootTable =
     {
         [treasureType.COFFER] =
         {
-            { xi.item.NONE,             440 }, -- Gil
-            { xi.item.PHYSICAL_EARRING, 440 }, -- Item
+            { xi.item.NONE,             660 }, -- Gil
+            { xi.item.PHYSICAL_EARRING, 220 }, -- Item
             { xi.item.CHRYSOBERYL,       20 },
             { xi.item.FLUORITE,          20 },
             { xi.item.JADEITE,           20 },
@@ -1125,8 +1125,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,             420 }, -- Gil
-            { xi.item.ELECTRUM_HAIRPIN, 420 }, -- Item
+            { xi.item.NONE,             630 }, -- Gil
+            { xi.item.ELECTRUM_HAIRPIN, 210 }, -- Item
             { xi.item.AMETRINE,          20 },
             { xi.item.GARNET,            20 },
             { xi.item.GOSHENITE,         20 },
@@ -1138,8 +1138,8 @@ local lootTable =
         },
         [treasureType.COFFER] =
         {
-            { xi.item.NONE,           420 }, -- Gil
-            { xi.item.SAFEGUARD_RING, 420 }, -- Item
+            { xi.item.NONE,           630 }, -- Gil
+            { xi.item.SAFEGUARD_RING, 210 }, -- Item
             { xi.item.AQUAMARINE,      20 },
             { xi.item.CHRYSOBERYL,     20 },
             { xi.item.FLUORITE,        20 },
@@ -1155,8 +1155,8 @@ local lootTable =
     {
         [treasureType.COFFER] =
         {
-            { xi.item.NONE,          420 }, -- Gil
-            { xi.item.SCREAM_FUNGUS, 420 }, -- Item
+            { xi.item.NONE,          630 }, -- Gil
+            { xi.item.SCREAM_FUNGUS, 210 }, -- Item
             { xi.item.AQUAMARINE,     20 },
             { xi.item.CHRYSOBERYL,    20 },
             { xi.item.FLUORITE,       20 },
@@ -1172,8 +1172,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         430 }, -- Gil
-            { xi.item.EMETH_PICK,   430 }, -- Item
+            { xi.item.NONE,         645 }, -- Gil
+            { xi.item.EMETH_PICK,   215 }, -- Item
             { xi.item.AMBER_STONE,   20 },
             { xi.item.AMETHYST,      20 },
             { xi.item.CLEAR_TOPAZ,   20 },
@@ -1188,8 +1188,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         430 }, -- Gil
-            { xi.item.EMETH_PICK,   430 }, -- Item
+            { xi.item.NONE,         645 }, -- Gil
+            { xi.item.EMETH_PICK,   215 }, -- Item
             { xi.item.AMBER_STONE,   20 },
             { xi.item.AMETHYST,      20 },
             { xi.item.CLEAR_TOPAZ,   20 },
@@ -1228,8 +1228,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         440 }, -- Gil
-            { xi.item.PHALANX_RING, 440 }, -- Item
+            { xi.item.NONE,         660 }, -- Gil
+            { xi.item.PHALANX_RING, 220 }, -- Item
             { xi.item.AMETRINE,      20 },
             { xi.item.GARNET,        20 },
             { xi.item.GOSHENITE,     20 },
@@ -1239,8 +1239,8 @@ local lootTable =
         },
         [treasureType.COFFER] =
         {
-            { xi.item.NONE,                      420 }, -- Gil
-            { xi.item.SCROLL_OF_MAGES_BALLAD_II, 420 }, -- Item
+            { xi.item.NONE,                      630 }, -- Gil
+            { xi.item.SCROLL_OF_MAGES_BALLAD_II, 210 }, -- Item
             { xi.item.AQUAMARINE,                 20 },
             { xi.item.CHRYSOBERYL,                20 },
             { xi.item.FLUORITE,                   20 },
@@ -1256,8 +1256,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         440 }, -- Gil
-            { xi.item.PHALANX_RING, 440 }, -- Item
+            { xi.item.NONE,         660 }, -- Gil
+            { xi.item.PHALANX_RING, 220 }, -- Item
             { xi.item.GARNET,        20 },
             { xi.item.GOSHENITE,     20 },
             { xi.item.LIGHT_OPAL,    20 },
@@ -1339,8 +1339,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,          440 }, -- Gil
-            { xi.item.BATTLE_GLOVES, 440 }, -- Item
+            { xi.item.NONE,          660 }, -- Gil
+            { xi.item.BATTLE_GLOVES, 220 }, -- Item
             { xi.item.AMBER_STONE,    20 },
             { xi.item.AMETHYST,       20 },
             { xi.item.CLEAR_TOPAZ,    20 },
@@ -1354,8 +1354,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,            440 }, -- Gil
-            { xi.item.TROPICAL_SHIELD, 440 }, -- Item
+            { xi.item.NONE,            660 }, -- Gil
+            { xi.item.TROPICAL_SHIELD, 220 }, -- Item
             { xi.item.AMBER_STONE,      20 },
             { xi.item.AMETHYST,         20 },
             { xi.item.CLEAR_TOPAZ,      20 },
@@ -1369,8 +1369,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         450 }, -- Gil
-            { xi.item.MOTH_AXE,     450 }, -- Item
+            { xi.item.NONE,         675 }, -- Gil
+            { xi.item.MOTH_AXE,     225 }, -- Item
             { xi.item.AMBER_STONE,   20 },
             { xi.item.AMETHYST,      20 },
             { xi.item.CLEAR_TOPAZ,   20 },
@@ -1383,8 +1383,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         450 }, -- Gil
-            { xi.item.FORCE_BELT,   450 }, -- Item
+            { xi.item.NONE,         675 }, -- Gil
+            { xi.item.FORCE_BELT,   225 }, -- Item
             { xi.item.AMBER_STONE,   20 },
             { xi.item.AMETHYST,      20 },
             { xi.item.CLEAR_TOPAZ,   20 },
@@ -1400,8 +1400,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         450 }, -- Gil
-            { xi.item.MOTH_AXE,     450 }, -- Item
+            { xi.item.NONE,         675 }, -- Gil
+            { xi.item.MOTH_AXE,     225 }, -- Item
             { xi.item.AMBER_STONE,   20 },
             { xi.item.AMETHYST,      20 },
             { xi.item.CLEAR_TOPAZ,   20 },
@@ -1414,8 +1414,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,       440 }, -- Gil
-            { xi.item.FALCASTRA,  440 }, -- Item
+            { xi.item.NONE,       660 }, -- Gil
+            { xi.item.FALCASTRA,  220 }, -- Item
             { xi.item.AMETRINE,    20 },
             { xi.item.GARNET,      20 },
             { xi.item.GOSHENITE,   20 },
@@ -1425,8 +1425,8 @@ local lootTable =
         },
         [treasureType.COFFER] =
         {
-            { xi.item.NONE,           450 }, -- Gil
-            { xi.item.VILE_ELIXIR_P1, 450 }, -- Item
+            { xi.item.NONE,           675 }, -- Gil
+            { xi.item.VILE_ELIXIR_P1, 225 }, -- Item
             { xi.item.CHRYSOBERYL,     20 },
             { xi.item.FLUORITE,        20 },
             { xi.item.MOONSTONE,       20 },
@@ -1439,8 +1439,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         430 }, -- Gil
-            { xi.item.REPLICA_MAUL, 430 }, -- Item
+            { xi.item.NONE,         645 }, -- Gil
+            { xi.item.REPLICA_MAUL, 215 }, -- Item
             { xi.item.AMBER_STONE,   20 },
             { xi.item.AMETHYST,      20 },
             { xi.item.CLEAR_TOPAZ,   20 },
@@ -1455,8 +1455,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,       420 }, -- Gil
-            { xi.item.GIGANT_AXE, 420 }, -- Item
+            { xi.item.NONE,       630 }, -- Gil
+            { xi.item.GIGANT_AXE, 210 }, -- Item
             { xi.item.AMETRINE,    20 },
             { xi.item.GARNET,      20 },
             { xi.item.GOSHENITE,   20 },
@@ -1468,8 +1468,8 @@ local lootTable =
         },
         [treasureType.COFFER] =
         {
-            { xi.item.NONE,        440 }, -- Gil
-            { xi.item.HI_RERAISER, 440 }, -- Item
+            { xi.item.NONE,        660 }, -- Gil
+            { xi.item.HI_RERAISER, 220 }, -- Item
             { xi.item.AQUAMARINE,   20 },
             { xi.item.CHRYSOBERYL,  20 },
             { xi.item.JADEITE,      20 },
@@ -1483,8 +1483,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,         420 }, -- Gil
-            { xi.item.HEAT_ROD,     420 }, -- Item
+            { xi.item.NONE,         630 }, -- Gil
+            { xi.item.HEAT_ROD,     210 }, -- Item
             { xi.item.AMBER_STONE,   20 },
             { xi.item.AMETHYST,      20 },
             { xi.item.CLEAR_TOPAZ,   20 },
@@ -1500,8 +1500,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,       420 }, -- Gil
-            { xi.item.PYRO_ROBE,  420 }, -- Item
+            { xi.item.NONE,       630 }, -- Gil
+            { xi.item.PYRO_ROBE,  210 }, -- Item
             { xi.item.AMETRINE,    20 },
             { xi.item.GARNET,      20 },
             { xi.item.GOSHENITE,   20 },
@@ -1513,8 +1513,8 @@ local lootTable =
         },
         [treasureType.COFFER] =
         {
-            { xi.item.NONE,            470 }, -- Gil
-            { xi.item.LIGHT_GAUNTLETS, 470 }, -- Item
+            { xi.item.NONE,            705 }, -- Gil
+            { xi.item.LIGHT_GAUNTLETS, 235 }, -- Item
             { xi.item.CHRYSOBERYL,      20 },
             { xi.item.JADEITE,          20 },
             { xi.item.MOONSTONE,        20 },
@@ -1525,8 +1525,8 @@ local lootTable =
     {
         [treasureType.CHEST] =
         {
-            { xi.item.NONE,       420 }, -- Gil
-            { xi.item.LIFE_BELT,  420 }, -- Item
+            { xi.item.NONE,       630 }, -- Gil
+            { xi.item.LIFE_BELT,  210 }, -- Item
             { xi.item.AMETRINE,    20 },
             { xi.item.GARNET,      20 },
             { xi.item.GOSHENITE,   20 },
@@ -1630,6 +1630,45 @@ local function trapAndMoveTreasure(npc, respawnTime)
     end)
 end
 
+local function handleGilDistribution(player, treasureLevel)
+    local zoneId              = player:getZoneID()
+    local playersInZoneTable  = {} -- Table with player objects both in alliance and in current player zone.
+    local membersInZoneNumber = 1  -- Amount of entities (players and trusts) in alliance and in current player zone. It does start at 1.
+
+    -- Calculate player members in zone. Alliance members count for gil obtention purposes.
+    local allianceMembers = player:getAlliance()
+    for i = 1, #allianceMembers do
+        local allianceMember = allianceMembers[i]
+        if zoneId == allianceMembers[i]:getZoneID() then
+            membersInZoneNumber = utils.clamp(membersInZoneNumber + 1, 1, 6)
+            if allianceMember:isPC() then
+                table.insert(playersInZoneTable, allianceMember)
+            end
+        end
+    end
+
+    -- Calculate trusts. Trusts count as players for gil obtention puroposes but not for gil division.
+    local partyMembers = player:getPartyWithTrusts()
+    for i = 1, #partyMembers do
+        local partyMember = partyMembers[i]
+        if partyMember:isTrust() then
+            membersInZoneNumber = utils.clamp(membersInZoneNumber + 1, 1, 6)
+        end
+    end
+
+    -- Calculate gil.
+    local gilPerEntity = 0
+    if #playersInZoneTable > 0 then
+        gilPerEntity = membersInZoneNumber * treasureLevel ^ 2 + membersInZoneNumber * treasureLevel * math.random(0, treasureLevel)
+        gilPerEntity = math.floor(gilPerEntity / #playersInZoneTable)
+    end
+
+    -- Distribute gil.
+    for i = 1, #playersInZoneTable do
+        npcUtil.giveCurrency(playersInZoneTable[i], 'gil', gilPerEntity)
+    end
+end
+
 -----------------------------------
 -- Public functions
 -----------------------------------
@@ -1654,6 +1693,25 @@ xi.treasure.initZone = function(zone)
     end
 end
 
+--[[
+ID.text.CHEST_UNLOCKED - 8 : This chest is locked. It can be opened with %.
+ID.text.CHEST_UNLOCKED - 7 : This chest is empty.
+ID.text.CHEST_UNLOCKED - 6 : Your inventory is full. You cannot carry any more items.
+ID.text.CHEST_UNLOCKED - 5 : You must be closer to the chest to open it.
+ID.text.CHEST_UNLOCKED - 4 : % opens the chest and finds %.
+ID.text.CHEST_UNLOCKED - 3 : The item in this chest cannot be handled by the other members of your party. % receives the %.
+ID.text.CHEST_UNLOCKED - 2 : % obtains a key item, %, from the chest.
+ID.text.CHEST_UNLOCKED - 1 : You obtain a key item, %, from the chest.
+ID.text.CHEST_UNLOCKED + 0 : You unlock the chest!
+ID.text.CHEST_UNLOCKED + 1 : % fails to open the chest.
+ID.text.CHEST_UNLOCKED + 2 : The chest was trapped!
+ID.text.CHEST_UNLOCKED + 3 : You cannot open the chest when you are in a weakened state.
+ID.text.CHEST_UNLOCKED + 4 : The chest was a mimic!
+ID.text.CHEST_UNLOCKED + 5 : You cannot open the chest while participating in the moogle event.
+ID.text.CHEST_UNLOCKED + 6 : The chest was but an illusion...
+ID.text.CHEST_UNLOCKED + 7 : The chest appears to be locked. If only you had %, perhaps you could open it...
+]]--
+
 xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     -- Treasure data.
     local zoneId        = player:getZoneID()
@@ -1666,11 +1724,18 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     local treasureMap   = mapTable[zoneId][containerType]
     local itemTable     = lootTable[zoneId][containerType]
 
+    -- Early return: Distance check.
+    if player:checkDistance(npc) > 2 then
+        player:messageSpecial(ID.text.CHEST_UNLOCKED - 5)
+        return
+    end
+
     -- Early return: Treasure is doing treasure things.
     if
         npc:getLocalVar('opened') ~= 0 or
         npc:getLocalVar('traded') ~= 0
     then
+        player:messageSpecial(ID.text.CHEST_UNLOCKED + 7, treasureKey)
         return
     end
 
@@ -1706,7 +1771,7 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
 
     -- Early return: Player has no room for items.
     if player:getFreeSlotsCount() == 0 then
-        player:messageSpecial(ID.text.CHEST_UNLOCKED - 5)
+        player:messageSpecial(ID.text.CHEST_UNLOCKED - 6)
         return
     end
 
@@ -1853,31 +1918,9 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
 
     -- Gil
     if itemId == xi.item.NONE then
-        -- Calculate members in zone.
-        local partyMembers        = player:getPartyWithTrusts()
-        local membersInZoneNumber = 0  -- Amount of entities (players and trusts) in party and in zone.
-        local playersInZoneTable  = {} -- Table with player objects both in party AND in zone.
-
-        for i = 1, #partyMembers do
-            local member = partyMembers[i]
-            if zoneId == partyMembers[i]:getZoneID() then
-                membersInZoneNumber = utils.clamp(membersInZoneNumber + 1, 1, 6)
-                if member:isPC() then
-                    table.insert(playersInZoneTable, member)
-                end
-            end
-        end
-
-        -- Calculate gil.
-        local gilAmount = membersInZoneNumber * treasureLevel ^ 2 + membersInZoneNumber * treasureLevel * math.random(0, treasureLevel)
-        gilAmount       = math.floor(gilAmount / #playersInZoneTable)
-
         -- Distribute gil.
         player:timer(2000, function(playerEntity)
-            for i = 1, #playersInZoneTable do
-                npcUtil.giveCurrency(playersInZoneTable[i], 'gil', gilAmount)
-            end
-
+            handleGilDistribution(playerEntity, treasureLevel)
             playerEntity:tradeComplete()
             openAndMoveTreasure(npc, respawnType.REGULAR)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
@@ -1902,14 +1945,12 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
 end
 
 xi.treasure.onTrigger = function(player, npc)
-    local zoneId      = player:getZoneID()
-    local messageId   = zones[zoneId].text.CHEST_UNLOCKED + 7
-    local keyRequired = keyTable[zoneId][npcTable[npc:getName()]]
+    local zoneId = player:getZoneID()
+    local ID     = zones[zoneId]
 
-    if
-        npc:getLocalVar('opened') == 0 and
-        npc:getLocalVar('traded') == 0
-    then
-        player:messageSpecial(messageId, keyRequired)
+    if npc:getLocalVar('opened') == 0 then
+        player:messageSpecial(ID.text.CHEST_UNLOCKED + 7, keyTable[zoneId][npcTable[npc:getName()]])
+    else
+        player:messageSpecial(ID.text.CHEST_UNLOCKED - 7)
     end
 end
