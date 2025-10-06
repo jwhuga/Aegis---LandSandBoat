@@ -2127,9 +2127,9 @@ INSERT INTO `mob_skills` VALUES (2109,1452,'heliovoid',1,0.0,20.0,2000,1000,4,0,
 INSERT INTO `mob_skills` VALUES (2110,1454,'wings_of_gehenna',1,0.0,20.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2111,1453,'eternal_damnation',4,0.0,15.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2112,1455,'nocturnal_servitude',4,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2113,1456,'hellsnap',1,0.0,30.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2113,1456,'hellsnap',1,0.0,30.0,2000,1000,2049,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2114,1460,'hellclap',4,0.0,10.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (2115,1457,'cackle',1,0.0,30.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (2115,1457,'cackle',1,0.0,30.0,2000,1000,2049,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2116,1462,'necrobane',1,0.0,15.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2117,1461,'necropurge',1,0.0,15.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (2118,1458,'bilgestorm',1,0.0,15.0,2000,1000,4,0,0,0,0,0,0);
