@@ -29,8 +29,8 @@
 #include "utils/zoneutils.h"
 
 #include "packets/char_spells.h"
-#include "packets/roe_questlog.h"
 #include "packets/roe_update.h"
+#include "packets/s2c/0x112_roe_log.h"
 
 #define ROE_CACHETIME 15s
 
@@ -254,7 +254,7 @@ namespace roeutils
 
         for (int i = 0; i < 4; i++)
         {
-            PChar->pushPacket<CRoeQuestLogPacket>(PChar, i);
+            PChar->pushPacket<GP_SERV_COMMAND_ROE_LOG>(PChar, i);
         }
 
         charutils::SaveEminenceData(PChar);
@@ -557,7 +557,7 @@ namespace roeutils
 
         for (int i = 0; i < 4; i++)
         {
-            PChar->pushPacket<CRoeQuestLogPacket>(PChar, i);
+            PChar->pushPacket<GP_SERV_COMMAND_ROE_LOG>(PChar, i);
         }
     }
 
@@ -636,7 +636,7 @@ namespace roeutils
 
         for (int i = 0; i < 4; i++)
         {
-            PChar->pushPacket<CRoeQuestLogPacket>(PChar, i);
+            PChar->pushPacket<GP_SERV_COMMAND_ROE_LOG>(PChar, i);
         }
     }
 

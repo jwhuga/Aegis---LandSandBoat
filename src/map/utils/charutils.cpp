@@ -56,7 +56,6 @@
 #include "packets/monipulator2.h"
 #include "packets/objective_utility.h"
 #include "packets/quest_mission_log.h"
-#include "packets/roe_questlog.h"
 #include "packets/roe_sparkupdate.h"
 #include "packets/roe_update.h"
 #include "packets/s2c/0x01d_item_same.h"
@@ -109,6 +108,7 @@
 #include "enums/key_items.h"
 #include "items/item_furnishing.h"
 #include "items/item_linkshell.h"
+#include "packets/s2c/0x112_roe_log.h"
 
 /************************************************************************
  *                                                                       *
@@ -1242,7 +1242,7 @@ namespace charutils
             // 4-part Eminence Completion bitmap
             for (int i = 0; i < 4; i++)
             {
-                PChar->pushPacket<CRoeQuestLogPacket>(PChar, i);
+                PChar->pushPacket<GP_SERV_COMMAND_ROE_LOG>(PChar, i);
             }
         }
     }
