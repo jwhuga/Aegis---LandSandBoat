@@ -848,16 +848,6 @@ INSERT INTO `mob_family_mods` VALUES (362,10,7,1); -- SUBLINK: 7 (Sabotender)
 -- Leech
 INSERT INTO `mob_family_mods` VALUES (369,31,15,1); -- ROAM_DISTANCE: 15
 
--- Raptor
-INSERT INTO `mob_family_mods` VALUES (376,31,30,1); -- ROAM_DISTANCE: 30
-INSERT INTO `mob_family_mods` VALUES (376,36,40,1); -- ROAM_COOL: 40
-INSERT INTO `mob_family_mods` VALUES (376,51,3,1);  -- ROAM_TURNS: 3
-
--- Raptor
-INSERT INTO `mob_family_mods` VALUES (377,31,30,1); -- ROAM_DISTANCE: 30
-INSERT INTO `mob_family_mods` VALUES (377,36,40,1); -- ROAM_COOL: 40
-INSERT INTO `mob_family_mods` VALUES (377,51,3,1);  -- ROAM_TURNS: 3
-
 -- Humanoid-Hume
 INSERT INTO `mob_family_mods` VALUES (394,4,30,1);   -- SIGHT_RANGE: 30
 INSERT INTO `mob_family_mods` VALUES (394,41,988,1); -- TELEPORT_START: 988

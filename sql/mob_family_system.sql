@@ -424,8 +424,8 @@ INSERT INTO `mob_family_system` VALUES (371,'Marid',101,'Marid',6,'Beast',2.00,4
 INSERT INTO `mob_family_system` VALUES (373,'Goblin-Armored',77,'Goblin',7,'Beastmen',0.00,40,91,120,1,3,5,3,4,4,4,1,3,1,3,5.0,1,0);
 -- 374 Free
 -- 375 Free
-INSERT INTO `mob_family_system` VALUES (376,'Raptor',122,'Raptor',14,'Lizard',1.00,50,95,120,4,4,5,3,4,4,4,1,3,1,3,1.0,258,1);
-INSERT INTO `mob_family_system` VALUES (377,'Raptor',122,'Raptor',14,'Lizard',1.00,50,95,120,4,4,5,3,4,4,4,1,3,1,3,1.0,258,1);
+-- 376 Free
+-- 377 Free
 INSERT INTO `mob_family_system` VALUES (378,'Avatar-Diabolos',14,'Diabolos',5,'Avatar',0.00,40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,1,0);
 INSERT INTO `mob_family_system` VALUES (379,'Pet-Carbuncle',13,'Carbuncle',5,'Avatar',0.00,40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,41,0);
 INSERT INTO `mob_family_system` VALUES (380,'Pet-Diabolos',14,'Diabolos',5,'Avatar',0.00,40,100,120,3,3,3,3,3,3,3,1,3,1,3,0.0,41,0);
