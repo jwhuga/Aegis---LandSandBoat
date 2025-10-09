@@ -149,7 +149,7 @@
 #include "packets/s2c/0x0f9_res.h"
 #include "packets/server_ip.h"
 #include "packets/shop_items.h"
-#include "packets/shop_menu.h"
+#include "packets/s2c/0x03e_shop_open.h"
 
 #include "utils/battleutils.h"
 #include "utils/blueutils.h"
@@ -2494,6 +2494,7 @@ void CLuaBaseEntity::sendMenu(uint32 menu)
         case 2:
             PChar->pushPacket<CShopMenuPacket>(PChar);
             PChar->pushPacket<CShopItemsPacket>(PChar);
+            PChar->pushPacket<GP_SERV_COMMAND_SHOP_OPEN>(PChar);
             break;
         case 3:
             PChar->pushPacket<CAuctionHousePacket>(GP_CLI_COMMAND_AUC_COMMAND::Open);
