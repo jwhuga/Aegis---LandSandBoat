@@ -80,6 +80,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x085_guild_selllist.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x086_guild_open.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x086_guild_open.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0aa_magic_data.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0aa_magic_data.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0ac_command_data.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0ac_command_data.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0ae_mount_data.h
