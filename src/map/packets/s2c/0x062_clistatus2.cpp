@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,18 @@
 ===========================================================================
 */
 
-#ifndef _CCHARSKILLSPACKET_H
-#define _CCHARSKILLSPACKET_H
+#include "0x062_clistatus2.h"
 
-#include "common/cbasetypes.h"
+#include "entities/charentity.h"
 
-#include "basic.h"
-
-class CCharEntity;
-
-class CCharSkillsPacket : public CBasicPacket
+GP_SERV_COMMAND_CLISTATUS2::GP_SERV_COMMAND_CLISTATUS2(const CCharEntity* PChar)
 {
-public:
-    CCharSkillsPacket(CCharEntity* PChar);
-};
+    auto& packet = this->data();
 
-#endif
+    std::memcpy(packet.skill_base, &PChar->WorkingSkills, sizeof(packet.skill_base));
+
+    // Remove automaton skills from this menu (they are in another packet)
+    packet.skill_base[22] = 0x8000; // Offset 0xAC - 0x80 = 0x2C, 0x2C/2 = 22
+    packet.skill_base[23] = 0x8000; // Offset 0xAE - 0x80 = 0x2E, 0x2E/2 = 23
+    packet.skill_base[24] = 0x8000; // Offset 0xB0 - 0x80 = 0x30, 0x30/2 = 24
+}

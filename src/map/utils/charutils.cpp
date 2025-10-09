@@ -36,17 +36,13 @@
 #include "ai/states/item_state.h"
 #include "ai/states/range_state.h"
 
-#include "packets/s2c/0x0ac_command_data.h"
-#include "packets/s2c/0x050_equip_list.h"
 #include "packets/char_job_extra.h"
 #include "packets/char_jobs.h"
 #include "packets/char_recast.h"
-#include "packets/char_skills.h"
 #include "packets/char_stats.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/conquest_map.h"
-#include "packets/s2c/0x0e0_group_comlink.h"
 #include "packets/menu_jobpoints.h"
 #include "packets/menu_merit.h"
 #include "packets/message_basic.h"
@@ -61,8 +57,12 @@
 #include "packets/s2c/0x01f_item_list.h"
 #include "packets/s2c/0x020_item_attr.h"
 #include "packets/s2c/0x026_item_subcontainer.h"
+#include "packets/s2c/0x050_equip_list.h"
 #include "packets/s2c/0x051_grap_list.h"
 #include "packets/s2c/0x055_scenarioitem.h"
+#include "packets/s2c/0x062_clistatus2.h"
+#include "packets/s2c/0x0ac_command_data.h"
+#include "packets/s2c/0x0e0_group_comlink.h"
 #include "packets/server_ip.h"
 
 #include "ability.h"
@@ -1497,7 +1497,7 @@ namespace charutils
 
         PChar->pushPacket<CCharJobsPacket>(PChar);
         PChar->pushPacket<CCharStatsPacket>(PChar);
-        PChar->pushPacket<CCharSkillsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
         PChar->pushPacket<CCharRecastPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
         PChar->pushPacket<CCharStatusPacket>(PChar);
@@ -3727,7 +3727,7 @@ namespace charutils
                     {
                         PChar->WorkingSkills.skill[SkillID] += 1;
                     }
-                    PChar->pushPacket<CCharSkillsPacket>(PChar);
+                    PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
                     PChar->pushPacket<CMessageBasicPacket>(PChar, PChar, SkillID, (CurSkill + SkillAmount) / 10, 53);
 
                     CheckWeaponSkill(PChar, SkillID);
@@ -5056,7 +5056,7 @@ namespace charutils
 
                 PChar->pushPacket<CCharJobsPacket>(PChar);
                 PChar->pushPacket<CCharStatusPacket>(PChar);
-                PChar->pushPacket<CCharSkillsPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
                 PChar->pushPacket<CCharRecastPacket>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
                 PChar->pushPacket<CMenuMeritPacket>(PChar);
@@ -5292,7 +5292,7 @@ namespace charutils
 
                 PChar->pushPacket<CCharJobsPacket>(PChar);
                 PChar->pushPacket<CCharStatusPacket>(PChar);
-                PChar->pushPacket<CCharSkillsPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
                 PChar->pushPacket<CCharRecastPacket>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
                 PChar->pushPacket<CMenuMeritPacket>(PChar);

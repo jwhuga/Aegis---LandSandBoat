@@ -23,8 +23,8 @@
 #include "entities/charentity.h"
 
 #include "map_engine.h"
-#include "packets/s2c/0x0ac_command_data.h"
 #include "packets/s2c/0x0aa_magic_data.h"
+#include "packets/s2c/0x0ac_command_data.h"
 #include "utils/charutils.h"
 
 static uint8 upgrade[10][45] = {

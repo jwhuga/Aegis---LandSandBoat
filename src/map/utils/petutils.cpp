@@ -50,10 +50,10 @@
 #include "ai/states/ability_state.h"
 
 #include "mob_modifier.h"
-#include "packets/s2c/0x0ac_command_data.h"
 #include "packets/char_status.h"
 #include "packets/entity_update.h"
 #include "packets/pet_sync.h"
+#include "packets/s2c/0x0ac_command_data.h"
 
 std::vector<Pet_t*> g_PPetList;
 

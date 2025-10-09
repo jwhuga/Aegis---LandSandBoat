@@ -23,8 +23,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/char_jobs.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_recast.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/char_recast.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/char_skills.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/char_skills.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_stats.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/char_stats.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_status.cpp

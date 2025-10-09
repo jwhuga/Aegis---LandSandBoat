@@ -34,13 +34,13 @@
 
 #include "lua/luautils.h"
 
-#include "packets/s2c/0x0ac_command_data.h"
 #include "packets/char_job_extra.h"
 #include "packets/char_jobs.h"
 #include "packets/char_stats.h"
 #include "packets/monipulator1.h"
 #include "packets/monipulator2.h"
 #include "packets/s2c/0x051_grap_list.h"
+#include "packets/s2c/0x0ac_command_data.h"
 
 #include "utils/charutils.h"
 #include "utils/zoneutils.h"
