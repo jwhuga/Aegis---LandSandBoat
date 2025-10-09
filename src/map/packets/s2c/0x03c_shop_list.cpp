@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,37 +19,32 @@
 ===========================================================================
 */
 
-#include <cstring>
+#include "0x03c_shop_list.h"
 
 #include "entities/charentity.h"
-#include "shop_items.h"
 #include "trade_container.h"
 
-CShopItemsPacket::CShopItemsPacket(CCharEntity* PChar)
+GP_SERV_COMMAND_SHOP_LIST::GP_SERV_COMMAND_SHOP_LIST(CCharEntity* PChar)
 {
-    this->setType(0x3C);
-    this->setSize(0x08);
-
-    uint8 ItemsCount = PChar->Container->getItemsCount();
+    const uint8 itemsCount = PChar->Container->getItemsCount();
+    auto& packet = this->data();
 
     uint8 i = 0;
-    for (uint8 slotID = 0; slotID < ItemsCount; ++slotID)
+    for (uint8 slotID = 0; slotID < itemsCount; ++slotID)
     {
         if (i == 20)
         {
             PChar->pushPacket(this->copy());
 
             i = 0;
-            this->setSize(0x08);
-            std::memset(buffer_.data() + 4, 0, PACKET_SIZE - 8);
+            std::memset(&packet, 0, sizeof(packet));
         }
-        this->setSize(this->getSize() + 0x0C); // TODO: Verify
 
-        ref<uint32>(i * 12 + 0x08) = PChar->Container->getQuantity(slotID);
-        ref<uint16>(i * 12 + 0x0C) = PChar->Container->getItemID(slotID);
-        ref<uint8>(i * 12 + 0x0E)  = slotID;
-        ref<uint8>(i * 12 + 0x10)  = PChar->Container->getGuildID(slotID);
-        ref<uint16>(i * 12 + 0x12) = (PChar->Container->getGuildRank(slotID) + 1) * 100;
+        packet.ShopItemTbl[i].ItemPrice = PChar->Container->getQuantity(slotID);
+        packet.ShopItemTbl[i].ItemNo    = PChar->Container->getItemID(slotID);
+        packet.ShopItemTbl[i].ShopIndex = slotID;
+        packet.ShopItemTbl[i].Skill     = PChar->Container->getGuildID(slotID);
+        packet.ShopItemTbl[i].GuildInfo = (PChar->Container->getGuildRank(slotID) + 1) * 100;
         i++;
     }
 }
