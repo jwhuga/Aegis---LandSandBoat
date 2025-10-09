@@ -103,7 +103,7 @@
 #include "packets/char_health.h"
 #include "packets/char_job_extra.h"
 #include "packets/char_jobs.h"
-#include "packets/char_mounts.h"
+#include "packets/s2c/0x0ae_mount_data.h"
 #include "packets/char_recast.h"
 #include "packets/char_skills.h"
 #include "packets/char_spells.h"
@@ -8842,7 +8842,7 @@ void CLuaBaseEntity::addKeyItem(const KeyItem keyItemID) const
 
     if (table == 6)
     {
-        PChar->pushPacket<CCharMountsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_MOUNT_DATA>(PChar);
     }
 
     charutils::SaveKeyItems(PChar);
