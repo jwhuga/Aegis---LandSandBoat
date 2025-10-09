@@ -8,7 +8,12 @@ mixins = { require('scripts/mixins/families/maat') }
 ---@type TMobEntity
 local entity = {}
 
+entity.onMobInitialize = function(mob)
+    xi.pet.setMobPet(mob, 1, 'Maats_Wyvern')
+end
+
 entity.onMobFight = function(mob, target)
+    -- TODO is this necessary? pets automatically assist their master in roam ticks
     local mobId = mob:getID()
     local pet   = GetMobByID(mobId + 1)
 
