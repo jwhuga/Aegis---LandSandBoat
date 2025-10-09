@@ -27,16 +27,23 @@
 GP_SERV_COMMAND_SHOP_LIST::GP_SERV_COMMAND_SHOP_LIST(CCharEntity* PChar)
 {
     const uint8 itemsCount = PChar->Container->getItemsCount();
-    auto& packet = this->data();
+    auto&       packet     = this->data();
 
-    uint8 i = 0;
+    uint8  i          = 0;
+    uint16 itemOffset = 0;
+
     for (uint8 slotID = 0; slotID < itemsCount; ++slotID)
     {
-        if (i == 20)
+        if (i == 19)
         {
+            // Set offset, flags and size for full packet (19 items)
+            packet.ShopItemOffsetIndex = itemOffset;
+            packet.Flags               = 0x00; // More packets to come
+            this->setSize(0x08 + (19 * sizeof(GP_SHOP)));
             PChar->pushPacket(this->copy());
 
             i = 0;
+            itemOffset += 19;
             std::memset(&packet, 0, sizeof(packet));
         }
 
@@ -47,4 +54,9 @@ GP_SERV_COMMAND_SHOP_LIST::GP_SERV_COMMAND_SHOP_LIST(CCharEntity* PChar)
         packet.ShopItemTbl[i].GuildInfo = (PChar->Container->getGuildRank(slotID) + 1) * 100;
         i++;
     }
+
+    // Set offset, flags and size for final packet
+    packet.ShopItemOffsetIndex = itemOffset;
+    packet.Flags               = 0x89; // Indicates last packet
+    this->setSize(0x08 + (i * sizeof(GP_SHOP)));
 }

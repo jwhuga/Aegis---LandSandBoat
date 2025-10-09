@@ -21,8 +21,6 @@
 
 #include "0x08d_job_points.h"
 
-#include <cstring>
-
 #include "entities/charentity.h"
 #include "job_points.h"
 
@@ -42,24 +40,26 @@ GP_SERV_COMMAND_JOB_POINTS::GP_SERV_COMMAND_JOB_POINTS(CCharEntity* PChar)
     // Start at 1 for WAR
     for (uint8 i = 1; i < MAX_JOBTYPE; i++)
     {
-        const JobPoints_t current_job = PJobPoints[i];
+        const JobPoints_t currentJob = PJobPoints[i];
 
+        // TODO: This is wrong, it should be up to 32 entries per job.
         for (uint8 j = 0; j < JOBPOINTS_JPTYPE_PER_CATEGORY; j++)
         {
-            JobPointType_t current_type = current_job.job_point_types[j];
-            if (current_type.id != 0 && pointIndex < 64)
+            const JobPointType_t currentType = currentJob.job_point_types[j];
+            if (currentType.id != 0 && pointIndex < 64)
             {
-                // Map the LSB data to XiPackets format
-                packet.points[pointIndex].job_no = current_type.id;
-                packet.points[pointIndex].level  = JobPointValueFormat(current_type.value);
-                packet.points[pointIndex].next   = JobPointCost(current_type.value);
-                packet.points[pointIndex].index  = j;
+                packet.points[pointIndex] = {
+                    .index  = static_cast<uint16_t>(currentType.id & 0x1F), // Lower 5 bits
+                    .job_no = static_cast<uint16_t>(currentType.id >> 5),   // Upper 11 bits
+                    .next   = static_cast<uint16_t>(JobPointCost(currentType.value)),
+                    .level  = static_cast<uint16_t>(JobPointValueFormat(currentType.value)),
+                };
                 pointIndex++;
             }
         }
 
-        // Send a packet every 2 jobs (40 entries)
-        if (i % 2 == 1 && pointIndex > 0)
+        // Send a packet every 2 jobs (up to 20 entries)
+        if (i % 2 == 1)
         {
             PChar->pushPacket(this->copy());
 
@@ -76,10 +76,13 @@ GP_SERV_COMMAND_JOB_POINTS::GP_SERV_COMMAND_JOB_POINTS(const CCharEntity* PChar,
     auto& packet = this->data();
 
     const JobPointType_t* PJobPoint = PChar->PJobPoints->GetJobPointType(jpType);
-
     // Put the update in the first slot
-    packet.points[0].job_no = PJobPoint->id;
-    packet.points[0].level  = JobPointValueFormat(PJobPoint->value);
-    packet.points[0].next   = JobPointCost(PJobPoint->value);
-    packet.points[0].index  = 0;
+    packet.points[0] = {
+        .index  = static_cast<uint16_t>(PJobPoint->id & 0x1F), // Lower 5 bits
+        .job_no = static_cast<uint16_t>(PJobPoint->id >> 5),   // Upper 11 bits
+        .next   = static_cast<uint16_t>(JobPointCost(PJobPoint->value)),
+        .level  = static_cast<uint16_t>(JobPointValueFormat(PJobPoint->value)),
+    };
+
+    // Retail sends full size packet even for single updates
 }

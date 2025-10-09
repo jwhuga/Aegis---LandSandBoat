@@ -44,7 +44,7 @@ public:
         uint16_t ShopItemOffsetIndex; // PS2: ShopItemOffsetIndex
         uint8_t  Flags;               // PS2: dammy
         uint8_t  padding00;           // PS2: Dammy
-        GP_SHOP  ShopItemTbl[20];     // PS2: ShopItemTbl
+        GP_SHOP  ShopItemTbl[19];     // PS2: ShopItemTbl -- Note: Variable length array.
     };
 
     GP_SERV_COMMAND_SHOP_LIST(CCharEntity* PChar);

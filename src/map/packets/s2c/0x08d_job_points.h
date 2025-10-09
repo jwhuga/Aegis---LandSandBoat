@@ -41,7 +41,7 @@ class GP_SERV_COMMAND_JOB_POINTS final : public GP_SERV_PACKET<PacketS2C::GP_SER
 public:
     struct PacketData
     {
-        jobpoint_t points[64];
+        jobpoint_t points[64]; // NOT a variable length array
     };
 
     // Constructor for full job point details

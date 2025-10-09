@@ -63,8 +63,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/menu_jobpoints.h
     ${CMAKE_CURRENT_SOURCE_DIR}/menu_merit.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/menu_merit.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/merit_points_categories.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/merit_points_categories.h
     ${CMAKE_CURRENT_SOURCE_DIR}/menu_unity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/menu_unity.h
     ${CMAKE_CURRENT_SOURCE_DIR}/message_basic.cpp
