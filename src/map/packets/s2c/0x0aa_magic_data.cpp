@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,15 @@
 ===========================================================================
 */
 
-#include <cstring>
+#include "0x0aa_magic_data.h"
 
-#include "char_mounts.h"
+#include <cstring>
 
 #include "entities/charentity.h"
 
-CCharMountsPacket::CCharMountsPacket(CCharEntity* PChar)
+GP_SERV_COMMAND_MAGIC_DATA::GP_SERV_COMMAND_MAGIC_DATA(const CCharEntity* PChar)
 {
-    this->setType(0xAE);
-    this->setSize(0x0C);
+    auto& packet = this->data();
 
-    std::memcpy(buffer_.data() + 0x04, &(PChar->keys.tables[6].keyList), 0x0C);
+    std::memcpy(packet.MagicDataTbl, &PChar->m_SpellList, sizeof(packet.MagicDataTbl));
 }

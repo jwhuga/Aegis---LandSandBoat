@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,25 +19,13 @@
 ===========================================================================
 */
 
-#ifndef _CLINKSHELLEQUIPPACKET_H
-#define _CLINKSHELLEQUIPPACKET_H
+#include "0x050_equip_list.h"
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
-
-/************************************************************************
- *                                                                       *
- *  We send Linkshellid to which the search is carried out.             *
- *                                                                       *
- ************************************************************************/
-
-class CCharEntity;
-
-class CLinkshellEquipPacket : public CBasicPacket
+GP_SERV_COMMAND_EQUIP_LIST::GP_SERV_COMMAND_EQUIP_LIST(const uint8 slotId, const SLOTTYPE equipSlot, const CONTAINER_ID containerId)
 {
-public:
-    CLinkshellEquipPacket(CCharEntity* PChar, uint8 number);
-};
+    auto& packet = this->data();
 
-#endif
+    packet.PropertyItemIndex = slotId;
+    packet.EquipKind         = equipSlot;
+    packet.Category          = containerId;
+}

@@ -63,11 +63,11 @@
 #include "modifier.h"
 #include "navmesh.h"
 #include "notoriety_container.h"
-#include "packets/char_abilities.h"
 #include "packets/char_recast.h"
 #include "packets/pet_sync.h"
 #include "packets/position.h"
 #include "packets/s2c/0x058_assist.h"
+#include "packets/s2c/0x0ac_command_data.h"
 #include "party.h"
 #include "petskill.h"
 #include "recast_container.h"
@@ -4694,7 +4694,7 @@ namespace battleutils
             {
                 charutils::BuildingCharAbilityTable(PChar);
                 std::memset(&PChar->m_PetCommands, 0, sizeof(PChar->m_PetCommands));
-                PChar->pushPacket<CCharAbilitiesPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
                 PChar->pushPacket<CCharStatusPacket>(PChar);
                 PChar->pushPacket<CPetSyncPacket>(PChar);
             }

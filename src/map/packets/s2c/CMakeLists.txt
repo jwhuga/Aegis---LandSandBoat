@@ -46,6 +46,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x043_talknumname.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x043_talknumname.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x04f_equip_clear.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x050_equip_list.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x050_equip_list.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x051_grap_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x051_grap_list.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x052_eventucoff.h
@@ -66,6 +68,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05d_pendingstr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05f_music.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05f_music.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x062_clistatus2.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x062_clistatus2.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x06f_combine_ans.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x06f_combine_ans.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x070_combine_inf.h
@@ -80,6 +84,12 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x085_guild_selllist.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x086_guild_open.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x086_guild_open.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0aa_magic_data.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0aa_magic_data.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0ac_command_data.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0ac_command_data.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0ae_mount_data.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0ae_mount_data.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0b4_config.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0b4_config.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0fa_myroom_operation.h
@@ -94,6 +104,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0d2_trophy_list.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0d3_trophy_solution.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0d3_trophy_solution.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0e0_group_comlink.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x0e0_group_comlink.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0f6_tracking_state.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0f6_tracking_state.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x0f9_res.h

@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,23 @@
 ===========================================================================
 */
 
-#include <cstring>
-
-#include "char_spells.h"
+#include "0x0e0_group_comlink.h"
 
 #include "entities/charentity.h"
 
-CCharSpellsPacket::CCharSpellsPacket(CCharEntity* PChar)
+GP_SERV_COMMAND_GROUP_COMLINK::GP_SERV_COMMAND_GROUP_COMLINK(const CCharEntity* PChar, const uint8 linkshellNumber)
 {
-    this->setType(0xAA);
-    this->setSize(0x84);
+    auto& packet = this->data();
 
-    ref<xi::bitset<1024>>(0x04) = PChar->m_SpellList;
+    packet.LinkshellNum = linkshellNumber;
+    if (linkshellNumber == 1)
+    {
+        packet.ItemIndex = PChar->equip[SLOT_LINK1];
+        packet.Category  = PChar->equipLoc[SLOT_LINK1];
+    }
+    else
+    {
+        packet.ItemIndex = PChar->equip[SLOT_LINK2];
+        packet.Category  = PChar->equipLoc[SLOT_LINK2];
+    }
 }

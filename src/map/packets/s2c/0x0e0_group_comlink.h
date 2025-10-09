@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,24 @@
 ===========================================================================
 */
 
-#include <cstring>
+#pragma once
 
-#include "char_abilities.h"
+#include "base.h"
 
-#include "entities/charentity.h"
+class CCharEntity;
 
-CCharAbilitiesPacket::CCharAbilitiesPacket(CCharEntity* PChar)
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x00E0
+// This packet is sent by the server to update the clients equipped linkshell information.
+class GP_SERV_COMMAND_GROUP_COMLINK final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_GROUP_COMLINK, GP_SERV_COMMAND_GROUP_COMLINK>
 {
-    this->setType(0xAC);
-    this->setSize(0xE4);
+public:
+    struct PacketData
+    {
+        uint8_t LinkshellNum;
+        uint8_t ItemIndex;
+        uint8_t Category;
+        uint8_t padding00;
+    };
 
-    std::memcpy(buffer_.data() + 0x04, PChar->m_WeaponSkills, 32);
-    std::memcpy(buffer_.data() + 0x44, PChar->m_Abilities, 64);
-    std::memcpy(buffer_.data() + 0x84, PChar->m_PetCommands, 64);
-    std::memcpy(buffer_.data() + 0xC4, PChar->m_TraitList, 18);
-}
+    GP_SERV_COMMAND_GROUP_COMLINK(const CCharEntity* PChar, uint8 linkshellNumber);
+};

@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,17 +19,21 @@
 ===========================================================================
 */
 
-#ifndef _CEQUIPPACKET_H
-#define _CEQUIPPACKET_H
+#pragma once
 
-#include "common/cbasetypes.h"
+#include "base.h"
 
-#include "basic.h"
+class CCharEntity;
 
-class CEquipPacket : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x00AA
+// This packet is sent by the server to populate the clients list of available magic spells.
+class GP_SERV_COMMAND_MAGIC_DATA final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_MAGIC_DATA, GP_SERV_COMMAND_MAGIC_DATA>
 {
 public:
-    CEquipPacket(uint8 EquipSlot, uint8 SlotID, uint8 containerID);
-};
+    struct PacketData
+    {
+        uint8_t MagicDataTbl[128]; // PS2: MagicDataTbl
+    };
 
-#endif
+    GP_SERV_COMMAND_MAGIC_DATA(const CCharEntity* PChar);
+};

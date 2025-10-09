@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,13 @@
 ===========================================================================
 */
 
-#ifndef _CCHARABILITIESPACKET_H
-#define _CCHARABILITIESPACKET_H
+#include "0x0ae_mount_data.h"
 
-#include "common/cbasetypes.h"
+#include "entities/charentity.h"
 
-#include "basic.h"
-
-class CCharEntity;
-
-class CCharAbilitiesPacket : public CBasicPacket
+GP_SERV_COMMAND_MOUNT_DATA::GP_SERV_COMMAND_MOUNT_DATA(const CCharEntity* PChar)
 {
-public:
-    CCharAbilitiesPacket(CCharEntity* PChar);
-};
+    auto& packet = this->data();
 
-#endif
+    std::memcpy(packet.MountDataTbl, &(PChar->keys.tables[6].keyList), sizeof(packet.MountDataTbl));
+}

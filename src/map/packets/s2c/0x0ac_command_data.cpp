@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,25 +19,20 @@
 ===========================================================================
 */
 
-#include "linkshell_equip.h"
+#include "0x0ac_command_data.h"
+
+#include <cstring>
 
 #include "entities/charentity.h"
-#include "linkshell.h"
 
-CLinkshellEquipPacket::CLinkshellEquipPacket(CCharEntity* PChar, uint8 number)
+GP_SERV_COMMAND_COMMAND_DATA::GP_SERV_COMMAND_COMMAND_DATA(const CCharEntity* PChar)
 {
-    this->setType(0xE0);
-    this->setSize(0x08);
+    auto& packet = this->data();
 
-    ref<uint8>(0x04) = number;
-    if (number == 1)
-    {
-        ref<uint8>(0x05) = PChar->equip[SLOT_LINK1];
-        ref<uint8>(0x06) = PChar->equipLoc[SLOT_LINK1];
-    }
-    else
-    {
-        ref<uint8>(0x05) = PChar->equip[SLOT_LINK2];
-        ref<uint8>(0x06) = PChar->equipLoc[SLOT_LINK2];
-    }
+    // Note: Packet WeaponSkills is 64 bytes. CCharEntity is 32.
+    std::memcpy(packet.CommandDataTbl.WeaponSkills, PChar->m_WeaponSkills, sizeof(PChar->m_WeaponSkills));
+    std::memcpy(packet.CommandDataTbl.JobAbilities, PChar->m_Abilities, sizeof(PChar->m_Abilities));
+    std::memcpy(packet.CommandDataTbl.PetAbilities, PChar->m_PetCommands, sizeof(PChar->m_PetCommands));
+    // Note: Packet Traits is 32 bytes. CCharEntity is 18.
+    std::memcpy(packet.CommandDataTbl.Traits, PChar->m_TraitList, sizeof(PChar->m_TraitList));
 }
