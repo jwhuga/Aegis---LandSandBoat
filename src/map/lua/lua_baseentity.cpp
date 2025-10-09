@@ -106,7 +106,7 @@
 #include "packets/s2c/0x0ae_mount_data.h"
 #include "packets/char_recast.h"
 #include "packets/char_skills.h"
-#include "packets/char_spells.h"
+#include "packets/s2c/0x0aa_magic_data.h"
 #include "packets/char_stats.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
@@ -7082,7 +7082,7 @@ uint8 CLuaBaseEntity::levelRestriction(sol::object const& level)
                 PChar->pushPacket<CCharSkillsPacket>(PChar);
                 PChar->pushPacket<CCharRecastPacket>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
-                PChar->pushPacket<CCharSpellsPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_MAGIC_DATA>(PChar);
                 PChar->pushPacket<CCharStatusPacket>(PChar);
                 PChar->pushPacket<CCharSyncPacket>(PChar);
             }
@@ -10832,7 +10832,7 @@ void CLuaBaseEntity::addSpell(uint16 spellID, sol::variadic_args va)
     {
         if (sendUpdate)
         {
-            PChar->pushPacket<CCharSpellsPacket>(PChar);
+            PChar->pushPacket<GP_SERV_COMMAND_MAGIC_DATA>(PChar);
         }
 
         if (!silentLog)
@@ -10914,7 +10914,7 @@ void CLuaBaseEntity::delSpell(uint16 spellID)
     if (charutils::delSpell(PChar, spellID))
     {
         charutils::DeleteSpell(PChar, spellID);
-        PChar->pushPacket<CCharSpellsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_MAGIC_DATA>(PChar);
     }
 }
 

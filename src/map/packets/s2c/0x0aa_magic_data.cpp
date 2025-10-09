@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,15 @@
 ===========================================================================
 */
 
-#include <cstring>
+#include "0x0aa_magic_data.h"
 
-#include "char_spells.h"
+#include <cstring>
 
 #include "entities/charentity.h"
 
-CCharSpellsPacket::CCharSpellsPacket(CCharEntity* PChar)
+GP_SERV_COMMAND_MAGIC_DATA::GP_SERV_COMMAND_MAGIC_DATA(const CCharEntity* PChar)
 {
-    this->setType(0xAA);
-    this->setSize(0x84);
+    auto& packet = this->data();
 
-    ref<xi::bitset<1024>>(0x04) = PChar->m_SpellList;
+    std::memcpy(packet.MagicDataTbl, &PChar->m_SpellList, sizeof(packet.MagicDataTbl));
 }

@@ -28,7 +28,7 @@
 #include "utils/charutils.h"
 #include "utils/zoneutils.h"
 
-#include "packets/char_spells.h"
+#include "packets/s2c/0x0aa_magic_data.h"
 #include "packets/s2c/0x111_roe_activelog.h"
 #include "packets/s2c/0x112_roe_log.h"
 
@@ -413,7 +413,7 @@ namespace roeutils
 
         if (sendUpdate)
         {
-            PChar->pushPacket<CCharSpellsPacket>(PChar);
+            PChar->pushPacket<GP_SERV_COMMAND_MAGIC_DATA>(PChar);
         }
     }
 
