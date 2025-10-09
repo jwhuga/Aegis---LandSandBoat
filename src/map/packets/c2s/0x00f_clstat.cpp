@@ -23,7 +23,7 @@
 
 #include "entities/charentity.h"
 #include "packets/s2c/0x0ac_command_data.h"
-#include "packets/char_mounts.h"
+#include "packets/s2c/0x0ae_mount_data.h"
 #include "packets/char_spells.h"
 #include "packets/char_sync.h"
 #include "packets/merit_points_categories.h"
@@ -44,7 +44,7 @@ void GP_CLI_COMMAND_CLSTAT::process(MapSession* PSession, CCharEntity* PChar) co
     charutils::SendRecordsOfEminenceLog(PChar);
 
     PChar->pushPacket<CCharSpellsPacket>(PChar);
-    PChar->pushPacket<CCharMountsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MOUNT_DATA>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
     PChar->pushPacket<CCharSyncPacket>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_INSPECT_MESSAGE>(PChar);

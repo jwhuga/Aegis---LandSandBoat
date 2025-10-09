@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,13 @@
 ===========================================================================
 */
 
-#include <cstring>
-
-#include "char_mounts.h"
+#include "0x0ae_mount_data.h"
 
 #include "entities/charentity.h"
 
-CCharMountsPacket::CCharMountsPacket(CCharEntity* PChar)
+GP_SERV_COMMAND_MOUNT_DATA::GP_SERV_COMMAND_MOUNT_DATA(const CCharEntity* PChar)
 {
-    this->setType(0xAE);
-    this->setSize(0x0C);
+    auto& packet = this->data();
 
-    std::memcpy(buffer_.data() + 0x04, &(PChar->keys.tables[6].keyList), 0x0C);
+    std::memcpy(packet.MountDataTbl, &(PChar->keys.tables[6].keyList), sizeof(packet.MountDataTbl));
 }
