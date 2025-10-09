@@ -23,9 +23,9 @@
 
 #include "blue_spell.h"
 #include "entities/charentity.h"
-#include "packets/s2c/0x0ac_command_data.h"
 #include "packets/char_job_extra.h"
 #include "packets/char_stats.h"
+#include "packets/s2c/0x0ac_command_data.h"
 #include "recast_container.h"
 #include "utils/blueutils.h"
 #include "utils/charutils.h"

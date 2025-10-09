@@ -25,7 +25,7 @@ GP_SERV_COMMAND_EQUIP_LIST::GP_SERV_COMMAND_EQUIP_LIST(const uint8 slotId, const
 {
     auto& packet = this->data();
 
-    packet.PropertyItemIndex  = slotId;
-    packet.EquipKind          = equipSlot;
-    packet.Category           = containerId;
+    packet.PropertyItemIndex = slotId;
+    packet.EquipKind         = equipSlot;
+    packet.Category          = containerId;
 }
