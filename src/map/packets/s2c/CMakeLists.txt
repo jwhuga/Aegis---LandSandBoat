@@ -37,6 +37,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x03a_magicschedulor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x03d_shop_sell.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x03d_shop_sell.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x03e_shop_open.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x03e_shop_open.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x03f_shop_buy.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x03f_shop_buy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x041_black_list.h
