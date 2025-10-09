@@ -111,8 +111,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/server_ip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/server_message.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/server_message.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/shop_items.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/shop_items.h
     ${CMAKE_CURRENT_SOURCE_DIR}/status_effects.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/status_effects.h
     ${CMAKE_CURRENT_SOURCE_DIR}/synth_suggestion.cpp
