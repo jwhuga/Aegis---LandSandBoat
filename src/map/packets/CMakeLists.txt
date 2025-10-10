@@ -85,8 +85,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/monipulator2.h
     ${CMAKE_CURRENT_SOURCE_DIR}/party_define.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/party_define.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/party_effects.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/party_effects.h
     ${CMAKE_CURRENT_SOURCE_DIR}/party_invite.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/party_invite.h
     ${CMAKE_CURRENT_SOURCE_DIR}/party_map.cpp
