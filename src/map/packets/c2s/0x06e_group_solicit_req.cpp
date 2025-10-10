@@ -36,7 +36,7 @@
 auto GP_CLI_COMMAND_GROUP_SOLICIT_REQ::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {
     auto pv = PacketValidator()
-                  .oneOf<GP_CLI_COMMAND_GROUP_SOLICIT_REQ_KIND>(Kind)
+                  .oneOf<PartyKind>(Kind)
                   .mustNotEqual(PChar->id, UniqueNo, "Cannot invite yourself")
                   .mustEqual(blacklistutils::IsBlacklisted(UniqueNo, PChar->id), false, "Character has inviter blacklisted");
 
@@ -119,7 +119,7 @@ void GP_CLI_COMMAND_GROUP_SOLICIT_REQ::process(MapSession* PSession, CCharEntity
                     PInvitee->InvitePending.id     = PInviter->id;
                     PInvitee->InvitePending.targid = PInviter->targid;
 
-                    PInvitee->pushPacket<GP_SERV_GROUP_SOLICIT_REQ>(inviteeCharId, inviteeTargId, PInviter->getName(), PartyKind::Party);
+                    PInvitee->pushPacket<GP_SERV_COMMAND_GROUP_SOLICIT_REQ>(inviteeCharId, inviteeTargId, PInviter->getName(), PartyKind::Party);
 
                     ShowDebug("Sent party invite packet to %s", PInvitee->getName());
 
@@ -205,7 +205,7 @@ void GP_CLI_COMMAND_GROUP_SOLICIT_REQ::process(MapSession* PSession, CCharEntity
                     PInvitee->InvitePending.id     = PInviter->id;
                     PInvitee->InvitePending.targid = PInviter->targid;
 
-                    PInvitee->pushPacket<GP_SERV_GROUP_SOLICIT_REQ>(inviteeCharId, inviteeTargId, PInviter->getName(), PartyKind::Alliance);
+                    PInvitee->pushPacket<GP_SERV_COMMAND_GROUP_SOLICIT_REQ>(inviteeCharId, inviteeTargId, PInviter->getName(), PartyKind::Alliance);
 
                     ShowDebug("Sent party invite packet to %s", PInvitee->getName());
                 }

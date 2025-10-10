@@ -36,7 +36,6 @@ GP_SERV_COMMAND_GROUP_TBL::GP_SERV_COMMAND_GROUP_TBL(CParty* PParty, const bool 
 {
     auto& packet = this->data();
 
-
     if (PParty)
     {
         packet.Kind = PParty->m_PAlliance ? PartyKind::Alliance : PartyKind::Party;
@@ -62,19 +61,19 @@ GP_SERV_COMMAND_GROUP_TBL::GP_SERV_COMMAND_GROUP_TBL(CParty* PParty, const bool 
                 targid = PChar->targid;
             }
 
-            const auto pos_zone = rset->getOrDefault<uint16>("pos_zone", 0);
+            const auto pos_zone   = rset->getOrDefault<uint16>("pos_zone", 0);
             const auto partyFlags = rset->get<uint32>("partyflag");
 
-            packet.GroupTbl[i].UniqueNo           = rset->get<uint32>("charid");
-            packet.GroupTbl[i].ActIndex           = targid;
-            packet.GroupTbl[i].PartyNo            = (partyFlags >> 0) & 0x03;  // Bits 0-1
-            packet.GroupTbl[i].PartyLeaderFlg     = (partyFlags >> 2) & 0x01;  // Bit 2
-            packet.GroupTbl[i].AllianceLeaderFlg  = (partyFlags >> 3) & 0x01;  // Bit 3
-            packet.GroupTbl[i].PartyRFlg          = (partyFlags >> 4) & 0x01;  // Bit 4
-            packet.GroupTbl[i].AllianceRFlg       = (partyFlags >> 5) & 0x01;  // Bit 5
-            packet.GroupTbl[i].unknown06          = (partyFlags >> 6) & 0x01;  // Bit 6
-            packet.GroupTbl[i].unknown07          = (partyFlags >> 7) & 0x01;  // Bit 7
-            packet.GroupTbl[i].ZoneNo             = pos_zone ? pos_zone : rset->get<uint16>("pos_prevzone");
+            packet.GroupTbl[i].UniqueNo          = rset->get<uint32>("charid");
+            packet.GroupTbl[i].ActIndex          = targid;
+            packet.GroupTbl[i].PartyNo           = (partyFlags >> 0) & 0x03; // Bits 0-1
+            packet.GroupTbl[i].PartyLeaderFlg    = (partyFlags >> 2) & 0x01; // Bit 2
+            packet.GroupTbl[i].AllianceLeaderFlg = (partyFlags >> 3) & 0x01; // Bit 3
+            packet.GroupTbl[i].PartyRFlg         = (partyFlags >> 4) & 0x01; // Bit 4
+            packet.GroupTbl[i].AllianceRFlg      = (partyFlags >> 5) & 0x01; // Bit 5
+            packet.GroupTbl[i].unknown06         = (partyFlags >> 6) & 0x01; // Bit 6
+            packet.GroupTbl[i].unknown07         = (partyFlags >> 7) & 0x01; // Bit 7
+            packet.GroupTbl[i].ZoneNo            = pos_zone ? pos_zone : rset->get<uint16>("pos_prevzone");
             i++;
         }
 
@@ -85,16 +84,16 @@ GP_SERV_COMMAND_GROUP_TBL::GP_SERV_COMMAND_GROUP_TBL(CParty* PParty, const bool 
             {
                 for (const auto* PTrust : PLeader->PTrusts)
                 {
-                    packet.GroupTbl[i].UniqueNo = PTrust->id;
-                    packet.GroupTbl[i].ActIndex = PTrust->targid;
-                    packet.GroupTbl[i].PartyNo = 0;  // Trusts are in main party
-                    packet.GroupTbl[i].PartyLeaderFlg = 0;
+                    packet.GroupTbl[i].UniqueNo          = PTrust->id;
+                    packet.GroupTbl[i].ActIndex          = PTrust->targid;
+                    packet.GroupTbl[i].PartyNo           = 0; // Trusts are in main party
+                    packet.GroupTbl[i].PartyLeaderFlg    = 0;
                     packet.GroupTbl[i].AllianceLeaderFlg = 0;
-                    packet.GroupTbl[i].PartyRFlg = 0;
-                    packet.GroupTbl[i].AllianceRFlg = 0;
-                    packet.GroupTbl[i].unknown06 = 0;
-                    packet.GroupTbl[i].unknown07 = 0;
-                    packet.GroupTbl[i].ZoneNo = PTrust->getZone();
+                    packet.GroupTbl[i].PartyRFlg         = 0;
+                    packet.GroupTbl[i].AllianceRFlg      = 0;
+                    packet.GroupTbl[i].unknown06         = 0;
+                    packet.GroupTbl[i].unknown07         = 0;
+                    packet.GroupTbl[i].ZoneNo            = PTrust->getZone();
                     i++;
                 }
             }
