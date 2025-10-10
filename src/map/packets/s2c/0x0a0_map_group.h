@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,26 +19,26 @@
 ===========================================================================
 */
 
-#include "party_map.h"
+#pragma once
 
-#include "entities/charentity.h"
+#include "base.h"
 
-CPartyMapPacket::CPartyMapPacket(CCharEntity* PChar)
+class CCharEntity;
+
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x00A0
+// This packet is sent by the server to inform the client of its party members locations when viewing the map.
+class GP_SERV_COMMAND_MAP_GROUP final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_MAP_GROUP, GP_SERV_COMMAND_MAP_GROUP>
 {
-    this->setType(0xA0);
-    this->setSize(0x18);
-
-    if (PChar == nullptr)
+public:
+    struct PacketData
     {
-        ShowError("CPartyMapPacket::CPartyMapPacket() - PChar was null.");
-        return;
-    }
+        uint32_t UniqueID;  // PS2: UniqueID
+        int16_t  zone;      // PS2: zone
+        uint16_t padding0A; // PS2: (New; did not exist.)
+        float    x;         // PS2: x
+        float    y;         // PS2: y
+        float    z;         // PS2: z
+    };
 
-    ref<uint32>(0x04) = PChar->id;
-    ref<uint16>(0x08) = PChar->getZone();
-    ref<uint16>(0x0A) = PChar->targid;
-
-    ref<float>(0x0C) = PChar->loc.p.x;
-    ref<float>(0x10) = PChar->loc.p.y;
-    ref<float>(0x14) = PChar->loc.p.z;
-}
+    GP_SERV_COMMAND_MAP_GROUP(const CCharEntity* PChar);
+};
