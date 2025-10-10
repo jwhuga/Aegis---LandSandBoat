@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,25 +19,18 @@
 ===========================================================================
 */
 
-#ifndef _CPARTYINVITEPACKET_H
-#define _CPARTYINVITEPACKET_H
+#include "0x0dc_group_solicit_req.h"
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
-
-enum INVITETYPE
+GP_SERV_COMMAND_GROUP_SOLICIT_REQ::GP_SERV_COMMAND_GROUP_SOLICIT_REQ(const uint32_t id, const uint16_t targid, const std::string& inviterName, const PartyKind partyKind)
 {
-    INVITE_PARTY    = 0,
-    INVITE_ALLIANCE = 5,
-};
+    auto& packet = this->data();
 
-class CCharEntity;
+    packet.UniqueNo = id;
+    packet.ActIndex = targid;
+    packet.AnonFlag = 0;
+    packet.Kind     = partyKind;
 
-class CPartyInvitePacket : public CBasicPacket
-{
-public:
-    CPartyInvitePacket(uint32 id, uint16 targid, const std::string& inviterName, INVITETYPE InviteType);
-};
+    std::memcpy(packet.sName, inviterName.c_str(), std::min<size_t>(inviterName.size(), sizeof(packet.sName)));
 
-#endif
+    packet.RaceNo = 0; // TODO: Set race ID
+}

@@ -43,7 +43,7 @@
 #include "packets/linkshell_message.h"
 #include "packets/message_standard.h"
 #include "packets/message_system.h"
-#include "packets/party_invite.h"
+#include "packets/s2c/0x0dc_group_solicit_req.h"
 #include "packets/server_ip.h"
 
 #include "items/item_linkshell.h"
@@ -474,7 +474,7 @@ void IPCClient::handleMessage_PartyInvite(const IPP& ipp, const ipc::PartyInvite
         PInvitee->InvitePending.id     = message.inviterId;
         PInvitee->InvitePending.targid = message.inviterTargId;
 
-        PInvitee->pushPacket(std::make_unique<CPartyInvitePacket>(message.inviterId, message.inviterTargId, message.inviterName, message.inviteType));
+        PInvitee->pushPacket(std::make_unique<GP_SERV_GROUP_SOLICIT_REQ>(message.inviterId, message.inviterTargId, message.inviterName, message.inviteType));
     }
 }
 

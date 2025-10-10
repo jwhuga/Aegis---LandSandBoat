@@ -43,8 +43,8 @@
 #include "packets/message_basic.h"
 #include "packets/message_standard.h"
 #include "packets/party_define.h"
-#include "packets/party_effects.h"
 #include "packets/party_member_update.h"
+#include "packets/s2c/0x076_group_effects.h"
 #include "packets/s2c/0x0ac_command_data.h"
 #include "packets/s2c/0x0b4_config.h"
 
@@ -878,7 +878,7 @@ void CParty::ReloadParty()
                 PChar->ReloadPartyDec();
                 uint16 alliance = 0;
                 PChar->pushPacket<CPartyDefinePacket>(party);
-                // auto effects = std::make_unique<CPartyEffectsPacket>();
+                // auto effects = std::make_unique<GP_SERV_COMMAND_GROUP_EFFECTS>();
                 uint8 j = 0;
                 for (auto&& memberinfo : info)
                 {
@@ -926,7 +926,7 @@ void CParty::ReloadParty()
             PChar->PLatentEffectContainer->CheckLatentsPartyAvatar();
             PChar->ReloadPartyDec();
             PChar->pushPacket<CPartyDefinePacket>(this, PLeader && PChar->getZone() == PLeader->getZone());
-            // auto effects = std::make_unique<CPartyEffectsPacket>();
+            // auto effects = std::make_unique<GP_SERV_COMMAND_GROUP_EFFECTS>();
             uint8 j = 0;
             for (auto&& memberinfo : info)
             {
