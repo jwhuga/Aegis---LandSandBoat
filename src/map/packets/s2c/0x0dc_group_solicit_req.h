@@ -23,7 +23,7 @@
 
 #include "base.h"
 
-enum class PartyKind;
+enum class PartyKind : uint8_t;
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x00DC
 // This packet is sent by the server when the client is being invited to a party or alliance.

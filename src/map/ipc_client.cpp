@@ -430,8 +430,8 @@ void IPCClient::handleMessage_PartyInvite(const IPP& ipp, const ipc::PartyInvite
         if (PInvitee->isDead() ||
             jailutils::InPrison(PInvitee) ||
             PInvitee->InvitePending.id != 0 ||
-            (PInvitee->PParty && message.inviteType == INVITE_PARTY) ||
-            (message.inviteType == INVITE_ALLIANCE && (!PInvitee->PParty || PInvitee->PParty->GetLeader() != PInvitee || (PInvitee->PParty && PInvitee->PParty->m_PAlliance))))
+            (PInvitee->PParty && message.inviteType == PartyKind::Party) ||
+            (message.inviteType == PartyKind::Alliance && (!PInvitee->PParty || PInvitee->PParty->GetLeader() != PInvitee || (PInvitee->PParty && PInvitee->PParty->m_PAlliance))))
         {
             message::send(ipc::MessageStandard{
                 .recipientId = message.inviterId,
@@ -474,7 +474,7 @@ void IPCClient::handleMessage_PartyInvite(const IPP& ipp, const ipc::PartyInvite
         PInvitee->InvitePending.id     = message.inviterId;
         PInvitee->InvitePending.targid = message.inviterTargId;
 
-        PInvitee->pushPacket(std::make_unique<GP_SERV_GROUP_SOLICIT_REQ>(message.inviterId, message.inviterTargId, message.inviterName, message.inviteType));
+        PInvitee->pushPacket(std::make_unique<GP_SERV_COMMAND_GROUP_SOLICIT_REQ>(message.inviterId, message.inviterTargId, message.inviterName, message.inviteType));
     }
 }
 

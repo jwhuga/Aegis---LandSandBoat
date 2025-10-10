@@ -27,18 +27,18 @@ enum class PartyKind : uint8_t;
 class CParty;
 struct GROUP_TBL
 {
-    uint32_t    UniqueNo;                   // PS2: UniqueNo
-    uint16_t    ActIndex;                   // PS2: ActIndex
-    uint8_t     PartyNo             : 2;    // PS2: PartyNo
-    uint8_t     PartyLeaderFlg      : 1;    // PS2: PartyLeaderFlg
-    uint8_t     AllianceLeaderFlg   : 1;    // PS2: AllianceLeaderFlg
-    uint8_t     PartyRFlg           : 1;    // PS2: PartyRFlg
-    uint8_t     AllianceRFlg        : 1;    // PS2: AllianceRFlg
-    uint8_t     unknown06           : 1;    // PS2: MasterComFlg
-    uint8_t     unknown07           : 1;    // PS2: SubMasterComFlg
-    uint8_t     padding07;                  // PS2: (New; was ZoneNo originally.)
-    uint16_t    ZoneNo;                     // PS2: (New; did not exist.)
-    uint16_t    padding0A;                  // PS2: (New; did not exist.)
+    uint32_t UniqueNo;              // PS2: UniqueNo
+    uint16_t ActIndex;              // PS2: ActIndex
+    uint8_t  PartyNo : 2;           // PS2: PartyNo
+    uint8_t  PartyLeaderFlg : 1;    // PS2: PartyLeaderFlg
+    uint8_t  AllianceLeaderFlg : 1; // PS2: AllianceLeaderFlg
+    uint8_t  PartyRFlg : 1;         // PS2: PartyRFlg
+    uint8_t  AllianceRFlg : 1;      // PS2: AllianceRFlg
+    uint8_t  unknown06 : 1;         // PS2: MasterComFlg
+    uint8_t  unknown07 : 1;         // PS2: SubMasterComFlg
+    uint8_t  padding07;             // PS2: (New; was ZoneNo originally.)
+    uint16_t ZoneNo;                // PS2: (New; did not exist.)
+    uint16_t padding0A;             // PS2: (New; did not exist.)
 };
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x00C8
