@@ -26,7 +26,7 @@
 class CBaseEntity;
 
 // https://github.com/atom0s/XiPackets/tree/main/world/server/0x00BF
-// This packet is sent by the server to update a client's event information when interacting with a battlefield registration NPC.
+// This packet is sent by the server to update a clients event information when interacting with a battlefield registration NPC. (ie. Dynamis, Moblin Maze Mongers, Salvage, etc.)
 class GP_SERV_COMMAND_REGISTRATION final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_REGISTRATION, GP_SERV_COMMAND_REGISTRATION>
 {
 public:
