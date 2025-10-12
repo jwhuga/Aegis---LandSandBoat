@@ -23,7 +23,7 @@
 
 #include "entities/charentity.h"
 #include "lua/luautils.h"
-#include "packets/cs_position.h"
+#include "packets/s2c/0x065_wpos2.h"
 #include "packets/s2c/0x052_eventucoff.h"
 
 auto GP_CLI_COMMAND_EVENTENDXZY::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
@@ -59,12 +59,12 @@ void GP_CLI_COMMAND_EVENTENDXZY::process(MapSession* PSession, CCharEntity* PCha
             static_cast<uint8_t>(dir),
         };
 
-        PChar->pushPacket<CCSPositionPacket>(PChar, newPos, POSMODE::EVENT);
+        PChar->pushPacket<GP_SERV_COMMAND_WPOS2>(PChar, newPos, POSMODE::EVENT);
         PChar->pushPacket<CPositionPacket>(PChar, newPos, POSMODE::NORMAL);
     }
     else
     {
-        PChar->pushPacket<CCSPositionPacket>(PChar, PChar->loc.p, POSMODE::CLEAR);
+        PChar->pushPacket<GP_SERV_COMMAND_WPOS2>(PChar, PChar->loc.p, POSMODE::CLEAR);
     }
 
     PChar->pushPacket<GP_SERV_COMMAND_EVENTUCOFF>(PChar, GP_SERV_COMMAND_EVENTUCOFF_MODE::EventRecvPending);
