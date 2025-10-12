@@ -2,6 +2,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/base.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x008_enterzone.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x008_enterzone.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x01b_job_info.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x01b_job_info.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x01c_item_max.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x01c_item_max.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x01d_item_same.h

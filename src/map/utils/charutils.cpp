@@ -37,7 +37,6 @@
 #include "ai/states/range_state.h"
 
 #include "packets/char_job_extra.h"
-#include "packets/char_jobs.h"
 #include "packets/char_recast.h"
 #include "packets/char_stats.h"
 #include "packets/char_status.h"
@@ -52,6 +51,7 @@
 #include "packets/monipulator2.h"
 #include "packets/objective_utility.h"
 #include "packets/quest_mission_log.h"
+#include "packets/s2c/0x01b_job_info.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x01e_item_num.h"
 #include "packets/s2c/0x01f_item_list.h"
@@ -1495,7 +1495,7 @@ namespace charutils
         charutils::SaveCharExp(PChar, PChar->GetMJob());
         PChar->updatemask |= UPDATE_HP;
 
-        PChar->pushPacket<CCharJobsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
         PChar->pushPacket<CCharStatsPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
         PChar->pushPacket<CCharRecastPacket>(PChar);
@@ -5054,7 +5054,7 @@ namespace charutils
                 BuildingCharTraitsTable(PChar);
                 BuildingCharWeaponSkills(PChar);
 
-                PChar->pushPacket<CCharJobsPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
                 PChar->pushPacket<CCharStatusPacket>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
                 PChar->pushPacket<CCharRecastPacket>(PChar);
@@ -5290,7 +5290,7 @@ namespace charutils
                 SaveCharJob(PChar, PChar->GetMJob());
                 SaveCharExp(PChar, PChar->GetMJob());
 
-                PChar->pushPacket<CCharJobsPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
                 PChar->pushPacket<CCharStatusPacket>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
                 PChar->pushPacket<CCharRecastPacket>(PChar);
