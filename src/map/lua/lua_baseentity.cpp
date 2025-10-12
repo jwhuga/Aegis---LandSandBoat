@@ -101,7 +101,7 @@
 #include "packets/char_health.h"
 #include "packets/char_job_extra.h"
 #include "packets/char_recast.h"
-#include "packets/char_stats.h"
+#include "packets/s2c/0x061_clistatus.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/chat_message.h"
@@ -6629,7 +6629,7 @@ void CLuaBaseEntity::changeJob(uint8 newJob)
         PChar->updatemask |= UPDATE_HP;
 
         PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
-        PChar->pushPacket<CCharStatsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
         PChar->pushPacket<CCharRecastPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
@@ -6908,7 +6908,7 @@ void CLuaBaseEntity::setLevel(uint8 level)
         PChar->updatemask |= UPDATE_HP;
 
         PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
-        PChar->pushPacket<CCharStatsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
         PChar->pushPacket<CCharRecastPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
@@ -6965,7 +6965,7 @@ void CLuaBaseEntity::setsLevel(uint8 slevel)
     charutils::SaveCharExp(PChar, PChar->GetMJob());
 
     PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
-    PChar->pushPacket<CCharStatsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
     PChar->pushPacket<CCharRecastPacket>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
@@ -7078,7 +7078,7 @@ uint8 CLuaBaseEntity::levelRestriction(sol::object const& level)
             if (PChar->status != STATUS_TYPE::DISAPPEAR)
             {
                 PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
-                PChar->pushPacket<CCharStatsPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
                 PChar->pushPacket<CCharRecastPacket>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
@@ -7363,7 +7363,7 @@ void CLuaBaseEntity::addTitle(uint16 titleID)
     auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     PChar->profile.title = titleID;
-    PChar->pushPacket<CCharStatsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
 
     charutils::addTitle(PChar, titleID);
     charutils::SaveTitles(PChar);
@@ -7410,7 +7410,7 @@ void CLuaBaseEntity::delTitle(uint16 titleID)
             PChar->profile.title = 0;
         }
 
-        PChar->pushPacket<CCharStatsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
         charutils::SaveTitles(PChar);
     }
 }
@@ -12731,7 +12731,7 @@ void CLuaBaseEntity::recalculateStats()
         PChar->UpdateHealth();
 
         PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
-        PChar->pushPacket<CCharStatsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
         PChar->pushPacket<CCharRecastPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);

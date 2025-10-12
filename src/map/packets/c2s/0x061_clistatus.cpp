@@ -25,7 +25,7 @@
 #include "packets/char_health.h"
 #include "packets/char_job_extra.h"
 #include "packets/char_recast.h"
-#include "packets/char_stats.h"
+#include "packets/s2c/0x061_clistatus.h"
 #include "packets/char_status.h"
 #include "packets/menu_jobpoints.h"
 #include "packets/menu_merit.h"
@@ -46,7 +46,7 @@ void GP_CLI_COMMAND_CLISTATUS::process(MapSession* PSession, CCharEntity* PChar)
 {
     PChar->pushPacket<CCharStatusPacket>(PChar);
     PChar->pushPacket<CCharHealthPacket>(PChar);
-    PChar->pushPacket<CCharStatsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
     PChar->pushPacket<CCharRecastPacket>(PChar);
     PChar->pushPacket<CMenuMeritPacket>(PChar);
