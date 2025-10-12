@@ -21,8 +21,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/char_job_extra.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_recast.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/char_recast.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/char_stats.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/char_stats.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_status.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/char_status.h
     ${CMAKE_CURRENT_SOURCE_DIR}/char_sync.cpp

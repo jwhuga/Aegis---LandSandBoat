@@ -38,7 +38,7 @@
 
 #include "packets/char_job_extra.h"
 #include "packets/char_recast.h"
-#include "packets/char_stats.h"
+#include "packets/s2c/0x061_clistatus.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/conquest_map.h"
@@ -1496,7 +1496,7 @@ namespace charutils
         PChar->updatemask |= UPDATE_HP;
 
         PChar->pushPacket<GP_SERV_COMMAND_JOB_INFO>(PChar);
-        PChar->pushPacket<CCharStatsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
         PChar->pushPacket<CCharRecastPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
@@ -4001,7 +4001,7 @@ namespace charutils
     void setTitle(CCharEntity* PChar, uint16 Title)
     {
         PChar->profile.title = Title;
-        PChar->pushPacket<CCharStatsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
 
         addTitle(PChar, Title);
         SaveTitles(PChar);
@@ -5095,7 +5095,7 @@ namespace charutils
         }
 
         SaveCharExp(PChar, PChar->GetMJob());
-        PChar->pushPacket<CCharStatsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
     }
 
     /************************************************************************
@@ -5301,7 +5301,7 @@ namespace charutils
                 PChar->pushPacket<CCharJobExtraPacket>(PChar, true);
                 PChar->pushPacket<CCharJobExtraPacket>(PChar, true);
                 PChar->pushPacket<CCharSyncPacket>(PChar);
-                PChar->pushPacket<CCharStatsPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
 
                 luautils::OnPlayerLevelUp(PChar);
                 roeutils::event(ROE_EVENT::ROE_LEVELUP, PChar, RoeDatagramList{});
@@ -5313,7 +5313,7 @@ namespace charutils
         SaveCharStats(PChar);
         SaveCharJob(PChar, PChar->GetMJob());
         SaveCharExp(PChar, PChar->GetMJob());
-        PChar->pushPacket<CCharStatsPacket>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
 
         if (onLimitMode)
         {
@@ -6618,7 +6618,7 @@ namespace charutils
 
             roeutils::UpdateUnityTrust(PChar, true);
 
-            PChar->pushPacket<CCharStatsPacket>(PChar);
+            PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
         }
     }
 
@@ -6834,7 +6834,7 @@ namespace charutils
                 // weapon is now broken
                 charutils::BuildingCharWeaponSkills(PChar);
                 PChar->PLatentEffectContainer->CheckLatentsWeaponBreak(slotid);
-                PChar->pushPacket<CCharStatsPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
             }
 
