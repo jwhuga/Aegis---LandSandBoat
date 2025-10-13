@@ -35,6 +35,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x030_effect.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x033_eventstr.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x033_eventstr.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x036_talknum.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x036_talknum.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x038_schedulor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x038_schedulor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x039_mapschedulor.h
