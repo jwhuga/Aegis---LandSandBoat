@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -19,21 +19,18 @@
 ===========================================================================
 */
 
-#include "entity_enable_list.h"
+#include "0x077_entity_vis.h"
 
-#include "entities/baseentity.h"
-
-CEntityEnableList::CEntityEnableList(const std::vector<uint32>& list)
+GP_SERV_COMMAND_ENTITY_VIS::GP_SERV_COMMAND_ENTITY_VIS(const std::vector<uint32>& list)
 {
-    this->setType(0x77);
-    this->setSize(0x88);
+    auto& packet = this->data();
 
-    ref<uint32>(0x04) = 1;
+    packet.Flags = 1;
 
-    uint32 offset = 0;
+    auto idx = 0;
     for (const auto& value : list)
     {
-        ref<uint32>(0x08 + offset) = value;
-        offset += 4;
+        packet.UniqueNo[idx] = value;
+        idx++;
     }
 }
