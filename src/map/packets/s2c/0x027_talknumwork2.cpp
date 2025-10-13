@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,22 +19,22 @@
 ===========================================================================
 */
 
-#include "caught_fish.h"
+#include "0x027_talknumwork2.h"
 
 #include "entities/charentity.h"
-#include <string.h>
 
-CCaughtFishPacket::CCaughtFishPacket(CCharEntity* PChar, uint16 param0, uint16 messageID, uint8 count)
+#include <cstring>
+
+// TODO: Super wrong but this is how it's used for Fishing messages currently.
+GP_SERV_COMMAND_TALKNUMWORK2::GP_SERV_COMMAND_TALKNUMWORK2(const CCharEntity* PChar, const uint16 param0, const uint16 messageID, const uint8 count)
 {
-    this->setType(0x27);
-    this->setSize(0x70);
+    auto& packet = this->data();
 
-    ref<uint32>(0x04) = PChar->id;
-    ref<uint32>(0x08) = PChar->targid;
-    ref<uint16>(0x0A) = messageID + 0x8000;
-    ref<uint16>(0x10) = param0;
-    ref<uint8>(0x14)  = count;
-    ref<uint32>(0x1C) = 0x00;
+    packet.UniqueNo = PChar->id;
+    packet.ActIndex = PChar->targid;
+    packet.MesNum   = messageID + 0x8000;
+    packet.Num1[0]  = param0;
+    packet.Num1[1]  = count;
 
-    std::memcpy(buffer_.data() + 0x20, PChar->getName().c_str(), PChar->getName().size());
+    std::memcpy(packet.String1, PChar->getName().c_str(), std::min<size_t>(PChar->getName().size(), sizeof(packet.String1)));
 }
