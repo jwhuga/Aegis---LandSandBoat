@@ -27,7 +27,7 @@
 
 #include "packets/action.h"
 #include "packets/basic.h"
-#include "packets/char_health.h"
+#include "packets/s2c/0x0df_group_attr.h"
 #include "packets/char_recast.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
@@ -1118,7 +1118,7 @@ void CCharEntity::PostTick()
             // clang-format off
             ForAlliance([&](auto PEntity)
             {
-                static_cast<CCharEntity*>(PEntity)->pushPacket<CCharHealthPacket>(this);
+                static_cast<CCharEntity*>(PEntity)->pushPacket<GP_SERV_COMMAND_GROUP_ATTR>(this);
             });
             // clang-format on
         }

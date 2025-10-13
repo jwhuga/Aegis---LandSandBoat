@@ -22,11 +22,11 @@
 #include "0x061_clistatus.h"
 
 #include "entities/charentity.h"
-#include "packets/char_health.h"
 #include "packets/char_job_extra.h"
 #include "packets/char_recast.h"
-#include "packets/s2c/0x061_clistatus.h"
 #include "packets/char_status.h"
+#include "packets/s2c/0x061_clistatus.h"
+#include "packets/s2c/0x0df_group_attr.h"
 #include "packets/menu_jobpoints.h"
 #include "packets/menu_merit.h"
 #include "packets/monipulator1.h"
@@ -45,7 +45,7 @@ auto GP_CLI_COMMAND_CLISTATUS::validate(MapSession* PSession, const CCharEntity*
 void GP_CLI_COMMAND_CLISTATUS::process(MapSession* PSession, CCharEntity* PChar) const
 {
     PChar->pushPacket<CCharStatusPacket>(PChar);
-    PChar->pushPacket<CCharHealthPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_GROUP_ATTR>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_CLISTATUS2>(PChar);
     PChar->pushPacket<CCharRecastPacket>(PChar);
