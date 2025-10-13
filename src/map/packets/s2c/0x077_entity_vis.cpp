@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,21 +19,18 @@
 ===========================================================================
 */
 
-#ifndef _CCHARHEALTHPACKET_H
-#define _CCHARHEALTHPACKET_H
+#include "0x077_entity_vis.h"
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
-
-class CCharEntity;
-class CTrustEntity;
-
-class CCharHealthPacket : public CBasicPacket
+GP_SERV_COMMAND_ENTITY_VIS::GP_SERV_COMMAND_ENTITY_VIS(const std::vector<uint32>& list)
 {
-public:
-    CCharHealthPacket(CCharEntity* PChar);
-    CCharHealthPacket(CTrustEntity* PTrust);
-};
+    auto& packet = this->data();
 
-#endif
+    packet.Flags = 1;
+
+    auto idx = 0;
+    for (const auto& value : list)
+    {
+        packet.UniqueNo[idx] = value;
+        idx++;
+    }
+}

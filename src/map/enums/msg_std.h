@@ -1,7 +1,7 @@
 ﻿/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,17 +19,11 @@
 ===========================================================================
 */
 
-#ifndef _CMESSAGESTANDARTPACKET_H
-#define _CMESSAGESTANDARTPACKET_H
-
-#include "common/cbasetypes.h"
-
-#include "basic.h"
+#pragma once
 
 // Valid MessageIDs for both standard and SYSTEM type messages
 // Found in ROM/27/76.dat or 1-27-76.xml if using mass extractor
-// Todo: move msg enums to common location out of packet headers
-enum class MsgStd : uint16
+enum class MsgStd : uint16_t
 {
     // Keep message IDs in order OR ELSE UNSPECIFIED CONSEQUENCES SHALL ENSUE
 
@@ -166,22 +160,3 @@ enum class MsgStd : uint16
     LevelSyncRemoveIneligibleExp = 556, // Level sync will be deactivated in 30 seconds. The Level Sync designee is incapable of receiving experience points.
     TreasureHunterProc           = 603, // Additional effect: Treasure Hunter effectiveness against <Target> increases to <number>
 };
-
-class CCharEntity;
-
-class CMessageStandardPacket : public CBasicPacket
-{
-public:
-    // Debug version of CMessageStandardPacket, it is preferred to use the type-safe versions below
-    CMessageStandardPacket(uint16 MessageID);
-
-    CMessageStandardPacket(MsgStd MessageID);
-    CMessageStandardPacket(uint32 param0, MsgStd MessageID);
-    CMessageStandardPacket(const std::string& string2, MsgStd MesNo);
-    CMessageStandardPacket(uint32 param0, uint32 param1, uint16 MessageID);
-    CMessageStandardPacket(CCharEntity* PChar, uint32 param0, MsgStd MessageID);
-    CMessageStandardPacket(CCharEntity* PChar, uint32 param0, uint32 param1, MsgStd MessageID);
-    CMessageStandardPacket(uint32 param0, uint32 param1, uint32 param2, uint32 param3, MsgStd MessageID);
-};
-
-#endif

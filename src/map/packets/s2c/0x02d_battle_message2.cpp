@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,15 +19,19 @@
 ===========================================================================
 */
 
-#include "instance_entry.h"
+#include "0x02d_battle_message2.h"
 
 #include "entities/baseentity.h"
 
-CInstanceEntryPacket::CInstanceEntryPacket(CBaseEntity* PEntrance, uint32 response)
+GP_SERV_COMMAND_BATTLE_MESSAGE2::GP_SERV_COMMAND_BATTLE_MESSAGE2(CBaseEntity* PSender, CBaseEntity* PTarget, const int32 param0, const int32 param1, const uint16 messageID)
 {
-    this->setType(0xBF);
-    this->setSize(0x1C);
+    auto& packet = this->data();
 
-    ref<uint8>(0x06)  = response;
-    ref<uint16>(0x0C) = PEntrance->targid;
+    packet.UniqueNoCas = PSender->id;
+    packet.UniqueNoTar = PTarget->id;
+    packet.ActIndexCas = PSender->targid;
+    packet.ActIndexTar = PTarget->targid;
+    packet.Data        = param0;
+    packet.Data2       = param1;
+    packet.MessageNum  = messageID;
 }

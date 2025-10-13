@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,26 @@
 ===========================================================================
 */
 
-#ifndef _CINSTANCEENTRYPACKET_H
-#define _CINSTANCEENTRYPACKET_H
+#pragma once
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
+#include "base.h"
 
 class CBaseEntity;
 
-class CInstanceEntryPacket : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x0036
+// This packet is sent by the server to display a formatted message loaded from the DAT files.
+class GP_SERV_COMMAND_TALKNUM final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_TALKNUM, GP_SERV_COMMAND_TALKNUM>
 {
 public:
-    CInstanceEntryPacket(CBaseEntity* PEntrance, uint32 response);
-};
+    struct PacketData
+    {
+        uint32_t UniqueNo;  // PS2: UniqueNo
+        uint16_t ActIndex;  // PS2: ActIndex
+        uint16_t MesNum;    // PS2: MesNum
+        uint8_t  Type;      // PS2: Type
+        uint8_t  padding0D; // PS2: dummmy
+        uint16_t padding0E; // PS2: dummy2
+    };
 
-#endif
+    GP_SERV_COMMAND_TALKNUM(CBaseEntity* PEntity, uint16 messageID, bool showName = true, uint8 mode = 0);
+};

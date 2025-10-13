@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -19,16 +19,13 @@
 ===========================================================================
 */
 
-#pragma once
+#include "0x053_systemmes.h"
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
-
-#include <vector>
-
-class CEntityEnableList : public CBasicPacket
+GP_SERV_COMMAND_SYSTEMMES::GP_SERV_COMMAND_SYSTEMMES(const uint32 param0, const uint32 param1, const MsgStd messageId)
 {
-public:
-    CEntityEnableList(const std::vector<uint32>& list);
-};
+    auto& packet = this->data();
+
+    packet.para   = param0;
+    packet.para2  = param1;
+    packet.Number = messageId;
+}

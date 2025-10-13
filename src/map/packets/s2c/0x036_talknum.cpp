@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,25 +19,16 @@
 ===========================================================================
 */
 
-#ifndef _CMESSAGECOMBATPACKET_H
-#define _CMESSAGECOMBATPACKET_H
+#include "0x036_talknum.h"
 
-#include "common/cbasetypes.h"
+#include "entities/baseentity.h"
 
-#include "basic.h"
-
-enum MESSAGE_COMBAT : uint16
+GP_SERV_COMMAND_TALKNUM::GP_SERV_COMMAND_TALKNUM(CBaseEntity* PEntity, const uint16 messageID, const bool showName, const uint8 mode)
 {
-    USE_OBTAIN_ESCHA_SILT = 765, // <name> uses <item>. <name> obtains <n> escha silt.
-    USE_OBTAIN_ESCHA_BEAD = 766, // <name> uses <item>. <name> obtains <n> escha beads.
-};
+    auto& packet = this->data();
 
-class CBaseEntity;
-
-class CMessageCombatPacket : public CBasicPacket
-{
-public:
-    CMessageCombatPacket(CBaseEntity* PSender, CBaseEntity* PTarget, int32 param0, int32 param1, uint16 messageID);
-};
-
-#endif
+    packet.UniqueNo = PEntity->id;
+    packet.ActIndex = PEntity->targid;
+    packet.MesNum   = (PEntity->objtype == TYPE_PC || !showName) ? (messageID + 0x8000) : messageID;
+    packet.Type     = mode;
+}

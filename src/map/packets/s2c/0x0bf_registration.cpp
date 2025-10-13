@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,20 +19,14 @@
 ===========================================================================
 */
 
-#ifndef _CLINKSHELLMESSAGEPACKET_H
-#define _CLINKSHELLMESSAGEPACKET_H
+#include "0x0bf_registration.h"
 
-#include "common/cbasetypes.h"
+#include "entities/baseentity.h"
 
-#include "linkshell.h"
-
-#include "basic.h"
-
-class CLinkshellMessagePacket : public CBasicPacket
+GP_SERV_COMMAND_REGISTRATION::GP_SERV_COMMAND_REGISTRATION(const CBaseEntity* PEntrance, const uint32_t response)
 {
-public:
-    static const uint16 id{ 0xCC };
-    CLinkshellMessagePacket(const std::string& poster, const std::string& message, const std::string& lsname, uint32 posttime, LinkshellSlot slot);
-};
+    auto& packet = this->data();
 
-#endif
+    packet.Result   = response;
+    packet.ActIndex = PEntrance->targid;
+}

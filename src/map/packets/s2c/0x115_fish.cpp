@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,24 +19,21 @@
 ===========================================================================
 */
 
-#include "message_text.h"
-#include "entities/baseentity.h"
+#include "0x115_fish.h"
 
-CMessageTextPacket::CMessageTextPacket(CBaseEntity* PEntity, uint16 messageID, bool showName, uint8 mode)
+GP_SERV_COMMAND_FISH::GP_SERV_COMMAND_FISH(const uint16 stamina, const uint16 regen, const uint16 response,
+                                           const uint16 hitDmg, const uint16 arrowDelay, const uint16 missRegen,
+                                           const uint16 gameTime, const uint8 sense, const uint32 special)
 {
-    this->setType(0x36);
-    this->setSize(0x10);
+    auto& packet = this->data();
 
-    // if a character is passed as an object,
-    // then we won't display the name
-
-    if (PEntity->objtype == TYPE_PC || !showName)
-    {
-        messageID += 0x8000;
-    }
-
-    ref<uint32>(0x04) = PEntity->id;
-    ref<uint16>(0x08) = PEntity->targid;
-    ref<uint16>(0x0A) = messageID;
-    ref<uint8>(0x0C)  = mode;
+    packet.stamina        = stamina;
+    packet.arrow_delay    = arrowDelay;
+    packet.regen          = regen;
+    packet.move_frequency = response;
+    packet.arrow_damage   = hitDmg;
+    packet.arrow_regen    = missRegen;
+    packet.time           = gameTime;
+    packet.angler_sense   = sense;
+    packet.intuition      = special;
 }

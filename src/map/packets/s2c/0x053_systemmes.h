@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,22 +19,24 @@
 ===========================================================================
 */
 
-#include "caught_fish.h"
+#pragma once
 
-#include "entities/charentity.h"
-#include <string.h>
+#include "base.h"
 
-CCaughtFishPacket::CCaughtFishPacket(CCharEntity* PChar, uint16 param0, uint16 messageID, uint8 count)
+enum class MsgStd : uint16_t;
+
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x0053
+// This packet is sent by the server to display a formatted message loaded from the DAT files. (via PutSystemMessage)
+class GP_SERV_COMMAND_SYSTEMMES final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_SYSTEMMES, GP_SERV_COMMAND_SYSTEMMES>
 {
-    this->setType(0x27);
-    this->setSize(0x70);
+public:
+    struct PacketData
+    {
+        uint32_t para;      // PS2: para
+        uint32_t para2;     // PS2: para2
+        MsgStd   Number;    // PS2: Number
+        uint16_t padding0E; // PS2: dummy
+    };
 
-    ref<uint32>(0x04) = PChar->id;
-    ref<uint32>(0x08) = PChar->targid;
-    ref<uint16>(0x0A) = messageID + 0x8000;
-    ref<uint16>(0x10) = param0;
-    ref<uint8>(0x14)  = count;
-    ref<uint32>(0x1C) = 0x00;
-
-    std::memcpy(buffer_.data() + 0x20, PChar->getName().c_str(), PChar->getName().size());
-}
+    GP_SERV_COMMAND_SYSTEMMES(uint32 param0, uint32 param1, MsgStd messageId);
+};
