@@ -34,7 +34,7 @@
 #include "packets/char_update.h"
 #include "packets/entity_update.h"
 #include "packets/event.h"
-#include "packets/message_standard.h"
+#include "packets/s2c/0x009_message.h"
 #include "packets/s2c/0x02a_talknumwork.h"
 #include "packets/s2c/0x053_systemmes.h"
 #include "packets/s2c/0x036_talknum.h"

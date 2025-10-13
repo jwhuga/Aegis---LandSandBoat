@@ -116,7 +116,7 @@ void GP_CLI_COMMAND_COMBINE_ASK::process(MapSession* PSession, CCharEntity* PCha
             PChar->pushPacket<GP_SERV_COMMAND_ITEM_TRADE_RES>(PTarget, GP_ITEM_TRADE_RES_KIND::Cancell);
         }
 
-        PChar->pushPacket<CMessageStandardPacket>(MsgStd::CannotBeProcessed);
+        PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::CannotBeProcessed);
         PChar->TradePending.clean();
         PChar->UContainer->Clean();
         return;
