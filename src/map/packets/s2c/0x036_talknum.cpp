@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,19 +19,16 @@
 ===========================================================================
 */
 
-#ifndef _CMESSAGETEXTPACKET_H
-#define _CMESSAGETEXTPACKET_H
+#include "0x036_talknum.h"
 
-#include "common/cbasetypes.h"
+#include "entities/baseentity.h"
 
-#include "basic.h"
-
-class CBaseEntity;
-
-class CMessageTextPacket : public CBasicPacket
+GP_SERV_COMMAND_TALKNUM::GP_SERV_COMMAND_TALKNUM(CBaseEntity* PEntity, const uint16 messageID, const bool showName, const uint8 mode)
 {
-public:
-    CMessageTextPacket(CBaseEntity* PEntity, uint16 messageID, bool showName = true, uint8 mode = 0);
-};
+    auto& packet = this->data();
 
-#endif
+    packet.UniqueNo = PEntity->id;
+    packet.ActIndex = PEntity->targid;
+    packet.MesNum   = (PEntity->objtype == TYPE_PC || !showName) ? (messageID + 0x8000) : messageID;
+    packet.Type     = mode;
+}

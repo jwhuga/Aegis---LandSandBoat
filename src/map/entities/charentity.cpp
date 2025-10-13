@@ -37,7 +37,7 @@
 #include "packets/message_standard.h"
 #include "packets/s2c/0x02a_talknumwork.h"
 #include "packets/s2c/0x053_systemmes.h"
-#include "packets/message_text.h"
+#include "packets/s2c/0x036_talknum.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x033_eventstr.h"
 #include "packets/s2c/0x051_grap_list.h"
@@ -3294,7 +3294,7 @@ void CCharEntity::skipEvent()
 
         if (currentEvent->interruptText != 0)
         {
-            pushPacket<CMessageTextPacket>(currentEvent->targetEntity, currentEvent->interruptText, false);
+            pushPacket<GP_SERV_COMMAND_TALKNUM>(currentEvent->targetEntity, currentEvent->interruptText, false);
         }
 
         endCurrentEvent();
