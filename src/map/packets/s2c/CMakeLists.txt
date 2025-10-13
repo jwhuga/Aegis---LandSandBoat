@@ -64,6 +64,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x057_weather.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x058_assist.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x058_assist.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x05b_wpos.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x05b_wpos.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05c_pendingnum.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x05c_pendingnum.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x059_friendpass.h

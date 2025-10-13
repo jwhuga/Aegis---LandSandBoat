@@ -25,10 +25,10 @@
 #include "common/cbasetypes.h"
 #include "luautils.h"
 #include "packets/message_standard.h"
-#include "packets/position.h"
 #include "utils/battleutils.h"
 #include "utils/charutils.h"
 
+enum class POSMODE : uint8;
 enum class MusicSlot : uint16_t;
 enum class ChocoboColor : uint8_t;
 class CBaseEntity;

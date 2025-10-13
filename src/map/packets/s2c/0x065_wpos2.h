@@ -22,7 +22,8 @@
 #pragma once
 
 #include "base.h"
-#include "packets/position.h"
+#include "0x05b_wpos.h"
+#include "common/mmo.h"
 
 class CBaseEntity;
 
