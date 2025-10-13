@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2025 LandSandBoat Dev Teams
@@ -21,14 +21,20 @@
 
 #pragma once
 
-#include "common/cbasetypes.h"
-
-#include "basic.h"
+#include "base.h"
 
 #include <vector>
 
-class CEntityEnableList : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x0077
+class GP_SERV_COMMAND_ENTITY_VIS final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_ENTITY_VIS, GP_SERV_COMMAND_ENTITY_VIS>
 {
 public:
-    CEntityEnableList(const std::vector<uint32>& list);
+    struct PacketData
+    {
+        uint8_t  Flags;        // PS2: (New; did not exist.)
+        uint8_t  padding05[3]; // PS2: (New; did not exist.)
+        uint32_t UniqueNo[32]; // PS2: (New; did not exist.) - Documented as uint8_t[128] on XiPackets
+    };
+
+    GP_SERV_COMMAND_ENTITY_VIS(const std::vector<uint32>& list);
 };

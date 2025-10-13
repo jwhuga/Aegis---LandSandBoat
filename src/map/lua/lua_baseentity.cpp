@@ -106,7 +106,7 @@
 #include "packets/char_sync.h"
 #include "packets/chat_message.h"
 #include "packets/conquest_map.h"
-#include "packets/entity_enable_list.h"
+#include "packets/s2c/0x077_entity_vis.h"
 #include "packets/entity_update.h"
 #include "packets/event.h"
 #include "packets/menu_jobpoints.h"
@@ -12382,7 +12382,7 @@ void CLuaBaseEntity::enableEntities(sol::object const& obj)
     {
         if (obj.is<std::vector<uint32>>())
         {
-            PChar->pushPacket<CEntityEnableList>(obj.as<std::vector<uint32>>());
+            PChar->pushPacket<GP_SERV_COMMAND_ENTITY_VIS>(obj.as<std::vector<uint32>>());
         }
     }
     else
