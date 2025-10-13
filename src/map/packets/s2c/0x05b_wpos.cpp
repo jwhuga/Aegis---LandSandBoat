@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,15 @@
 ===========================================================================
 */
 
-#include "position.h"
+#include "0x05b_wpos.h"
+
 #include "entities/baseentity.h"
 #include "entities/charentity.h"
 
-CPositionPacket::CPositionPacket(CBaseEntity* PEntity, position_t position, POSMODE mode)
+GP_SERV_COMMAND_WPOS::GP_SERV_COMMAND_WPOS(CBaseEntity* PEntity, const position_t position, const POSMODE mode)
 {
-    this->setType(0x5B);
-    this->setSize(0x1C);
+    auto& packet = this->data();
 
-    // Doing this here prevents conflicts when the client receives the packet.
     auto* PChar = dynamic_cast<CCharEntity*>(PEntity);
     if (mode == POSMODE::NORMAL ||
         mode == POSMODE::EVENT ||
@@ -54,13 +53,11 @@ CPositionPacket::CPositionPacket(CBaseEntity* PEntity, position_t position, POSM
         PChar->setLocked(mode == POSMODE::LOCK);
     }
 
-    ref<float>(0x04) = PEntity->loc.p.x;
-    ref<float>(0x08) = PEntity->loc.p.y;
-    ref<float>(0x0C) = PEntity->loc.p.z;
-    ref<uint8>(0x17) = PEntity->loc.p.rotation;
-
-    ref<uint32>(0x10) = PEntity->id;
-    ref<uint16>(0x14) = PEntity->targid;
-
-    ref<uint8>(0x16) = static_cast<uint8>(mode);
+    packet.x        = PEntity->loc.p.x;
+    packet.y        = PEntity->loc.p.y;
+    packet.z        = PEntity->loc.p.z;
+    packet.dir      = PEntity->loc.p.rotation;
+    packet.UniqueNo = PEntity->id;
+    packet.ActIndex = PEntity->targid;
+    packet.Mode     = mode;
 }

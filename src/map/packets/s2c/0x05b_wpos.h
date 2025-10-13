@@ -1,7 +1,7 @@
-﻿/*
+/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2025 LandSandBoat Dev Teams
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,14 +19,12 @@
 ===========================================================================
 */
 
-#ifndef _CPOSITIONPACKET_H
-#define _CPOSITIONPACKET_H
+#pragma once
 
-#include "common/cbasetypes.h"
+#include "base.h"
 #include "common/mmo.h"
 
-#include "basic.h"
-
+class CBaseEntity;
 enum class POSMODE : uint8
 {
     NORMAL      = 0x00, // update pos, reset the camera
@@ -40,12 +38,22 @@ enum class POSMODE : uint8
     ROTATE      = 0x0A, // update rotation
 };
 
-class CBaseEntity;
-
-class CPositionPacket : public CBasicPacket
+// https://github.com/atom0s/XiPackets/tree/main/world/server/0x005B
+// This packet is sent by the server to update an entities position information.
+class GP_SERV_COMMAND_WPOS final : public GP_SERV_PACKET<PacketS2C::GP_SERV_COMMAND_WPOS, GP_SERV_COMMAND_WPOS>
 {
 public:
-    CPositionPacket(CBaseEntity* PEntity, position_t position, POSMODE mode = POSMODE::NORMAL);
-};
+    struct PacketData
+    {
+        float    x;         // PS2: x
+        float    y;         // PS2: y
+        float    z;         // PS2: z
+        uint32_t UniqueNo;  // PS2: UniqueNo
+        uint16_t ActIndex;  // PS2: ActIndex
+        POSMODE  Mode;      // PS2: Mode
+        char     dir;       // PS2: dir
+        uint32_t padding18; // PS2: (New; did not exist.)
+    };
 
-#endif
+    GP_SERV_COMMAND_WPOS(CBaseEntity* PEntity, position_t position, POSMODE mode = POSMODE::NORMAL);
+};

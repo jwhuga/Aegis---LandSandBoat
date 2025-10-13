@@ -71,8 +71,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/monipulator2.h
     ${CMAKE_CURRENT_SOURCE_DIR}/pet_sync.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/pet_sync.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/position.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/position.h
     ${CMAKE_CURRENT_SOURCE_DIR}/quest_mission_log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/quest_mission_log.h
     ${CMAKE_CURRENT_SOURCE_DIR}/server_ip.cpp

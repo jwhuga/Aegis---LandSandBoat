@@ -23,8 +23,9 @@
 
 #include "entities/charentity.h"
 #include "lua/luautils.h"
-#include "packets/s2c/0x065_wpos2.h"
 #include "packets/s2c/0x052_eventucoff.h"
+#include "packets/s2c/0x05b_wpos.h"
+#include "packets/s2c/0x065_wpos2.h"
 
 auto GP_CLI_COMMAND_EVENTENDXZY::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {
@@ -60,7 +61,7 @@ void GP_CLI_COMMAND_EVENTENDXZY::process(MapSession* PSession, CCharEntity* PCha
         };
 
         PChar->pushPacket<GP_SERV_COMMAND_WPOS2>(PChar, newPos, POSMODE::EVENT);
-        PChar->pushPacket<CPositionPacket>(PChar, newPos, POSMODE::NORMAL);
+        PChar->pushPacket<GP_SERV_COMMAND_WPOS>(PChar, newPos, POSMODE::NORMAL);
     }
     else
     {

@@ -356,7 +356,7 @@ void CLinkshell::PushPacket(uint32 senderID, const std::unique_ptr<CBasicPacket>
                 {
                     newPacket->ref<uint8>(0x04) = MESSAGE_LINKSHELL2;
                 }
-                else if (newPacket->getType() == GP_SERV_COMMAND_LINKSHELL_MESSAGE::id)
+                else if (newPacket->getType() == static_cast<uint16_t>(PacketS2C::GP_SERV_COMMAND_LINKSHELL_MESSAGE))
                 {
                     newPacket->ref<uint8>(0x05) |= 0x40;
                 }
