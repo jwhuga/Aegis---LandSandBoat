@@ -25,7 +25,7 @@
 
 #include "packets/char_status.h"
 #include "packets/chat_message.h"
-#include "packets/message_standard.h"
+#include "packets/s2c/0x009_message.h"
 #include "packets/s2c/0x053_systemmes.h"
 #include "packets/s2c/0x01d_item_same.h"
 #include "packets/s2c/0x01f_item_list.h"
@@ -316,11 +316,11 @@ void CLinkshell::RemoveMemberByName(const std::string& MemberName, uint8 request
             PMember->pushPacket<CCharStatusPacket>(PMember);
             if (breakLinkshell)
             {
-                PMember->pushPacket<CMessageStandardPacket>(MsgStd::LinkshellNoLongerExists);
+                PMember->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::LinkshellNoLongerExists);
             }
             else
             {
-                PMember->pushPacket<CMessageStandardPacket>(MsgStd::LinkshellKicked);
+                PMember->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::LinkshellKicked);
             }
 
             return;

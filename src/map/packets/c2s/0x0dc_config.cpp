@@ -25,7 +25,7 @@
 #include "entities/charentity.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
-#include "packets/message_standard.h"
+#include "packets/s2c/0x009_message.h"
 #include "packets/s2c/0x053_systemmes.h"
 #include "packets/s2c/0x051_grap_list.h"
 #include "packets/s2c/0x0b4_config.h"
@@ -111,7 +111,7 @@ void GP_CLI_COMMAND_CONFIG::process(MapSession* PSession, CCharEntity* PChar) co
             PChar->pushPacket<GP_SERV_COMMAND_GRAP_LIST>(PChar);
         }
 
-        PChar->pushPacket<CMessageStandardPacket>(value ? MsgStd::HeadgearHide : MsgStd::HeadgearShow);
+        PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(value ? MsgStd::HeadgearHide : MsgStd::HeadgearShow);
     }
 
     // Flag set if the client has enabled recruitment requests. (/rec)

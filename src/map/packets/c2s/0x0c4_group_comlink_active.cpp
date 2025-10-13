@@ -78,7 +78,7 @@ namespace
         }
         else
         {
-            PChar->pushPacket<CMessageStandardPacket>(MsgStd::LinkshellUnavailable);
+            PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::LinkshellUnavailable);
         }
     };
 
@@ -104,14 +104,14 @@ namespace
 
             PChar->pushPacket<GP_SERV_COMMAND_ITEM_ATTR>(PItemLinkshell, static_cast<CONTAINER_ID>(PItemLinkshell->getLocationID()), PItemLinkshell->getSlotID());
             PChar->pushPacket<GP_SERV_COMMAND_ITEM_SAME>();
-            PChar->pushPacket<CMessageStandardPacket>(MsgStd::LinkshellNoLongerExists);
+            PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::LinkshellNoLongerExists);
 
             return;
         }
 
         if (PItemLinkshell->GetLSID() == 0)
         {
-            PChar->pushPacket<CMessageStandardPacket>(MsgStd::LinkshellNoLongerExists);
+            PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::LinkshellNoLongerExists);
 
             return;
         }

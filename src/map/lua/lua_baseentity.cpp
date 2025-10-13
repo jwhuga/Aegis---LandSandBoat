@@ -113,7 +113,7 @@
 #include "packets/message_basic.h"
 #include "packets/message_combat.h"
 #include "packets/s2c/0x027_talknumwork2.h"
-#include "packets/message_standard.h"
+#include "packets/s2c/0x009_message.h"
 #include "packets/s2c/0x02a_talknumwork.h"
 #include "packets/s2c/0x053_systemmes.h"
 #include "packets/s2c/0x036_talknum.h"
@@ -601,7 +601,7 @@ void CLuaBaseEntity::messageStandard(uint16 messageID)
 {
     if (auto* PChar = dynamic_cast<CCharEntity*>(m_PBaseEntity))
     {
-        PChar->pushPacket<CMessageStandardPacket>(messageID);
+        PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(messageID);
     }
 }
 
@@ -3081,7 +3081,7 @@ void CLuaBaseEntity::showPosition()
 
     auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
-    PChar->pushPacket<CMessageStandardPacket>((int32)PChar->loc.p.x, (int32)PChar->loc.p.y, (int32)PChar->loc.p.z, PChar->loc.p.rotation, MsgStd::Compass);
+    PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>((int32)PChar->loc.p.x, (int32)PChar->loc.p.y, (int32)PChar->loc.p.z, PChar->loc.p.rotation, MsgStd::Compass);
 }
 
 /************************************************************************

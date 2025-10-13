@@ -167,7 +167,7 @@ void CAMANContainer::onZoneIn() const
 {
     if (m_notifyExpired)
     {
-        m_player->pushPacket<CMessageStandardPacket>(MsgStd::AssistChannelExpired);
+        m_player->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::AssistChannelExpired);
         return;
     }
 
@@ -186,7 +186,7 @@ void CAMANContainer::onZoneIn() const
         if (const auto remaining = expiry - current; remaining < 24 * 3600)
         {
             // TODO: Capture if this shows before or after the Assist Channel message.
-            m_player->pushPacket<CMessageStandardPacket>(remaining / 60 / 60, MsgStd::AssistChannelExpiring);
+            m_player->pushPacket<GP_SERV_COMMAND_MESSAGE>(remaining / 60 / 60, MsgStd::AssistChannelExpiring);
         }
     }
     else
@@ -383,5 +383,5 @@ void CAMANContainer::recordEvaluation(const int8 val) const
     charutils::IncrementCharVar(m_player, evaluationsCountVar, val);
 
     // Notify the player of the evaluation.
-    m_player->pushPacket<CMessageStandardPacket>(val < 0 ? MsgStd::ReceivedWarning : MsgStd::ReceivedThumbsUp);
+    m_player->pushPacket<GP_SERV_COMMAND_MESSAGE>(val < 0 ? MsgStd::ReceivedWarning : MsgStd::ReceivedThumbsUp);
 }

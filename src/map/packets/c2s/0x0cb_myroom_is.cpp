@@ -112,7 +112,7 @@ void GP_CLI_COMMAND_MYROOM_IS::process(MapSession* PSession, CCharEntity* PChar)
             charutils::SaveCharStats(PChar);
 
             // Note: The forced zone may bypass this message.
-            PChar->pushPacket<CMessageStandardPacket>(MsgStd::SuccessfulRemodel);
+            PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::SuccessfulRemodel);
 
             // If the model changes AND you're on MH2F; force a rezone so the model change can take effect.
             if (Param2 != oldType && PChar->profile.mhflag & 0x0040)

@@ -72,7 +72,7 @@ void GP_CLI_COMMAND_MYROOM_PLANT_CROP::process(MapSession* PSession, CCharEntity
             const uint8 totalFreeSlots        = PChar->getStorage(LOC_MOGSAFE)->GetFreeSlotsCount() + PChar->getStorage(LOC_MOGSAFE2)->GetFreeSlotsCount();
             if (requiredSlots > totalFreeSlots || totalQuantity == 0)
             {
-                PChar->pushPacket<CMessageStandardPacket>(MsgStd::MoghouseCantPickUp); // Kupo. I can't pick anything right now, kupo.
+                PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::MoghouseCantPickUp); // Kupo. I can't pick anything right now, kupo.
                 return;
             }
             uint8 remainingQuantity = totalQuantity;
@@ -85,7 +85,7 @@ void GP_CLI_COMMAND_MYROOM_PLANT_CROP::process(MapSession* PSession, CCharEntity
                 }
                 remainingQuantity -= quantity;
             }
-            PChar->pushPacket<CMessageStandardPacket>(resultID, totalQuantity, 134); // Your moogle <quantity> <item> from the plant!
+            PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(resultID, totalQuantity, 134); // Your moogle <quantity> <item> from the plant!
         }
 
         PChar->pushPacket<GP_SERV_COMMAND_MYROOM_OPERATION>(PItem, static_cast<CONTAINER_ID>(MyroomPlantCategory), MyroomPlantItemIndex);

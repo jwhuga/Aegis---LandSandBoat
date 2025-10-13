@@ -118,7 +118,7 @@ void GP_CLI_COMMAND_TRADE_LIST::process(MapSession* PSession, CCharEntity* PChar
         if ((!PItemLinkshell1 && !PItemLinkshell2) || ((!PItemLinkshell1 || PItemLinkshell1->GetLSID() != PItemLinkshell->GetLSID()) &&
                                                        (!PItemLinkshell2 || PItemLinkshell2->GetLSID() != PItemLinkshell->GetLSID())))
         {
-            PChar->pushPacket<CMessageStandardPacket>(MsgStd::LinkshellEquipBeforeUsing);
+            PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(MsgStd::LinkshellEquipBeforeUsing);
             PItem->setReserve(0);
             PChar->UContainer->SetItem(TradeIndex, nullptr);
         }

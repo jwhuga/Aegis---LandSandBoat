@@ -48,7 +48,7 @@ void GP_CLI_COMMAND_MYROOM_PLANT_STOP::process(MapSession* PSession, CCharEntity
 
     if (PItem != nullptr && PItem->isPlanted() && PItem->getStage() > FLOWERPOT_STAGE_INITIAL && PItem->getStage() < FLOWERPOT_STAGE_WILTED && !PItem->isDried())
     {
-        PChar->pushPacket<CMessageStandardPacket>(MyroomPlantItemNo, MsgStd::MoogleDriesPlant);
+        PChar->pushPacket<GP_SERV_COMMAND_MESSAGE>(MyroomPlantItemNo, MsgStd::MoogleDriesPlant);
         PChar->pushPacket<GP_SERV_COMMAND_MYROOM_OPERATION>(PItem, static_cast<CONTAINER_ID>(MyroomPlantCategory), MyroomPlantItemIndex);
         PItem->setDried(true);
 
