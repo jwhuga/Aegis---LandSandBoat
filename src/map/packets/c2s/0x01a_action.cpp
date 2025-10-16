@@ -251,7 +251,7 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
             }
 
             PChar->setCharVar("expLost", 0);
-            charutils::HomePoint(PChar, true);
+            PChar->requestedWarp = true;
         }
         break;
         case GP_CLI_COMMAND_ACTION_ACTIONID::Assist:
@@ -355,7 +355,8 @@ void GP_CLI_COMMAND_ACTION::process(MapSession* PSession, CCharEntity* PChar) co
                 PChar->status          = STATUS_TYPE::DISAPPEAR;
                 PChar->loc.boundary    = 0;
                 PChar->clearPacketList();
-                charutils::SendToZone(PChar, PChar->loc.destination);
+
+                PChar->requestedZoneChange = true;
             }
 
             PChar->m_hasTractor = 0;
