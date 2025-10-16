@@ -27,7 +27,7 @@ mission.sections =
                     if player:getMissionStatus(mission.areaId) == 9 then
                         return mission:progressEvent(426, 1)
                     else
-                        return mission:progressEvent(427, 1)
+                        return mission:progressEvent(427)
                     end
                 end,
             },
