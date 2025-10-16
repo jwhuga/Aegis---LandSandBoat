@@ -639,7 +639,7 @@ int32 MapNetworking::send_parse(uint8* buff, size_t* buffsize, MapSession* map_s
                 }
 
                 // Store zoneout packet in case we need to re-send this
-                if (type == 0x00B && map_session_data->blowfish.status == BLOWFISH_PENDING_ZONE && map_session_data->zone_ipp.getRawIPP() == 0)
+                if (type == 0x00B)
                 {
                     const auto IPPacket = static_cast<GP_SERV_COMMAND_LOGOUT*>(PSmallPacket.get());
 
@@ -774,6 +774,7 @@ int32 MapNetworking::send_parse(uint8* buff, size_t* buffsize, MapSession* map_s
             });
         }
 
+        map_session_data->blowfish.status = BLOWFISH_PENDING_ZONE;
         PChar->PSession->PChar.reset(); // destroy PChar
     }
 
