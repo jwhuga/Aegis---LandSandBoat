@@ -104,7 +104,6 @@
 #include "packets/char_sync.h"
 #include "packets/conquest_map.h"
 #include "packets/entity_update.h"
-#include "packets/menu_jobpoints.h"
 #include "packets/monipulator1.h"
 #include "packets/monipulator2.h"
 #include "packets/objective_utility.h"
@@ -9130,7 +9129,7 @@ void CLuaBaseEntity::setCapacityPoints(uint16 amount)
     CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     PChar->PJobPoints->SetCapacityPoints(amount);
-    PChar->pushPacket<CMenuJobPointsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::JOBPOINTS>(PChar);
 }
 
 /************************************************************************
@@ -9151,7 +9150,7 @@ void CLuaBaseEntity::setJobPoints(uint16 amount)
     CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     PChar->PJobPoints->SetJobPoints(amount);
-    PChar->pushPacket<CMenuJobPointsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::JOBPOINTS>(PChar);
 }
 
 /************************************************************************
@@ -9171,7 +9170,7 @@ void CLuaBaseEntity::addJobPoints(uint8 jobID, uint16 amount)
     CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     PChar->PJobPoints->AddJobPoints(jobID, amount);
-    PChar->pushPacket<CMenuJobPointsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::JOBPOINTS>(PChar);
 }
 
 /************************************************************************
@@ -9191,7 +9190,7 @@ void CLuaBaseEntity::delJobPoints(uint8 jobID, uint16 amount)
     CCharEntity* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     PChar->PJobPoints->DelJobPoints(jobID, amount);
-    PChar->pushPacket<CMenuJobPointsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::JOBPOINTS>(PChar);
 }
 
 /************************************************************************
@@ -9242,7 +9241,7 @@ void CLuaBaseEntity::masterJob()
         }
     }
 
-    PChar->pushPacket<CMenuJobPointsPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::JOBPOINTS>(PChar);
 }
 
 /************************************************************************
