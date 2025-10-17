@@ -47,8 +47,6 @@ set(PACKET_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/quest_mission_log.h
     ${CMAKE_CURRENT_SOURCE_DIR}/server_message.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/server_message.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/status_effects.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/status_effects.h
     ${CMAKE_CURRENT_SOURCE_DIR}/objective_utility.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/objective_utility.h
     ${CMAKE_CURRENT_SOURCE_DIR}/zone_in.cpp
