@@ -40,7 +40,6 @@
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/conquest_map.h"
-#include "packets/monipulator2.h"
 #include "packets/objective_utility.h"
 #include "packets/quest_mission_log.h"
 #include "packets/s2c/0x009_message.h"
@@ -1507,7 +1506,7 @@ namespace charutils
         PChar->pushPacket<CCharStatusPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-        PChar->pushPacket<CMonipulatorPacket2>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
         PChar->pushPacket<CCharSyncPacket>(PChar);
     }
 
@@ -5065,7 +5064,7 @@ namespace charutils
                 PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-                PChar->pushPacket<CMonipulatorPacket2>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
                 PChar->pushPacket<CCharJobExtraPacket>(PChar, true);
                 PChar->pushPacket<CCharJobExtraPacket>(PChar, false);
                 PChar->pushPacket<CCharSyncPacket>(PChar);
@@ -5301,7 +5300,7 @@ namespace charutils
                 PChar->pushPacket<GP_SERV_COMMAND_COMMAND_DATA>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-                PChar->pushPacket<CMonipulatorPacket2>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
                 PChar->pushPacket<CCharJobExtraPacket>(PChar, true);
                 PChar->pushPacket<CCharJobExtraPacket>(PChar, true);
                 PChar->pushPacket<CCharSyncPacket>(PChar);
@@ -5323,7 +5322,7 @@ namespace charutils
         {
             PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
             PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-            PChar->pushPacket<CMonipulatorPacket2>(PChar);
+            PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
         }
 
         if (PMob != PChar) // Only mob kills count for gain EXP records

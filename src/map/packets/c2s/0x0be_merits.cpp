@@ -25,7 +25,6 @@
 #include "packets/char_job_extra.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
-#include "packets/monipulator2.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "packets/s2c/0x061_clistatus.h"
 #include "packets/s2c/0x062_clistatus2.h"
@@ -55,7 +54,7 @@ void GP_CLI_COMMAND_MERITS::process(MapSession* PSession, CCharEntity* PChar) co
                 PChar->MeritMode = Param1;
                 PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
                 PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-                PChar->pushPacket<CMonipulatorPacket2>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
             }
         }
         break;
@@ -82,7 +81,7 @@ void GP_CLI_COMMAND_MERITS::process(MapSession* PSession, CCharEntity* PChar) co
 
                     PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
                     PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-                    PChar->pushPacket<CMonipulatorPacket2>(PChar);
+                    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
                     PChar->pushPacket<GP_SERV_COMMAND_MERIT>(PChar, merit);
 
                     charutils::SaveCharExp(PChar, PChar->GetMJob());
