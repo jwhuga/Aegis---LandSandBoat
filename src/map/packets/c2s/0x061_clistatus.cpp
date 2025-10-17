@@ -33,7 +33,6 @@
 #include "packets/s2c/0x08d_job_points.h"
 #include "packets/s2c/0x0df_group_attr.h"
 #include "packets/s2c/0x119_abil_recast.h"
-#include "packets/status_effects.h"
 #include "utils/charutils.h"
 
 auto GP_CLI_COMMAND_CLISTATUS::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
@@ -62,5 +61,5 @@ void GP_CLI_COMMAND_CLISTATUS::process(MapSession* PSession, CCharEntity* PChar)
 
     PChar->pushPacket<CCharJobExtraPacket>(PChar, true);
     PChar->pushPacket<CCharJobExtraPacket>(PChar, false);
-    PChar->pushPacket<CStatusEffectPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::STATUS_ICONS>(PChar);
 }
