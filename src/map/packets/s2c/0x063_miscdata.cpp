@@ -115,7 +115,24 @@ GP_SERV_COMMAND_MISCDATA::MONSTROSITY2::MONSTROSITY2(CCharEntity* PChar)
     packet.type      = pkt_type::monstrosity2;
     packet.unknown06 = sizeof(PacketData) - 8;
 
-    // TODO: Populate data.Monstrosity2 fields
+    // NOTE: These packets have to be at least partially populated, or the
+    // player will lose their abilities and get a big selection of incorrect traits.
+
+    if (PChar->m_PMonstrosity == nullptr)
+    {
+        return;
+    }
+
+    // NOTE: SE added these after-the-fact, so they're not sent in Monipulator1 and they're at the end of the array!
+    packet.slimeLevel    = PChar->m_PMonstrosity->levels[126];
+    packet.sprigganLevel = PChar->m_PMonstrosity->levels[127];
+
+    // Contains job/race instincts from the 0x03 set. Has 8 unused bytes. This is a 1:1 mapping.
+    // Since this has 8 unused bytes, we're only going to use 4 from instincts[20:23]
+    std::memcpy(packet.instincts2, PChar->m_PMonstrosity->instincts.data() + 20, sizeof(packet.instincts2));
+
+    // Does not show normal monsters, only variants. Bit is 1 if the variant is owned.
+    std::memcpy(packet.variants, PChar->m_PMonstrosity->variants.data(), sizeof(packet.variants));
 }
 
 GP_SERV_COMMAND_MISCDATA::JOBPOINTS::JOBPOINTS(const CCharEntity* PChar)

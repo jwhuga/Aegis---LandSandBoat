@@ -104,7 +104,6 @@
 #include "packets/char_sync.h"
 #include "packets/conquest_map.h"
 #include "packets/entity_update.h"
-#include "packets/monipulator2.h"
 #include "packets/objective_utility.h"
 #include "packets/quest_mission_log.h"
 #include "packets/s2c/0x009_message.h"
@@ -6633,7 +6632,7 @@ void CLuaBaseEntity::changeJob(uint8 newJob)
         PChar->pushPacket<CCharStatusPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-        PChar->pushPacket<CMonipulatorPacket2>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
         PChar->pushPacket<CCharSyncPacket>(PChar);
     }
     else if (auto* PMob = dynamic_cast<CMobEntity*>(m_PBaseEntity))
@@ -6912,7 +6911,7 @@ void CLuaBaseEntity::setLevel(uint8 level)
         PChar->pushPacket<CCharStatusPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-        PChar->pushPacket<CMonipulatorPacket2>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
         PChar->pushPacket<CCharSyncPacket>(PChar);
     }
 }
@@ -6969,7 +6968,7 @@ void CLuaBaseEntity::setsLevel(uint8 slevel)
     PChar->pushPacket<CCharStatusPacket>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-    PChar->pushPacket<CMonipulatorPacket2>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
     PChar->pushPacket<CCharSyncPacket>(PChar);
 }
 
@@ -9060,7 +9059,7 @@ void CLuaBaseEntity::setMerits(uint8 numPoints)
     PChar->PMeritPoints->SetMeritPoints(numPoints);
     PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
     PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-    PChar->pushPacket<CMonipulatorPacket2>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
 
     charutils::SaveCharExp(PChar, PChar->GetMJob());
 }
@@ -12735,7 +12734,7 @@ void CLuaBaseEntity::recalculateStats()
         PChar->pushPacket<CCharStatusPacket>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MERITS>(PChar);
         PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY1>(PChar);
-        PChar->pushPacket<CMonipulatorPacket2>(PChar);
+        PChar->pushPacket<GP_SERV_COMMAND_MISCDATA::MONSTROSITY2>(PChar);
         PChar->pushPacket<CCharSyncPacket>(PChar);
     }
 }
