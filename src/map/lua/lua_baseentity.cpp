@@ -102,7 +102,6 @@
 #include "packets/auction_house.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
-#include "packets/conquest_map.h"
 #include "packets/entity_update.h"
 #include "packets/objective_utility.h"
 #include "packets/quest_mission_log.h"
@@ -133,6 +132,7 @@
 #include "packets/s2c/0x05b_wpos.h"
 #include "packets/s2c/0x05c_pendingnum.h"
 #include "packets/s2c/0x05d_pendingstr.h"
+#include "packets/s2c/0x05e_conquest.h"
 #include "packets/s2c/0x05f_music.h"
 #include "packets/s2c/0x061_clistatus.h"
 #include "packets/s2c/0x062_clistatus2.h"
@@ -9491,7 +9491,7 @@ void CLuaBaseEntity::addCP(int32 cp)
     auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     charutils::AddPoints(PChar, charutils::GetConquestPointsName(PChar).c_str(), cp);
-    PChar->pushPacket<CConquestPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_CONQUEST>(PChar);
 }
 
 /************************************************************************
@@ -9512,7 +9512,7 @@ void CLuaBaseEntity::delCP(int32 cp)
     auto* PChar = static_cast<CCharEntity*>(m_PBaseEntity);
 
     charutils::AddPoints(PChar, charutils::GetConquestPointsName(PChar).c_str(), -cp);
-    PChar->pushPacket<CConquestPacket>(PChar);
+    PChar->pushPacket<GP_SERV_COMMAND_CONQUEST>(PChar);
 }
 
 /************************************************************************

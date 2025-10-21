@@ -38,7 +38,6 @@
 
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
-#include "packets/conquest_map.h"
 #include "packets/objective_utility.h"
 #include "packets/quest_mission_log.h"
 #include "packets/s2c/0x009_message.h"
@@ -105,6 +104,7 @@
 #include "packets/s2c/0x044_extended_job_blu.h"
 #include "packets/s2c/0x044_extended_job_mon.h"
 #include "packets/s2c/0x044_extended_job_pup.h"
+#include "packets/s2c/0x05e_conquest.h"
 #include "packets/s2c/0x063_miscdata_job_points.h"
 #include "packets/s2c/0x063_miscdata_merits.h"
 #include "packets/s2c/0x063_miscdata_monstrosity.h"
@@ -5330,7 +5330,7 @@ namespace charutils
             if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SANCTION) && (region >= REGION_TYPE::WEST_AHT_URHGAN && region <= REGION_TYPE::ALZADAAL))
             {
                 charutils::AddPoints(PChar, "imperial_standing", (int32)(exp * 0.1f));
-                PChar->pushPacket<CConquestPacket>(PChar);
+                PChar->pushPacket<GP_SERV_COMMAND_CONQUEST>(PChar);
             }
 
             // Cruor Drops in Abyssea zones.
