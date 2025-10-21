@@ -130,6 +130,11 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x06f_combine_ans.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x06f_combine_ans.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x070_combine_inf.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x071_influence.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x071_influence_campaign.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x071_influence_campaign.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x071_influence_colonization.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x071_influence_colonization.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x077_entity_vis.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x077_entity_vis.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x070_combine_inf.cpp
