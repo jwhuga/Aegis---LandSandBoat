@@ -547,10 +547,10 @@ public:
     uint32 canLearnAbility(uint16 abilityID);
     void   delLearnedAbility(uint16 abilityID);
 
-    void   addSpell(uint16 spellID, sol::variadic_args va);
+    void   addSpell(uint16 spellID, sol::object const& arg0);
     bool   hasSpell(uint16 spellID);
     uint32 canLearnSpell(uint16 spellID);
-    void   delSpell(uint16 spellID);
+    void   delSpell(uint16 spellID, sol::object const& arg0);
 
     void recalculateSkillsTable();
     void recalculateAbilitiesTable();

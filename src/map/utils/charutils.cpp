@@ -3957,22 +3957,23 @@ namespace charutils
         return PChar->m_SpellList[SpellID];
     }
 
-    int32 addSpell(CCharEntity* PChar, uint16 SpellID)
+    int32 addSpell(CCharEntity* PChar, uint16 spellID)
     {
-        // Todo: come up with a good way to validate that the SpellID exists in the database also.
-        if (SpellID > 0 && SpellID < 1024 && !hasSpell(PChar, SpellID))
+        auto* PSpell = spell::GetSpell(static_cast<SpellID>(spellID));
+        if (PSpell && !hasSpell(PChar, spellID))
         {
-            PChar->m_SpellList[SpellID] = true;
+            PChar->m_SpellList[spellID] = true;
             return 1;
         }
         return 0;
     }
 
-    int32 delSpell(CCharEntity* PChar, uint16 SpellID)
+    int32 delSpell(CCharEntity* PChar, uint16 spellID)
     {
-        if (hasSpell(PChar, SpellID))
+        auto* PSpell = spell::GetSpell(static_cast<SpellID>(spellID));
+        if (PSpell && hasSpell(PChar, spellID))
         {
-            PChar->m_SpellList[SpellID] = false;
+            PChar->m_SpellList[spellID] = false;
             return 1;
         }
         return 0;
