@@ -64,13 +64,7 @@ enum class login_result : uint8_t
     LOGIN_SUCCESS_REMOVE_TOTP       = 0x12,
 };
 
-// Only the first 3 characters of the version string are matched
-// ie. 1.1.1 -> 1.1.x
-// Major.Minor.Patch
-// Major and minor version changes should be breaking, patch should not.
-#define SUPPORTED_XILOADER_VERSION "1.1.x"
-
-constexpr std::array<uint8, 3> SupportedJsonXiloaderVersion = { 2, 0, 0 };
+constexpr std::array<uint8, 3> SupportedXiloaderVersion = { 2, 0, 0 };
 
 // NOTE: This collection of flags is 64-bits wide!
 enum AUTH_COMPONENTS

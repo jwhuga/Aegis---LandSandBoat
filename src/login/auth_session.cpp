@@ -94,15 +94,6 @@ void auth_session::do_read()
 
 void auth_session::read_func()
 {
-    int8 code   = 0;
-    bool isJson = false;
-
-    std::string            username         = "";
-    std::string            password         = "";
-    std::string            updated_password = "";
-    std::string            otp              = "";
-    std::array<uint8_t, 3> version          = {};
-
     const auto jsonBuffer = nlohmann::json::parse(buffer_, nullptr, false);
 
     const auto sendJsonAsBuffer = [&](const json& json_)
@@ -119,22 +110,13 @@ void auth_session::read_func()
 
     const auto sendLoginResult = [&](const login_result errorCode, const uint8 len)
     {
-        if (!isJson)
-        {
-            std::memset(buffer_.data(), 0, len);
-            ref<uint8>(buffer_.data(), 0) = static_cast<uint8>(errorCode);
-            do_write(len);
-        }
-        else
-        {
-            json loginErrorCodeReply;
-            loginErrorCodeReply["result"] = errorCode; // "old style" backwards compatible error code
+        json loginErrorCodeReply;
+        loginErrorCodeReply["result"] = errorCode; // "old style" backwards compatible error code
 
-            sendJsonAsBuffer(loginErrorCodeReply);
-        }
+        sendJsonAsBuffer(loginErrorCodeReply);
     };
 
-    const auto sendJsonOnlyErrorCode = [&](const std::string& errorMessage)
+    const auto sendJsonOnlyErrorMessage = [&](const std::string& errorMessage)
     {
         json loginErrorCodeReply;
         loginErrorCodeReply["error_message"] = errorMessage;
@@ -145,71 +127,34 @@ void auth_session::read_func()
     if (jsonBuffer.is_discarded()) // not json
     {
         const auto newModeFlag = ref<uint8>(buffer_.data(), 0) == 0xFF;
-        if (!newModeFlag)
+        if (!newModeFlag) // Ancient, original xiloader pre-sessionhash
         {
-            ShowDebug("Old xiloader connected. Not supported.");
             ref<uint8>(buffer_.data(), 0) = static_cast<uint8>(login_result::LOGIN_ERROR);
+
             do_write(1);
-            return;
         }
-
-        // Feature flags from xiloader are sent over on the 2nd byte+
-
-        char usernameBuffer[17] = {};
-        char passwordBuffer[33] = {};
-
-        std::memcpy(usernameBuffer, buffer_.data() + 0x09, 16);
-        std::memcpy(passwordBuffer, buffer_.data() + 0x19, 32);
-
-        // 1 byte of command at 0x39
-        const std::string versionStr = asStringFromUntrustedSource(buffer_.data() + 0x61, 5);
-        updated_password             = asStringFromUntrustedSource(buffer_.data() + 0x40, 32);
-
-        username = usernameBuffer;
-        password = passwordBuffer;
-
-        // Only match on the first 3 characters of the version string
-        // ie. 1.1.1 -> 1.1.x
-        // Major.Minor.Patch
-        // Major and minor version changes should be breaking, patch should not.
-        if (strncmp(versionStr.c_str(), SUPPORTED_XILOADER_VERSION, 3) != 0)
+        else // old non-json xiloader
         {
             ref<uint8>(buffer_.data(), 0) = static_cast<uint8>(login_result::LOGIN_ERROR_VERSION_UNSUPPORTED);
 
             do_write(1);
-            return;
         }
-        code = ref<uint8>(buffer_.data(), 0x39);
+        return;
     }
-    else
+
+    int8                   code             = loginHelpers::jsonGet<int8>(jsonBuffer, "command").value_or(0);
+    std::string            username         = loginHelpers::jsonGet<std::string>(jsonBuffer, "username").value_or("");
+    std::string            password         = loginHelpers::jsonGet<std::string>(jsonBuffer, "password").value_or("");
+    std::string            updated_password = loginHelpers::jsonGet<std::string>(jsonBuffer, "new_password").value_or("");
+    std::string            otp              = loginHelpers::jsonGet<std::string>(jsonBuffer, "otp").value_or("");
+    std::array<uint8_t, 3> version          = loginHelpers::jsonGet<uint8, 3>(jsonBuffer, "version").value_or(std::array<uint8_t, 3>{ 0, 0, 0 });
+
+    // Check major.minor but ignore trivial
+    if (version[0] != SupportedXiloaderVersion[0] || version[1] != SupportedXiloaderVersion[1])
     {
-        isJson = true;
-
-        auto maybeUsername        = loginHelpers::jsonGet<std::string>(jsonBuffer, "username");
-        auto maybePassword        = loginHelpers::jsonGet<std::string>(jsonBuffer, "password");
-        auto maybeUpdatedPassword = loginHelpers::jsonGet<std::string>(jsonBuffer, "new_password");
-        auto maybeCode            = loginHelpers::jsonGet<decltype(code)>(jsonBuffer, "command");
-        auto maybeOTP             = loginHelpers::jsonGet<std::string>(jsonBuffer, "otp");
-        auto maybeVersion         = loginHelpers::jsonGet<uint8, 3>(jsonBuffer, "version");
-
-        username         = maybeUsername.value_or("");
-        password         = maybePassword.value_or("");
-        updated_password = maybeUpdatedPassword.value_or("");
-        code             = maybeCode.value_or(0);
-        otp              = maybeOTP.value_or("");
-
-        if (maybeVersion.has_value())
-        {
-            version = maybeVersion.value();
-        }
-
-        // Check major.minor but ignore trivial
-        if (version[0] != SupportedJsonXiloaderVersion[0] || version[1] != SupportedJsonXiloaderVersion[1])
-        {
-            std::string errorMessage = fmt::format("Your xiloader is too old.\nPlease update to version '{}.{}.x'.\nYour client reported '{}.{}.{}'.", SupportedJsonXiloaderVersion[0], SupportedJsonXiloaderVersion[1], version[0], version[1], version[2]);
-            sendJsonOnlyErrorCode(errorMessage);
-            return;
-        }
+        std::string errorMessage = fmt::format("Your xiloader is too old.\nPlease update to version '{}.{}.x'.\nYour client reported '{}.{}.{}'.", SupportedXiloaderVersion[0], SupportedXiloaderVersion[1], version[0], version[1], version[2]);
+        sendJsonOnlyErrorMessage(errorMessage);
+        return;
     }
 
     DebugSockets(fmt::format("auth code: {} from {}", code, ipAddress));
@@ -302,25 +247,12 @@ void auth_session::read_func()
                     uint32        hashData = earth_time::timestamp() ^ getpid();
                     md5(reinterpret_cast<uint8*>(&hashData), hash, sizeof(hashData));
 
-                    if (!isJson)
-                    {
-                        std::memset(buffer_.data(), 0, 49);
-                        ref<uint8>(buffer_.data(), 0)  = static_cast<uint8>(login_result::LOGIN_SUCCESS);
-                        ref<uint32>(buffer_.data(), 1) = accountID;
+                    json loginSuccessReply;
+                    loginSuccessReply["result"]       = static_cast<uint8>(login_result::LOGIN_SUCCESS);
+                    loginSuccessReply["account_id"]   = accountID;
+                    loginSuccessReply["session_hash"] = hash; // This has to be sent as an array, json.dump() tries to convert to UTF which fails
 
-                        std::memcpy(buffer_.data() + 5, hash, 16);
-
-                        do_write(21);
-                    }
-                    else
-                    {
-                        json loginSuccessReply;
-                        loginSuccessReply["result"]       = static_cast<uint8>(login_result::LOGIN_SUCCESS);
-                        loginSuccessReply["account_id"]   = accountID;
-                        loginSuccessReply["session_hash"] = hash; // This has to be sent as an array, json.dump() tries to convert to UTF which fails
-
-                        sendJsonAsBuffer(loginSuccessReply);
-                    }
+                    sendJsonAsBuffer(loginSuccessReply);
 
                     auto& session          = loginHelpers::get_authenticated_session(ipAddress, asStringFromUntrustedSource(hash, sizeof(hash)));
                     session.accountID      = accountID;
@@ -465,21 +397,12 @@ void auth_session::read_func()
                     return;
                 }
 
-                if (!isJson)
-                {
-                    std::memset(buffer_.data(), 0, 33);
-                    ref<uint8>(buffer_.data(), 0) = static_cast<uint8>(login_result::LOGIN_SUCCESS_CHANGE_PASSWORD);
-                    do_write(33);
-                }
-                else
-                {
-                    json loginErrorChangePasswordReply;
-                    loginErrorChangePasswordReply["result"]       = login_result::LOGIN_SUCCESS_CHANGE_PASSWORD;
-                    loginErrorChangePasswordReply["account_id"]   = 0;
-                    loginErrorChangePasswordReply["session_hash"] = "";
+                json loginErrorChangePasswordReply;
+                loginErrorChangePasswordReply["result"]       = login_result::LOGIN_SUCCESS_CHANGE_PASSWORD;
+                loginErrorChangePasswordReply["account_id"]   = 0;
+                loginErrorChangePasswordReply["session_hash"] = "";
 
-                    sendJsonAsBuffer(loginErrorChangePasswordReply);
-                }
+                sendJsonAsBuffer(loginErrorChangePasswordReply);
 
                 ShowInfoFmt("login_parse: password updated for account {} successfully.", accid);
                 return;
@@ -491,7 +414,7 @@ void auth_session::read_func()
             // Look up and validate account password
             if (!validatePassword(username, password))
             {
-                sendJsonOnlyErrorCode("Failed to validate credentials");
+                sendJsonOnlyErrorMessage("Failed to validate credentials");
                 return;
             }
 
@@ -510,7 +433,7 @@ void auth_session::read_func()
             }
             else
             {
-                sendJsonOnlyErrorCode("Failed to validate credentials");
+                sendJsonOnlyErrorMessage("Failed to validate credentials");
             }
             break;
         }
@@ -519,7 +442,7 @@ void auth_session::read_func()
             // Look up and validate account password
             if (!validatePassword(username, password))
             {
-                sendJsonOnlyErrorCode("Failed to validate credentials");
+                sendJsonOnlyErrorMessage("Failed to validate credentials");
                 return;
             }
 
@@ -540,7 +463,7 @@ void auth_session::read_func()
             }
             else
             {
-                sendJsonOnlyErrorCode("Failed to validate credentials");
+                sendJsonOnlyErrorMessage("Failed to validate credentials");
             }
             break;
         }
@@ -549,7 +472,7 @@ void auth_session::read_func()
             // Look up and validate account password
             if (!validatePassword(username, password))
             {
-                sendJsonOnlyErrorCode("Failed to validate credentials");
+                sendJsonOnlyErrorMessage("Failed to validate credentials");
                 return;
             }
 
@@ -570,7 +493,7 @@ void auth_session::read_func()
             }
             else
             {
-                sendJsonOnlyErrorCode("Failed to validate credentials");
+                sendJsonOnlyErrorMessage("Failed to validate credentials");
             }
             break;
         }
@@ -579,7 +502,7 @@ void auth_session::read_func()
             // Look up and validate account password
             if (!validatePassword(username, password))
             {
-                sendJsonOnlyErrorCode("Failed to validate credentials");
+                sendJsonOnlyErrorMessage("Failed to validate credentials");
                 return;
             }
 
@@ -597,7 +520,7 @@ void auth_session::read_func()
             }
             else
             {
-                sendJsonOnlyErrorCode("Failed to validate credentials");
+                sendJsonOnlyErrorMessage("Failed to validate credentials");
             }
 
             break;
