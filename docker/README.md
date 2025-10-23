@@ -5,7 +5,7 @@
 `losmeshes` and `navmeshes` are included in a separate image. You can load these into a volume with the following command:
 
 ```sh
-docker run --rm -v losmeshes:/losmeshes -v navmeshes:/navmeshes ghcr.io/LandSandBoat/ximeshes:latest
+docker run --rm -v losmeshes:/losmeshes -v navmeshes:/navmeshes ghcr.io/landsandboat/ximeshes:latest
 ```
 Once the volumes are created, you can delete the image.
 
@@ -54,7 +54,7 @@ docker run --name some-lsb-server \
 -p 54231:54231 \
 -v losmeshes:/server/losmeshes \
 -v navmeshes:/server/navmeshes \
-ghcr.io/LandSandBoat/server:latest
+ghcr.io/landsandboat/server:latest
 ```
 
 ### Customization
@@ -99,7 +99,7 @@ x-dbcreds: &dbcreds
   MARIADB_PASSWORD: 'password'
 
 x-common: &common
-  image: ghcr.io/LandSandBoat/server:latest
+  image: ghcr.io/landsandboat/server:latest
   environment:
     <<: *dbcreds
     XI_NETWORK_HTTP_HOST: 0.0.0.0
