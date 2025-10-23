@@ -18,7 +18,7 @@ jobs:
     name: Sanity Checks
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/${{ github.repository_owner }}/devtools:ubuntu
+      image: ghcr.io/landsandboat/devtools:ubuntu
     defaults:
       run:
         shell: bash
@@ -58,7 +58,7 @@ jobs:
     needs: Sanity_Checks
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/${{ github.repository_owner }}/devtools:ubuntu
+      image: ghcr.io/landsandboat/devtools:ubuntu
     defaults:
       run:
         shell: bash
