@@ -81,6 +81,10 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x044_extended_job_mon.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x044_extended_job_pup.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x044_extended_job_pup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x04d_fragments_fishranking.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x04d_fragments_fishranking.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x04d_fragments_servmes.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x04d_fragments_servmes.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x04f_equip_clear.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x050_equip_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x050_equip_list.cpp
