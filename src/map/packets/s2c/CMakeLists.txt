@@ -81,6 +81,10 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x044_extended_job_mon.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x044_extended_job_pup.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x044_extended_job_pup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x04d_fragments_fishranking.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x04d_fragments_fishranking.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x04d_fragments_servmes.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x04d_fragments_servmes.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x04f_equip_clear.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x050_equip_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x050_equip_list.cpp
@@ -148,6 +152,8 @@ set(PACKET_S2C_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/0x077_entity_vis.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x077_entity_vis.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x070_combine_inf.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x075_battlefield.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/0x075_battlefield.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x076_group_effects.h
     ${CMAKE_CURRENT_SOURCE_DIR}/0x076_group_effects.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/0x082_guild_buy.h
