@@ -853,7 +853,7 @@ INSERT INTO `mob_skills` VALUES (835,517,'lunar_roar',1,0.0,10.0,515,3000,4,128,
 INSERT INTO `mob_skills` VALUES (836,518,'eclipse_bite',0,0.0,10.0,518,3000,4,64,0,0,9,4,0); -- Gravitation (9) / Scission (4)
 INSERT INTO `mob_skills` VALUES (837,519,'ecliptic_howl',1,0.0,10.0,517,3000,1,128,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (838,521,'howling_moon',1,0.0,30.0,520,3000,4,64,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (839,521,'howling_moon',1,0.0,30.0,520,3000,4,64,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (839,521,'howling_moon',1,0.0,30.0,2000,0,4,64,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (840,526,'punch',0,0.0,10.0,528,3000,4,64,0,0,3,0,0); -- Liquefication (3)
 INSERT INTO `mob_skills` VALUES (841,527,'fire_ii',0,0.0,10.0,529,3000,4,64,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (842,528,'burning_strike',0,0.0,10.0,530,3000,4,64,0,0,8,0,0); -- Impaction (8)
@@ -1925,7 +1925,7 @@ INSERT INTO `mob_skills` VALUES (1907,145,'dream_shroud',1,0.0,10.0,645,3000,1,1
 INSERT INTO `mob_skills` VALUES (1908,146,'nightmare',1,0.0,10.0,642,3000,4,128,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1909,1653,'cacodemonia',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1910,148,'nether_blast',0,0.0,10.0,646,3000,4,64,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1911,1125,'ruinous_omen',1,0.0,30.0,2000,3000,4,64,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1911,1125,'ruinous_omen',1,0.0,30.0,2000,0,4,64,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1912,1656,'hypnogenesis',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1913,1657,'stunbolt',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1914,1658,'great_wheel',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
