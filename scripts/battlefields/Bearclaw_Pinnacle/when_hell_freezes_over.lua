@@ -34,7 +34,7 @@ local function spawnSnowDevils(battlefield)
             mob:spawn()
 
             -- Update emnity.
-            local wave  = battlefield:getLocalVar('wave')
+            wave  = battlefield:getLocalVar('wave')
             if wave >= 1 then
                 local players = battlefield:getPlayers()
                 for _, player in pairs(players) do
