@@ -292,7 +292,7 @@ INSERT INTO `mob_skills` VALUES (274,6,'sheep_charge_melee',0,0.0,7.0,2000,0,4,0
 INSERT INTO `mob_skills` VALUES (275,809,'sand_blast',1,0.0,8.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (276,810,'sand_pit',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (277,811,'venom_spray',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (278,812,'pit_ambush',0,0.0,9.0,2000,0,4,4,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (278,812,'pit_ambush',0,0.0,11.0,2000,0,4,4,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (279,813,'mandibular_bite',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (280,24,'sonic_wave',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (281,25,'stomping',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -1858,7 +1858,7 @@ INSERT INTO `mob_skills` VALUES (1840,1148,'rushing_stab',0,0.0,7.0,2000,1500,4,
 -- INSERT INTO `mob_skills` VALUES (1841,1585,'sandblast',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1842,1586,'sandpit',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1843,1587,'venom_spray',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1844,1588,'pit_ambush',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+-- INSERT INTO `mob_skills` VALUES (1844,1588,'pit_ambush',0,0.0,11.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1845,1589,'mandibular_bite',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1846,78,'sharp_sting',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1847,79,'frenzy_pollen',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
