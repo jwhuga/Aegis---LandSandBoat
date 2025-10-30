@@ -203,7 +203,7 @@ jobs:
             tracy.tar.gz
 
       - name: Cache build
-        if: ${{ inputs.save_cache && !steps.restore_build.outputs.cache-hit && (!inputs.optional_build || steps.check-changes.outputs.source_changes == 'true') }}
+        if: ${{ inputs.save_cache && steps.restore_build.outputs.cache-hit != 'true' && (!inputs.optional_build || steps.check-changes.outputs.source_changes == 'true') }}
         uses: actions/cache/save@v4
         with:
           path: build
