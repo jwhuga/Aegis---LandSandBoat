@@ -2154,16 +2154,16 @@ namespace battleutils
                 switch (damageType)
                 {
                     case DAMAGE_TYPE::PIERCING:
-                        damage = damage * (1 + PDefender->getMod(Mod::PIERCE_SDT) / 10000);
+                        damage = damage * (1 + PDefender->getMod(Mod::PIERCE_SDT) / 10000.0f);
                         break;
                     case DAMAGE_TYPE::SLASHING:
-                        damage = damage * (1 + PDefender->getMod(Mod::SLASH_SDT) / 10000);
+                        damage = damage * (1 + PDefender->getMod(Mod::SLASH_SDT) / 10000.0f);
                         break;
                     case DAMAGE_TYPE::IMPACT:
-                        damage = damage * (1 + PDefender->getMod(Mod::IMPACT_SDT) / 10000);
+                        damage = damage * (1 + PDefender->getMod(Mod::IMPACT_SDT) / 10000.0f);
                         break;
                     case DAMAGE_TYPE::HTH:
-                        damage = damage * (1 + PDefender->getMod(Mod::HTH_SDT) / 10000);
+                        damage = damage * (1 + PDefender->getMod(Mod::HTH_SDT) / 10000.0f);
                         break;
                     default:
                         break;
@@ -2171,7 +2171,7 @@ namespace battleutils
             }
             else
             {
-                damage = damage * (1 + PDefender->getMod(Mod::HTH_SDT) / 10000);
+                damage = damage * (1 + PDefender->getMod(Mod::HTH_SDT) / 10000.0f);
             }
 
             if (isBlocked)
