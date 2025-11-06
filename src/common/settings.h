@@ -23,6 +23,7 @@
 
 #include "logging.h"
 #include "utils.h"
+#include "xi.h"
 
 #include <string>
 #include <type_traits>
@@ -31,18 +32,6 @@
 
 namespace settings
 {
-
-// https://en.cppreference.com/w/cpp/utility/variant/visit
-// helper type for the visitor
-template <class... Ts>
-struct overloaded : Ts...
-{
-    // cppcheck-suppress syntaxError
-    using Ts::operator()...;
-};
-// explicit deduction guide (not needed as of C++20)
-template <class... Ts>
-overloaded(Ts...) -> overloaded<Ts...>;
 
 using SettingsVariant_t = std::variant<bool, double, std::string>;
 extern std::unordered_map<std::string, SettingsVariant_t> settingsMap;
@@ -75,7 +64,7 @@ T get(std::string name)
 
         // arg = type held inside the variant
         std::visit(
-            overloaded{
+            xi::overload{
                 [&](const bool& arg)
                 {
                     if constexpr (std::is_same_v<T, bool>)

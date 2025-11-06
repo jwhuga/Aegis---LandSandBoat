@@ -35,6 +35,11 @@
 #include "earth_time.h"
 #include "tracy.h"
 
+#include "helpers/overload.h"
+
+namespace xi
+{
+
 // The purpose of this namespace IS NOT to replace the C++ standard library.
 //
 // It is to provide convenience wrappers around common standard library types
@@ -44,9 +49,6 @@
 // - Forwarding all of the expected and useful functions from the underlying standard library type
 // - Not forwarding/hiding the ones that are not useful
 // - Adding new functions that are useful and convenient
-
-namespace xi
-{
 
 class vanadiel_clock
 {
@@ -194,7 +196,7 @@ private:
 };
 
 // TODO: A wrapper around std::variant to allow usage of:
-//     :   object.visit(overloaded{...});
+//     :   object.visit(overload{...});
 //     :   object.get<T>() -> xi::optional<T>;
 
 // https://github.com/microsoft/GSL/blob/main/include/gsl/util
