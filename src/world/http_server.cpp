@@ -26,6 +26,7 @@
 #include "common/logging.h"
 #include "common/settings.h"
 #include "common/utils.h"
+#include "common/xi.h"
 
 #include <unordered_set>
 
@@ -147,7 +148,7 @@ HTTPServer::HTTPServer()
                             }
 
                             std::visit(
-                                settings::overloaded{
+                                xi::overload{
                                     [&](const bool& arg)
                                     {
                                         j[key] = arg;
