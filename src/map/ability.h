@@ -670,30 +670,10 @@ enum ABILITY
     ABILITY_SONIC_BUFFET      = 967,
     ABILITY_TORNADO_II        = 968,
     ABILITY_WINDS_BLESSING    = 969,
-    ABILITY_HYSTERIC_ASSAULT  = 970,
-
-    ABILITY_MEGA_HOLY         = 977,
-    ABILITY_DIVINE_SPEAR      = 978,
-    ABILITY_RADIANT_SACRAMENT = 979,
-    ABILITY_VOID_OF_REPENTANCE= 980,
-    ABILITY_GOSPEL_OF_THE_lOST= 981,
-
-    ABILITY_VALFODR           = 986,
-    ABILITY_GAGNRATH          = 987,
-    ABILITY_SANNGETALL        = 988,
-    ABILITY_GEIRROTHR         = 989,
-    ABILITY_YGGR              = 990,
-    ABILITY_ZANTETSUKEN_KAI   = 991,
-
-    ABILITY_ABSOLUTE_TERROR   = 992,
-    ABILITY_TRAMPLE           = 993,
-    ABILITY_SWEEPING_FLAIL    = 994,
-    ABILITY_TEMPEST_WING      = 995,
-    ABILITY_MEGAFLARE         = 996,
-    ABILITY_GIGAFLARE         = 997,
+    ABILITY_HYSTERIC_ASSAULT  = 970
 };
 
-#define MAX_ABILITY_ID 997
+#define MAX_ABILITY_ID 971
 
 struct Charge_t
 {
@@ -793,16 +773,18 @@ private:
 
 namespace ability
 {
-    void LoadAbilitiesList();
 
-    CAbility* GetAbility(uint16 AbilityID);
+void LoadAbilitiesList();
 
-    CAbility* GetTwoHourAbility(JOBTYPE JobID);
-    bool      CanLearnAbility(CBattleEntity* PUser, uint16 AbilityID);
-    Charge_t* GetCharge(CBattleEntity* PUser, uint16 chargeID);
-    uint32    GetAbsorbMessage(uint32 message);
+CAbility* GetAbility(uint16 AbilityID);
 
-    std::vector<CAbility*> GetAbilities(JOBTYPE JobID);
+CAbility* GetTwoHourAbility(JOBTYPE JobID);
+bool      CanLearnAbility(CBattleEntity* PUser, uint16 AbilityID);
+Charge_t* GetCharge(CBattleEntity* PUser, uint16 chargeID);
+uint32    GetAbsorbMessage(uint32 message);
+
+std::vector<CAbility*> GetAbilities(JOBTYPE JobID);
+
 }; // namespace ability
 
 #endif
