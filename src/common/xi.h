@@ -36,6 +36,7 @@
 #include "tracy.h"
 #include "vanadiel_clock.h"
 
+#include "helpers/eraseif.h"
 #include "helpers/overload.h"
 
 namespace xi
@@ -470,22 +471,5 @@ private:
     std::optional<T>   instance_;
     std::function<T()> constructFn_;
 };
-
-template <typename Container, typename Predicate>
-void eraseIf(Container& container, Predicate&& pred)
-{
-    auto it = container.begin();
-    while (it != container.end())
-    {
-        if (pred(*it))
-        {
-            it = container.erase(it); // erase returns the next valid iterator
-        }
-        else
-        {
-            ++it;
-        }
-    }
-}
 
 } // namespace xi
