@@ -235,6 +235,7 @@ bool isAnyDeliveryBoxOpen(CCharEntity* PChar);
 
 auto CheckAbilityAddtype(CCharEntity* PChar, const CAbility* PAbility) -> bool;
 
+void RemoveInvisible(const CCharEntity* PChar);
 void RemoveStratagems(CCharEntity* PChar, CSpell* PSpell);
 
 void RemoveAllEquipMods(CCharEntity* PChar);
