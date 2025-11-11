@@ -14,7 +14,7 @@ describe('Invisible', function()
     }
 
     for sName, sId in pairs(invisibleStatus) do
-        it(string.format('breaks on itemuse (%s)', sName), function()
+        it(string.format('breaks on item use (%s)', sName), function()
             player:addStatusEffect(sId, 0, 10, 60)
             player:addItem(xi.item.MEAT_MITHKABOB)
             local kabob = player:findItem(xi.item.MEAT_MITHKABOB)
@@ -22,7 +22,7 @@ describe('Invisible', function()
             player.actions:useItem(player, kabob:getSlotID(), xi.inventoryLocation.INVENTORY)
             xi.test.world:skipTime(5)
             player.assert.no:hasEffect(sId)
-            player.assert:hasEffect(xi.effect.FOOD)
+                :hasEffect(xi.effect.FOOD)
         end)
     end
 
