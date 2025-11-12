@@ -21,9 +21,9 @@
 
 #include "0x0ea_sit.h"
 
-#include "status_effect_container.h"
 #include "entities/charentity.h"
 #include "entities/petentity.h"
+#include "status_effect_container.h"
 
 auto GP_CLI_COMMAND_SIT::validate(MapSession* PSession, const CCharEntity* PChar) const -> PacketValidationResult
 {

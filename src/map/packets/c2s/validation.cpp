@@ -26,7 +26,8 @@
 #include "status_effect_container.h"
 #include "trade_container.h"
 
-auto PacketValidator::isNotResting(const CCharEntity* PChar) -> PacketValidator& {
+auto PacketValidator::isNotResting(const CCharEntity* PChar) -> PacketValidator&
+{
     if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_HEALING) ||
         PChar->animation == ANIMATION_HEALING)
     {
