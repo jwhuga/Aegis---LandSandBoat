@@ -87,7 +87,10 @@ entity.onMobFight = function(mob, target)
 
     -- Swap between forms every 2 minutes
     local form = mob:getLocalVar('formTime')
-    if now >= form and mob:getCurrentAction() == xi.action.category.BASIC_ATTACK then
+    if
+        now >= form and
+        mob:getCurrentAction() == xi.action.category.BASIC_ATTACK
+    then
         mob:setLocalVar('formTime', now + utils.minutes(2))
         if mob:getAnimationSub() == 1 then
             bipedForm(mob)
