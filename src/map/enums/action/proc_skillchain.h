@@ -46,4 +46,3 @@ enum class ActionProcSkillChain : uint8_t
     Radiance      = 15, // 001111
     Umbra         = 16, // 010000
 };
-DECLARE_FORMAT_AS_UNDERLYING(ActionProcSkillChain);

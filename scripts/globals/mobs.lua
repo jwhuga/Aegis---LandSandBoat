@@ -830,7 +830,7 @@ xi.mob.callPets = function(mob, petIds, params)
                 -- inject "<mob> uses Call Beast"
                 actionParams =
                 {
-                    finishCategory = xi.action.MOBABILITY_FINISH,
+                    finishCategory = xi.action.category.MOBABILITY_FINISH,
                     animationID = 718,
                     actionID = xi.mobSkill.CALL_BEAST,
                     messageID = xi.msg.basic.USES,
@@ -842,7 +842,7 @@ xi.mob.callPets = function(mob, petIds, params)
                 -- inject "<mob> uses Call Wyvern"
                 actionParams =
                 {
-                    finishCategory = xi.action.MOBABILITY_FINISH,
+                    finishCategory = xi.action.category.MOBABILITY_FINISH,
                     animationID = 438,
                     actionID = xi.mobSkill.CALL_WYVERN,
                     messageID = xi.msg.basic.USES,
@@ -855,7 +855,7 @@ xi.mob.callPets = function(mob, petIds, params)
                 -- The mobskill has no action message, so we use the job ability
                 actionParams =
                 {
-                    finishCategory = xi.action.JOBABILITY_FINISH,
+                    finishCategory = xi.action.category.JOBABILITY_FINISH,
                     animationID = 83,
                     actionID = xi.jobAbility.ACTIVATE,
                     messageID = xi.msg.basic.USES_JA,

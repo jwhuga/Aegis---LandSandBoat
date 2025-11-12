@@ -29,10 +29,10 @@
 // This is used for ranged attacks, weaponskills and melee attacks
 enum class ActionInfo : uint8_t
 {
-    None          = 0,
-    Defeated      = 1, // 00001 - Set when the action defeats the target
-    CriticalHit   = 2, // 00010 - Set when the action is a critical hit
-    UnknownAoE    = 4, // 00100 - Exact purpose unknown, set by self-targeting mobs when no valid target is in range. See Ruszors.
+    None        = 0,
+    Defeated    = 1, // 00001 - Set when the action defeats the target
+    CriticalHit = 2, // 00010 - Set when the action is a critical hit
+    UnknownAoE  = 4, // 00100 - Exact purpose unknown, set by self-targeting mobs when no valid target is in range. See Ruszors.
 };
 
 // Dancer Steps and Flourish use result.info for animations

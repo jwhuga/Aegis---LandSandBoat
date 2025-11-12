@@ -35,4 +35,3 @@ enum class ActionModifier : uint32_t
     Immunobreak = 0x08,
     CriticalHit = 0x10,
 };
-DECLARE_FORMAT_AS_UNDERLYING(ActionModifier);
