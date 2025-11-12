@@ -11,7 +11,8 @@ local entity = {}
 entity.onMobEngage = function(mob, target)
     local mobId = mob:getID()
     for i = mobId + 1, mobId + 4 do
-        if not GetMobByID(i):isSpawned() then
+        local m = GetMobByID(i)
+        if m and not m:isSpawned() then
             SpawnMob(i)
         end
     end

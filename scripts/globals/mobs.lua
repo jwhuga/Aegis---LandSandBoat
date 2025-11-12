@@ -191,7 +191,10 @@ xi.mob.phOnDespawn = function(ph, phNmId, chance, cooldown, params)
         DisallowRespawn(nmId, true)
         if not params.doNotEnablePhSpawn then
             DisallowRespawn(phId, false)
-            GetMobByID(phId):setRespawnTime(GetMobRespawnTime(phId))
+            local phMob = GetMobByID(phId)
+            if phMob then
+                phMob:setRespawnTime(GetMobRespawnTime(phId))
+            end
         end
 
         if m:getLocalVar('doNotInvokeCooldown') == 0 then
