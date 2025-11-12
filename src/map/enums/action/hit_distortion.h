@@ -23,10 +23,9 @@
 
 #include <cstdint>
 
-// result.distortion
-// For general attacks, this value is used to determine the model hit distortion animation that will play from the attack.
-// Normal hits will generally use 0, 1, or 2 while critical hits will generally use 2 or 3.
-// 2 bits (lower bits of former scale field)
+// result.scale
+// Defender recoil after physical attacks
+// 2 bits (lower bits)
 enum class HitDistortion : uint8_t
 {
     None   = 0, // 00 - 0.0 distortion

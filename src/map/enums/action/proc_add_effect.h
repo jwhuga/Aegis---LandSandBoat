@@ -66,4 +66,3 @@ enum class ActionProcAddEffect : uint8_t
     Weight         = 0,
     Auspice        = 0,
 };
-DECLARE_FORMAT_AS_UNDERLYING(ActionProcAddEffect);

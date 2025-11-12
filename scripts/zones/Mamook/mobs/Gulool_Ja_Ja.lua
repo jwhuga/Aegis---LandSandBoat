@@ -41,7 +41,7 @@ entity.onMobFight = function(mob, target)
 
     for i = ID.mob.GULOOL_JA_JA + 1, ID.mob.GULOOL_JA_JA + 4 do
         local pet = GetMobByID(i)
-        if pet and pet:getCurrentAction() == xi.action.ROAMING then
+        if pet and pet:getCurrentAction() == xi.action.category.ROAMING then
             pet:updateEnmity(target)
         end
     end
