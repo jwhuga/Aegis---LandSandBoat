@@ -68,6 +68,8 @@ xi.mobSkill =
 
     MICROQUAKE               =  441, -- Mammet-800
 
+    BIG_SCISSORS             =  444,
+
     PERCUSSIVE_FOIN          =  447, -- Mammet-800
 
     GRAVITY_WHEEL            =  457, -- Mammet-800
@@ -97,7 +99,9 @@ xi.mobSkill =
     TREMOROUS_TREAD          =  540, -- Mammet-800
 
     BLOW                     =  581,
-    BLANK_GAZE              =   586,
+    BLANK_GAZE               =  586,
+
+    SWEEP                    =  620,
 
     VULTURE_3                =  626,
 
@@ -210,6 +214,8 @@ xi.mobSkill =
     ZEID_SUMMON_SHADOWS_2    = 1007, -- Captured. Bastok mission 9-2 BCNM, phase 2. No actual name in log.
 
     CALL_BEAST               = 1017, -- "Tango with a Tracker" Shikaree X
+
+    HOWL                     = 1062,
 
     RANGED_ATTACK_3          = 1154,
 
@@ -384,6 +390,9 @@ xi.mobSkill =
     OPPRESSIVE_GLARE         = 2392,
 
     ROAR_3                   = 2406,
+
+    AQUA_BLAST               = 2437,
+    HYDRO_WAVE               = 2439,
 
     INFERNO_4                = 2480, -- Unknown usage.
     TIDAL_WAVE_4             = 2481, -- Unknown usage.
