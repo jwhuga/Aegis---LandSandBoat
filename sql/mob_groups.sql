@@ -13278,10 +13278,10 @@ INSERT INTO `mob_groups` VALUES (12,5408,206,'Maat_pld',0,128,0,2300,1000,70,70,
 INSERT INTO `mob_groups` VALUES (13,5409,206,'Maat_drk',0,128,0,2300,1000,70,70,0);
 INSERT INTO `mob_groups` VALUES (14,5413,206,'Maat_brd',0,128,0,2300,0,70,70,0);
 INSERT INTO `mob_groups` VALUES (15,1620,206,'Gladiatorial_Weapon',0,128,0,0,0,30,30,0);
-INSERT INTO `mob_groups` VALUES (16,629,206,'Capelthwaite',0,128,0,0,0,30,30,0);
-INSERT INTO `mob_groups` VALUES (17,1424,206,'Freybug',0,128,0,0,0,30,30,0);
-INSERT INTO `mob_groups` VALUES (18,3390,206,'Rongeur_Dos',0,128,0,0,0,30,30,0);
-INSERT INTO `mob_groups` VALUES (19,1854,206,'Guytrash',0,128,0,0,0,30,30,0);
+INSERT INTO `mob_groups` VALUES (16,629,206,'Capelthwaite',0,128,0,1300,0,31,31,0);
+INSERT INTO `mob_groups` VALUES (17,1424,206,'Freybug',0,128,0,1350,0,32,32,0);
+INSERT INTO `mob_groups` VALUES (18,3390,206,'Rongeur_Dos',0,128,0,1300,0,31,31,0);
+INSERT INTO `mob_groups` VALUES (19,1854,206,'Guytrash',0,128,0,1350,0,32,32,0);
 INSERT INTO `mob_groups` VALUES (20,1076,206,'Doll_Factory',0,128,0,0,0,40,40,0);
 INSERT INTO `mob_groups` VALUES (21,1497,206,'Generic_Doll',0,128,0,0,0,40,40,0);
 INSERT INTO `mob_groups` VALUES (22,1519,206,'Ghul-I-Beaban_DRK',0,128,0,0,0,40,40,0);
