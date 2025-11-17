@@ -39,7 +39,7 @@ class CPetSkill;
 class CSpell;
 class CTrait;
 class CWeaponSkill;
-struct actionTarget_t;
+struct action_result_t;
 enum class PHYSICAL_ATTACK_TYPE;
 
 enum ENSPELL
@@ -164,13 +164,12 @@ int32 TakeSwipeLungeDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, i
 
 bool  TryInterruptSpell(CBattleEntity* PAttacker, CBattleEntity* PDefender, CSpell* PSpell);
 float GetRangedDamageRatio(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isCritical, int16 bonusRangedAttack);
-void  HandleRangedAdditionalEffect(CCharEntity* PAttacker, CBattleEntity* PDefender, apAction_t* Action);
-int32 CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint16 damageTaken);
-bool  HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage);
-bool  HandleParrySpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage);
-bool  HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint8 damage, SUBEFFECT spikesType, uint8 chance);
-void  HandleSpikesStatusEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action);
-void  HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 damage, CAttack& attack);
+int32 CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, uint16 damageTaken);
+bool  HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, int32 damage);
+bool  HandleParrySpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, int32 damage);
+bool  HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, uint8 damage, SUBEFFECT spikesType, uint8 chance);
+void  HandleSpikesStatusEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action);
+void  HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 damage, CAttack& attack);
 uint8 GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage);
 uint8 GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int16 accBonus);
 int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 Tier, uint8 element);
@@ -273,5 +272,4 @@ bool           IsMagicCovered(CCharEntity* PCoverAbilityUser);
 void           ConvertDmgToMP(CBattleEntity* PDefender, int32 damage, bool IsCovered);
 void           addEcosystemKillerEffects(CBattleEntity* PBattleEntity);
 float          CheckLiementAbsorb(CBattleEntity* PBattleEntity, DAMAGE_TYPE DamageType);
-
 }; // namespace battleutils

@@ -20,10 +20,13 @@
 */
 
 #include "mobskill_state.h"
+#include "action/action.h"
+#include "action/interrupts.h"
 #include "ai/ai_container.h"
 #include "enmity_container.h"
 #include "entities/battleentity.h"
 #include "entities/mobentity.h"
+#include "enums/action/category.h"
 #include "mobskill.h"
 #include "packets/s2c/0x028_battle2.h"
 #include "status_effect_container.h"
@@ -72,33 +75,25 @@ CMobSkillState::CMobSkillState(CBattleEntity* PEntity, uint16 targid, uint16 wsi
 
     if (m_castTime > 0s)
     {
-        action_t action;
-        action.id         = m_PEntity->id;
-        action.actiontype = ACTION_MOBABILITY_START;
+        const auto isSelfTargeting = m_PSkill->getValidTargets() & TARGET_ANY_ALLEGIANCE &&
+                                     m_PSkill->getValidTargets() & TARGET_SELF;
 
-        actionList_t& actionList  = action.getNewActionList();
-        actionList.ActionTargetID = PTarget->id;
-
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-
-        actionTarget.reaction   = REACTION::NONE;
-        actionTarget.speceffect = SPECEFFECT::NONE;
-        actionTarget.animation  = 0;
-        actionTarget.param      = m_PSkill->getID();
-        actionTarget.messageID  = 43;
-
-        if ((m_PSkill->getValidTargets() & TARGET_ANY_ALLEGIANCE) && (m_PSkill->getValidTargets() & TARGET_SELF))
-        {
-            // This ability targets self for aoe skills (such as Frozen Mist)
-            action.actiontype         = ACTION_WEAPONSKILL_START;
-            actionList.ActionTargetID = action.id;
-        }
-
-        // Don't emit message
-        if (m_PSkill->getFlag() & SKILLFLAG_NO_START_MSG)
-        {
-            actionTarget.messageID = 0;
-        }
+        action_t action{
+            .actorId    = m_PEntity->id,
+            .actiontype = ActionCategory::SkillStart,
+            .actionid   = static_cast<uint32_t>(FourCC::SkillUse),
+            .targets    = {
+                {
+                       .actorId = isSelfTargeting ? m_PEntity->id : PTarget->id,
+                       .results = {
+                        {
+                               .param     = m_PSkill->getID(),
+                               .messageID = m_PSkill->getFlag() & SKILLFLAG_NO_START_MSG ? MSGBASIC_NONE : MSGBASIC_READIES_WS,
+                        },
+                    },
+                },
+            },
+        };
 
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
 
@@ -159,19 +154,16 @@ bool CMobSkillState::Update(timer::time_point tick)
 
     if (m_PEntity && m_PEntity->isAlive() && (tick >= GetEntryTime() + m_castTime && !IsCompleted()))
     {
-        action_t action;
+        action_t action{};
         m_PEntity->OnMobSkillFinished(*this, action);
 
         // Zero message ID
         if (m_PSkill->getFlag() & SKILLFLAG_NO_FINISH_MSG)
         {
-            for (auto&& act : action.actionLists)
-            {
-                for (auto&& targ : act.actionTargets)
-                {
-                    targ.messageID = 0;
-                }
-            }
+            action.ForEachResult([&](action_result_t& result)
+                                 {
+                                     result.messageID = MSGBASIC_NONE;
+                                 });
         }
 
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));

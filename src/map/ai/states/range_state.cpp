@@ -21,11 +21,13 @@
 
 #include "range_state.h"
 
+#include "action/action.h"
 #include "ai/ai_container.h"
 #include "entities/charentity.h"
 #include "entities/trustentity.h"
+#include "enums/action/category.h"
 #include "items/item_weapon.h"
-#include "packets/action.h"
+#include "packets/s2c/0x028_battle2.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "status_effect_container.h"
 #include "utils/battleutils.h"
@@ -106,15 +108,21 @@ CRangeState::CRangeState(CBattleEntity* PEntity, uint16 targid)
     m_aimTime  = std::chrono::milliseconds(delay);
     m_startPos = m_PEntity->loc.p;
 
-    action_t action;
-    action.id         = m_PEntity->id;
-    action.actiontype = ACTION_RANGED_START;
-
-    actionList_t& actionList  = action.getNewActionList();
-    actionList.ActionTargetID = PTarget->id;
-
-    actionTarget_t& actionTarget = actionList.getNewActionTarget();
-    actionTarget.animation       = ANIMATION_RANGED;
+    action_t action{
+        .actorId    = m_PEntity->id,
+        .actiontype = ActionCategory::RangedStart,
+        .actionid   = static_cast<uint32_t>(FourCC::RangedStart),
+        .targets    = {
+            {
+                   .actorId = m_PEntity->id,
+                   .results = {
+                    {
+                        // Empty result
+                    },
+                },
+            },
+        },
+    };
 
     m_PEntity->PAI->EventHandler.triggerListener("RANGE_START", m_PEntity, &action);
     m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
@@ -155,7 +163,7 @@ bool CRangeState::Update(timer::time_point tick)
             m_errorMsg = std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(m_PEntity, m_PEntity, 0, 0, MSGBASIC_MOVE_AND_INTERRUPT);
         }
 
-        action_t action;
+        action_t action{};
         auto*    cast_errorMsg = dynamic_cast<GP_SERV_COMMAND_BATTLE_MESSAGE*>(m_errorMsg.get());
         if (m_errorMsg && (!cast_errorMsg || cast_errorMsg->getMessageId() != MSGBASIC_CANNOT_SEE))
         {

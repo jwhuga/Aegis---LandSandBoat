@@ -21,6 +21,7 @@
 
 #include "weaponskill_state.h"
 
+#include "action/action.h"
 #include "ai/ai_container.h"
 #include "entities/battleentity.h"
 #include "packets/s2c/0x028_battle2.h"
@@ -62,20 +63,23 @@ CWeaponSkillState::CWeaponSkillState(CBattleEntity* PEntity, uint16 targid, uint
 
     m_PSkill = std::make_unique<CWeaponSkill>(*skill);
 
-    action_t action;
-    action.id         = m_PEntity->id;
-    action.actiontype = ACTION_WEAPONSKILL_START;
+    action_t action{
+        .actorId    = m_PEntity->id,
+        .actiontype = ActionCategory::SkillStart,
+        .actionid   = static_cast<uint32_t>(FourCC::SkillUse),
+        .targets    = {
+            {
+                   .actorId = PTarget->id,
+                   .results = {
+                    {
+                           .param     = m_PSkill->getID(),
+                           .messageID = MSGBASIC_READIES_WS,
+                    },
+                },
+            },
+        },
+    };
 
-    actionList_t& actionList  = action.getNewActionList();
-    actionList.ActionTargetID = PTarget->id;
-
-    actionTarget_t& actionTarget = actionList.getNewActionTarget();
-
-    actionTarget.reaction   = REACTION::NONE;
-    actionTarget.speceffect = SPECEFFECT::NONE;
-    actionTarget.animation  = 0;
-    actionTarget.param      = m_PSkill->getID();
-    actionTarget.messageID  = 43;
     m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
 }
 

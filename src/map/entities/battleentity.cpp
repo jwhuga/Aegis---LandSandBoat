@@ -25,6 +25,7 @@
 #include "common/logging.h"
 #include "common/utils.h"
 
+#include "action/action.h"
 #include "ai/ai_container.h"
 #include "ai/states/attack_state.h"
 #include "ai/states/death_state.h"
@@ -41,7 +42,6 @@
 #include "lua/luautils.h"
 #include "mob_modifier.h"
 #include "notoriety_container.h"
-#include "packets/action.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "recast_container.h"
 #include "roe.h"
@@ -1970,7 +1970,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     PSpell->setTotalTargets(totalTargets);
     PSpell->setPrimaryTargetID(PActionTarget->id);
 
-    action.id         = id;
+    action.actorId    = id;
     action.actiontype = ActionCategory::MagicFinish;
     action.actionid   = static_cast<uint16>(PSpell->getID());
     action.recast     = state.GetRecast();
@@ -1980,16 +1980,12 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
 
     for (auto* PTarget : PAI->TargetFind->m_targets)
     {
-        actionList_t& actionList  = action.getNewActionList();
-        actionList.ActionTargetID = PTarget->id;
+        action_target_t& actionTarget = action.getNewTarget(PTarget->id);
+        action_result_t& actionResult = actionTarget.getNewResult();
 
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-
-        actionTarget.reaction   = REACTION::NONE;
-        actionTarget.speceffect = SPECEFFECT::NONE;
-        actionTarget.animation  = PSpell->getAnimationID();
-        actionTarget.param      = 0;
-        actionTarget.messageID  = MSGBASIC_NONE;
+        actionResult.resolution = ActionResolution::Hit;
+        actionResult.animation  = PSpell->getAnimationID();
+        actionResult.param      = 0;
 
         auto ce = PSpell->getCE();
         auto ve = PSpell->getVE();
@@ -2009,7 +2005,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         {
             // take shadow
             msg                = MSGBASIC_SHADOW_ABSORB;
-            actionTarget.param = 1;
+            actionResult.param = 1;
             ve                 = 0;
             ce                 = 0;
         }
@@ -2035,6 +2031,8 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             actionResult.modifier = PSpell->getModifier();
             PSpell->setModifier(ActionModifier::None); // Reset modifier on use
 
+            actionResult.param = damage;
+
             // Handle EFFECT_NONE - spell failed to apply
             if (damage == EFFECT_NONE)
             {
@@ -2050,20 +2048,21 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
                 actionResult.animation = ActionAnimation::None; // stop target from going invisible
                 if (PTarget != PActionTarget)
                 {
-                    action.actionLists.pop_back();
+                    action.targets.pop_back();
                 }
                 else
                 { // set this message in anticipation of nobody having the gate crystal
-                    actionTarget.messageID = MSGBASIC_MAGIC_NO_EFFECT;
+                    actionResult.messageID = MSGBASIC_MAGIC_NO_EFFECT;
                 }
                 continue;
             }
             if (msg == MSGBASIC_MAGIC_TELEPORT && PTarget != PActionTarget)
             { // reset the no effect message above if somebody has gate crystal
-                action.actionLists[0].actionTargets[0].messageID = MSGBASIC_NONE;
+                action.targets[0].results[0].messageID = MSGBASIC_NONE;
             }
         }
-        actionTarget.messageID = msg;
+
+        actionResult.messageID = msg;
 
         if (IsMagicCovered)
         {
@@ -2097,15 +2096,15 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         {
             if (PSpell->isHeal())
             {
-                roeutils::event(ROE_HEALALLY, static_cast<CCharEntity*>(PEminenceTarget), RoeDatagram("heal", actionTarget.param));
+                roeutils::event(ROE_HEALALLY, static_cast<CCharEntity*>(PEminenceTarget), RoeDatagram("heal", actionResult.param));
 
                 // We know its an ally or self, if not self and leader matches, credit the RoE Objective
                 if (PEminenceTarget != PTarget && PEminenceTarget->objtype == TYPE_PC && PTarget->objtype == TYPE_PC && static_cast<CCharEntity*>(PEminenceTarget)->profile.unity_leader == static_cast<CCharEntity*>(PTarget)->profile.unity_leader)
                 {
-                    roeutils::event(ROE_HEAL_UNITYALLY, static_cast<CCharEntity*>(PEminenceTarget), RoeDatagram("heal", actionTarget.param));
+                    roeutils::event(ROE_HEAL_UNITYALLY, static_cast<CCharEntity*>(PEminenceTarget), RoeDatagram("heal", actionResult.param));
                 }
             }
-            else if (PEminenceTarget != PTarget && PSpell->isBuff() && actionTarget.param)
+            else if (PEminenceTarget != PTarget && PSpell->isBuff() && actionResult.param)
             {
                 roeutils::event(ROE_BUFFALLY, static_cast<CCharEntity*>(PEminenceTarget), RoeDatagramList{});
             }
@@ -2173,7 +2172,7 @@ void CBattleEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& ac
     TracyZoneScoped;
     auto* PWeaponskill = state.GetSkill();
 
-    action.id         = id;
+    action.actorId    = id;
     action.actiontype = ActionCategory::SkillFinish;
     action.actionid   = PWeaponskill->getID();
 }
@@ -2215,7 +2214,7 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         findFlags |= FINDFLAGS_IGNORE_BATTLEID;
     }
 
-    action.id = id;
+    action.actorId = id;
     if (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PET_TYPE::AVATAR)
     {
         action.actiontype = ActionCategory::PetSkillFinish;
@@ -2335,17 +2334,13 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             continue;
         }
 
-        actionList_t& list = action.getNewActionList();
+        action_target_t& target = action.getNewTarget(PTargetFound->id);
+        action_result_t& result = target.getNewResult();
 
-        list.ActionTargetID = PTargetFound->id;
-
-        actionTarget_t& target = list.getNewActionTarget();
-
-        list.ActionTargetID = PTargetFound->id;
-        target.reaction     = REACTION::HIT;
-        target.speceffect   = SPECEFFECT::HIT;
-        target.animation    = PSkill->getAnimationID();
-        target.messageID    = PSkill->getMsg();
+        target.actorId    = PTargetFound->id;
+        result.resolution = ActionResolution::Hit;
+        result.animation  = PSkill->getAnimationID();
+        result.messageID  = PSkill->getMsg();
 
         // reset the skill's message back to default
         PSkill->setMsg(defaultMessage);
@@ -2382,14 +2377,14 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         if (damage < 0)
         {
             msg          = MSGBASIC_SKILL_RECOVERS_HP; // TODO: verify this message does/does not vary depending on mob/avatar/automaton use
-            target.param = std::clamp(-damage, 0, PTargetFound->GetMaxHP() - PTargetFound->health.hp);
+            result.param = std::clamp(-damage, 0, PTargetFound->GetMaxHP() - PTargetFound->health.hp);
         }
         else
         {
-            target.param = damage;
+            result.param = damage;
         }
 
-        target.messageID = msg;
+        result.messageID = msg;
 
         if (PSkill->hasMissMsg())
         {
@@ -2402,8 +2397,7 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         }
         else
         {
-            target.reaction   = REACTION::HIT;
-            target.speceffect = SPECEFFECT::HIT;
+            result.resolution = ActionResolution::Hit;
         }
 
         if (result.resolution != ActionResolution::Miss && result.resolution != ActionResolution::Parry)
@@ -2543,13 +2537,10 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
     // Create a new attack round.
     CAttackRound attackRound(this, PTarget);
 
-    action.id          = this->id;
-    actionList_t& list = action.getNewActionList();
-
-    list.ActionTargetID = PTarget->id;
-
-    CBattleEntity* POriginalTarget = PTarget;
     action.actiontype                = ActionCategory::BasicAttack;
+    action.actorId                   = this->id;
+    action_target_t& list            = action.getNewTarget(PTarget->id);
+    CBattleEntity*   POriginalTarget = PTarget;
 
     /////////////////////////////////////////////////////////////////////////
     //  Start of the attack loop.
@@ -2558,17 +2549,17 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
     /////////////////////////////////////////////////////////////////////////
     while (attackRound.GetAttackSwingCount() && PTarget->isAlive() && this->isAlive())
     {
-        actionTarget_t& actionTarget = list.getNewActionTarget();
+        action_result_t& actionResult = list.getNewResult();
         // Reference to the current swing.
         CAttack& attack = attackRound.GetCurrentAttack();
 
         // Set the swing animation.
-        actionTarget.animation = attack.GetAnimationID();
+        actionResult.animation = static_cast<ActionAnimation>(attack.GetAnimationID());
 
         if (attack.CheckCover())
         {
-            PTarget             = attackRound.GetCoverAbilityUserEntity();
-            list.ActionTargetID = PTarget->id;
+            PTarget      = attackRound.GetCoverAbilityUserEntity();
+            list.actorId = PTarget->id;
         }
 
         if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE, 0))
@@ -2607,6 +2598,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     actionResult.messageID  = MSGBASIC_TARGET_ANTICIPATES;
                     actionResult.resolution = ActionResolution::Miss;
                 }
+
                 if (attack.IsCountered())
                 {
                     actionResult.resolution   = ActionResolution::Miss;
@@ -2658,7 +2650,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                         int16 extraCounterDMG = (int16)(PTarget->getMod(Mod::COUNTER_DAMAGE));
                         auto  damage          = (int32)((PTarget->GetMainWeaponDmg() + naturalh2hDMG + extraCounterDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * DamageRatio);
 
-                        actionTarget.spikesParam =
+                        actionResult.spikesParam =
                             battleutils::TakePhysicalDamage(PTarget, this, attack.GetAttackType(), damage, false, SLOT_MAIN, 1, nullptr, true, false, true);
                         actionResult.spikesMessage = MSGBASIC_ATTACK_COUNTERED_DAMAGE;
                         if (PTarget->objtype == TYPE_PC)
@@ -2736,9 +2728,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     actionResult.resolution = ActionResolution::Block;
                 }
 
-                actionTarget.param =
+                actionResult.param =
                     battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true, attack.IsCountered(), attack.IsCovered(), POriginalTarget);
-                if (actionTarget.param < 0)
+                if (actionResult.param < 0)
                 {
                     actionResult.param     = -(actionResult.param);
                     actionResult.messageID = MSGBASIC_SPIKES_EFFECT_RECOVER;
@@ -2791,7 +2783,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         // If we didn't hit at all, set param to 0 if we didn't blink any shadows.
         if (actionResult.resolution == ActionResolution::Miss && actionResult.messageID != MSGBASIC_SHADOW_ABSORB)
         {
-            actionTarget.param = 0;
+            actionResult.param = 0;
         }
 
         // if we did hit, run enspell/spike routines as long as this isn't a Daken swing
@@ -2800,9 +2792,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             // Handle addtl effects/enspells only if the target is not already dead
             if (PTarget->GetHPP() > 0)
             {
-                battleutils::HandleEnspell(this, PTarget, &actionTarget, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()], attack.GetDamage(), attack);
+                battleutils::HandleEnspell(this, PTarget, &actionResult, attack.IsFirstSwing(), (CItemWeapon*)this->m_Weapons[attack.GetWeaponSlot()], attack.GetDamage(), attack);
             }
-            battleutils::HandleSpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
+            battleutils::HandleSpikesDamage(this, PTarget, &actionResult, attack.GetDamage());
         }
 
         // if we parried, run battuta check if applicable
@@ -2844,7 +2836,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
         attackRound.DeleteAttackSwing();
 
-        if (list.actionTargets.size() == 8)
+        if (list.results.size() == 8)
         {
             break;
         }

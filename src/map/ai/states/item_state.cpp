@@ -25,6 +25,7 @@
 #include "entities/battleentity.h"
 #include "entities/charentity.h"
 
+#include "action/action.h"
 #include "enums/item_lockflg.h"
 #include "item_container.h"
 #include "status_effect_container.h"
@@ -120,21 +121,22 @@ CItemState::CItemState(CCharEntity* PEntity, const uint16 targid, const uint8 lo
     m_castTime      = m_PItem->getActivationTime();
     m_animationTime = m_PItem->getAnimationTime();
 
-    action_t action;
-    action.id         = m_PEntity->id;
-    action.actiontype = ACTION_ITEM_START;
-
-    actionList_t& actionList  = action.getNewActionList();
-    actionList.ActionTargetID = PTarget->id;
-
-    actionTarget_t& actionTarget = actionList.getNewActionTarget();
-
-    actionTarget.reaction   = REACTION::NONE;
-    actionTarget.speceffect = SPECEFFECT::NONE;
-    actionTarget.animation  = 0;
-    actionTarget.param      = m_PItem->getID();
-    actionTarget.messageID  = 28;
-    actionTarget.knockback  = 0;
+    action_t action{
+        .actorId    = m_PEntity->id,
+        .actiontype = ActionCategory::ItemStart,
+        .actionid   = static_cast<uint32_t>(FourCC::ItemUse),
+        .targets    = {
+            {
+                   .actorId = PTarget->id,
+                   .results = {
+                    {
+                           .param     = m_PItem->getID(),
+                           .messageID = MSGBASIC_ITEM_USE,
+                    },
+                },
+            },
+        },
+    };
 
     m_PEntity->PAI->EventHandler.triggerListener("ITEM_START", PTarget, m_PItem, &action);
     m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
@@ -183,7 +185,7 @@ auto CItemState::Update(const timer::time_point tick) -> bool
         m_interruptable = false;
         UpdateTarget(m_PEntity->IsValidTarget(m_targid, m_PItem->getValidTarget(), m_errorMsg));
 
-        action_t action;
+        action_t action{};
 
         // attempt to interrupt
         InterruptItem(action);
