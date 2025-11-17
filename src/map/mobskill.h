@@ -25,6 +25,8 @@
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
 #include "entities/mobentity.h"
+#include "enums/action/animation.h"
+#include "enums/action/knockback.h"
 
 #include <vector>
 
@@ -67,7 +69,7 @@ public:
     bool isBloodPactRage() const;
 
     uint16          getID() const;
-    uint16          getAnimationID() const;
+    auto            getAnimationID() const -> ActionAnimation;
     uint8           getAoe() const;
     float           getDistance() const;
     uint8           getFlag() const;
@@ -86,7 +88,7 @@ public:
     uint16          getMsgForAction() const;
     float           getRadius() const;
     int16           getParam() const;
-    uint8           getKnockback() const;
+    auto            getKnockback() const -> Knockback;
     uint8           getPrimarySkillchain() const;
     uint8           getSecondarySkillchain() const;
     uint8           getTertiarySkillchain() const;

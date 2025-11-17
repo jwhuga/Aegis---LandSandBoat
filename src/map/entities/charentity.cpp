@@ -2114,8 +2114,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
 
                 if (isCritical)
                 {
-                    actionTarget.speceffect = SPECEFFECT::CRITICAL_HIT;
-                    actionTarget.messageID  = MSGBASIC_RANGED_ATTACK_CRIT;
+                    actionResult.messageID = MSGBASIC_RANGED_ATTACK_CRIT;
                 }
 
                 // at least 1 hit occured
@@ -2141,9 +2140,8 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         else // miss
         {
             damage                  = 0;
-            actionTarget.reaction   = REACTION::EVADE;
-            actionTarget.speceffect = SPECEFFECT::NONE;
-            actionTarget.messageID  = MSGBASIC_RANGED_ATTACK_MISS;
+            actionResult.resolution = ActionResolution::Miss;
+            actionResult.messageID  = MSGBASIC_RANGED_ATTACK_MISS;
             hitCount                = i; // end barrage, shot missed
         }
 
@@ -2213,10 +2211,9 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         }
 
         // any misses with barrage cause remaining shots to miss, meaning we must check Action.reaction
-        if ((actionTarget.reaction & REACTION::MISS) != REACTION::NONE && StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE))
+        if (actionResult.resolution != ActionResolution::Hit && StatusEffectContainer->HasStatusEffect(EFFECT_BARRAGE))
         {
-            actionTarget.reaction   = REACTION::HIT;
-            actionTarget.speceffect = SPECEFFECT::CRITICAL_HIT;
+            actionResult.resolution = ActionResolution::Hit;
         }
 
         if (slot == SLOT_RANGED)
@@ -2230,8 +2227,8 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         // absorb message
         if (actionTarget.param < 0)
         {
-            actionTarget.param     = -(actionTarget.param);
-            actionTarget.messageID = 382;
+            actionResult.param     = -(actionResult.param);
+            actionResult.messageID = MSGBASIC_RANGED_ATTACK_ABSORBS;
         }
 
         // add additional effects
@@ -2253,14 +2250,9 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
     else if (shadowsTaken > 0)
     {
         // shadows took damage
-        actionTarget.messageID = MSGBASIC_SHADOW_ABSORB;
-        actionTarget.reaction  = REACTION::EVADE;
-        actionTarget.param     = shadowsTaken;
-    }
-
-    if (actionTarget.speceffect == SPECEFFECT::HIT && actionTarget.param > 0)
-    {
-        actionTarget.speceffect = SPECEFFECT::RECOIL;
+        actionResult.messageID  = MSGBASIC_SHADOW_ABSORB;
+        actionResult.resolution = ActionResolution::Miss;
+        actionResult.param      = shadowsTaken;
     }
 
     // remove barrage effect if present
@@ -2487,7 +2479,6 @@ void CCharEntity::OnRaise()
 
         addHP(((hpReturned < 1) ? 1 : hpReturned));
         updatemask |= UPDATE_HP;
-        actionTarget.speceffect = SPECEFFECT::RAISE;
 
         loc.zone->PushPacket(this, CHAR_INRANGE_SELF, std::make_unique<CActionPacket>(action));
 
@@ -2549,7 +2540,7 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
     }
 
     action.id         = this->id;
-    action.actiontype = ACTION_ITEM_FINISH;
+    action.actiontype = ActionCategory::ItemFinish;
     action.actionid   = PItem->getID();
 
     auto processAction = [&](CBaseEntity* PTargetFound) -> void
@@ -2557,11 +2548,10 @@ void CCharEntity::OnItemFinish(CItemState& state, action_t& action)
         actionList_t& actionList     = action.getNewActionList();
         actionList.ActionTargetID    = PTargetFound->id;
         actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.reaction        = REACTION::NONE;
-        actionTarget.speceffect      = SPECEFFECT::NONE;
         actionTarget.animation       = PItem->getAnimationID();
         actionTarget.messageID       = 0; // Items can override this in OnItemUse. Most items give 0, but buff/healing items sometimes do not.
         actionTarget.param           = 0;
+        actionResult.resolution       = ActionResolution::Hit;
 
         int32 value = luautils::OnItemUse(this, PTargetFound, PItem, action);
 

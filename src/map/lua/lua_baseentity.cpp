@@ -907,11 +907,11 @@ void CLuaBaseEntity::injectPacket(const std::string& filename)
  *  Notes   : Used for very special cases, like JoL or Plouton generating action packets that only play animations, and don't actually use abilities.
  *            There are no safeties, You can crash a client with malformed parameters. You have been warned.
  ************************************************************************/
-void CLuaBaseEntity::injectActionPacket(uint32 inTargetID, uint16 inCategory, uint16 inAnimationID, uint16 inSpecEffect, uint16 inReaction, uint16 inMessage, uint16 inActionParam, uint16 inParam)
+void CLuaBaseEntity::injectActionPacket(const uint32 inTargetID, uint16 inCategory, uint16 inAnimationID, uint16 inInfo, uint16 inReaction, uint16 inMessage, const uint16 inActionParam, const uint16 inParam) const
 {
-    SPECEFFECT speceffect = static_cast<SPECEFFECT>(inSpecEffect);
-    REACTION   reaction   = static_cast<REACTION>(inReaction);
-    ACTIONTYPE actiontype = static_cast<ACTIONTYPE>(inCategory);
+    auto info       = static_cast<ActionInfo>(inInfo);
+    auto reaction   = static_cast<ActionResolution>(inReaction);
+    auto actiontype = static_cast<ActionCategory>(inCategory);
 
     action_t Action;
 
@@ -1734,7 +1734,7 @@ uint8 CLuaBaseEntity::getCurrentAction()
 
         if (PPetSkillState)
         {
-            action = PPetSkillState->GetPetSkill()->getSkillFinishCategory();
+            action = static_cast<uint8>(PPetSkillState->GetPetSkill()->getSkillFinishCategory());
         }
     }
     else
@@ -2627,7 +2627,7 @@ void CLuaBaseEntity::sendEmote(const CLuaBaseEntity* target, uint8 emID, uint8 e
 /************************************************************************
  *  Function: getWorldAngle()
  *  Purpose : Returns angle between two entities, relative to cardinal direction
- *  Example : player:worldAngle(target)
+ *  Example : player:getWorldAngle(target)
  *  Notes   : Target is... 0: east; 64: south; 128: west, 192: north
  *            Default angle is 255-based mob rotation value - NOT a 360 angle
  *            CAREFUL! If the entities are too close, this can return unexpected results.
@@ -18513,11 +18513,11 @@ void CLuaBaseEntity::restoreFromChest(CLuaBaseEntity* PLuaBaseEntity, uint32 res
     {
         CBaseEntity* PTarget = PLuaBaseEntity->GetBaseEntity();
 
-        uint16 animationID  = 0;
-        int    messageParam = 0;
-        int    messageID    = 0;
-        int    addedHP      = 0;
-        int    addedMP      = 0;
+        ActionAnimation animationID  = ActionAnimation::None;
+        int             messageParam = 0;
+        MSGBASIC_ID     messageID    = MSGBASIC_NONE;
+        int             addedHP      = 0;
+        int             addedMP      = 0;
 
         if (PChar->animation != ANIMATION_DEATH)
         {
@@ -18528,13 +18528,13 @@ void CLuaBaseEntity::restoreFromChest(CLuaBaseEntity* PLuaBaseEntity, uint32 res
             {
                 case 1:
                     messageParam = addedHP;
-                    messageID    = 587;
-                    animationID  = 772;
+                    messageID    = MSGBASIC_TARGET_REGAINS_HP;
+                    animationID  = ActionAnimation::RegainHP;
                     break;
                 case 2:
                     messageParam = addedMP;
-                    messageID    = 588;
-                    animationID  = 773;
+                    messageID    = MSGBASIC_TARGET_REGAINS_MP;
+                    animationID  = ActionAnimation::RegainMP;
                     break;
             }
 

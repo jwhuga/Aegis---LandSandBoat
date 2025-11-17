@@ -2431,7 +2431,7 @@ void OnAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
     }
 
     Action->additionalEffect = (SUBEFFECT)(result.get_type(0) == sol::type::number ? result.get<int32>(0) : 0);
-    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<int32>(1) : 0;
+    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MSGBASIC_ID>(1) : MSGBASIC_NONE;
     Action->addEffectParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 }
 
@@ -2458,7 +2458,7 @@ void OnSpikesDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, actionTa
     }
 
     Action->spikesEffect  = (SUBEFFECT)(result.get_type(0) == sol::type::number ? result.get<int32>(0) : 0);
-    Action->spikesMessage = result.get_type(1) == sol::type::number ? result.get<int32>(1) : 0;
+    Action->spikesMessage = result.get_type(1) == sol::type::number ? result.get<MSGBASIC_ID>(1) : MSGBASIC_NONE;
     Action->spikesParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 }
 
@@ -2487,7 +2487,7 @@ int32 additionalEffectAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender,
     }
 
     Action->additionalEffect = (SUBEFFECT)(result.get_type(0) == sol::type::number ? result.get<int32>(0) : 0);
-    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<int32>(1) : 0;
+    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MSGBASIC_ID>(1) : MSGBASIC_NONE;
     Action->addEffectParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 
     return 0;
@@ -2514,7 +2514,7 @@ void additionalEffectSpikes(CBattleEntity* PDefender, CBattleEntity* PAttacker, 
     }
 
     Action->additionalEffect = (SUBEFFECT)(result.get_type(0) == sol::type::number ? result.get<int32>(0) : 0);
-    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<int32>(1) : 0;
+    Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MSGBASIC_ID>(1) : MSGBASIC_NONE;
     Action->addEffectParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 }
 

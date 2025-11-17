@@ -83,9 +83,9 @@ function CAction:info(actionTargetID, info)
 end
 
 ---@param actionTargetID integer
----@param reaction integer
+---@param resolution xi.action.resolution
 ---@return nil
-function CAction:reaction(actionTargetID, reaction)
+function CAction:resolution(actionTargetID, resolution)
 end
 
 ---@param actionTargetID integer

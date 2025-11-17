@@ -94,7 +94,7 @@ void CLuaAction::param(uint32 actionTargetID, int32 param)
     }
 }
 
-void CLuaAction::messageID(uint32 actionTargetID, uint16 messageID)
+void CLuaAction::messageID(uint32 actionTargetID, MSGBASIC_ID messageID)
 {
     for (auto&& actionList : m_PLuaAction->actionLists)
     {
@@ -106,7 +106,7 @@ void CLuaAction::messageID(uint32 actionTargetID, uint16 messageID)
     }
 }
 
-std::optional<uint16> CLuaAction::getMsg(uint32 actionTargetID)
+std::optional<uint16> CLuaAction::getMsg(uint32 actionTargetID) const
 {
     for (auto&& actionList : m_PLuaAction->actionLists)
     {
@@ -119,7 +119,7 @@ std::optional<uint16> CLuaAction::getMsg(uint32 actionTargetID)
     return std::nullopt;
 }
 
-std::optional<uint16> CLuaAction::getAnimation(uint32 actionTargetID)
+auto CLuaAction::getAnimation(uint32 actionTargetID) -> std::optional<ActionAnimation>
 {
     for (auto&& actionList : m_PLuaAction->actionLists)
     {
@@ -132,7 +132,7 @@ std::optional<uint16> CLuaAction::getAnimation(uint32 actionTargetID)
     return std::nullopt;
 }
 
-void CLuaAction::setAnimation(uint32 actionTargetID, uint16 animation)
+void CLuaAction::setAnimation(uint32 actionTargetID, ActionAnimation animation)
 {
     for (auto&& actionList : m_PLuaAction->actionLists)
     {
@@ -144,17 +144,17 @@ void CLuaAction::setAnimation(uint32 actionTargetID, uint16 animation)
     }
 }
 
-auto CLuaAction::getCategory() -> uint8
+auto CLuaAction::getCategory() const -> ActionCategory
 {
     return m_PLuaAction->actiontype;
 }
 
 void CLuaAction::setCategory(uint8 category)
 {
-    m_PLuaAction->actiontype = static_cast<ACTIONTYPE>(category);
+    m_PLuaAction->actiontype = static_cast<ActionCategory>(category);
 }
 
-void CLuaAction::speceffect(uint32 actionTargetID, uint8 speceffect)
+void CLuaAction::info(const uint32 actionTargetID, const ActionInfo info) const
 {
     for (auto&& actionList : m_PLuaAction->actionLists)
     {
@@ -166,7 +166,7 @@ void CLuaAction::speceffect(uint32 actionTargetID, uint8 speceffect)
     }
 }
 
-void CLuaAction::reaction(uint32 actionTargetID, uint8 reaction)
+void CLuaAction::hitDistortion(const uint32 actionTargetID, const HitDistortion distortion) const
 {
     for (auto&& actionList : m_PLuaAction->actionLists)
     {
@@ -214,7 +214,7 @@ void CLuaAction::addEffectParam(uint32 actionTargetID, int32 addEffectParam)
     }
 }
 
-void CLuaAction::addEffectMessage(uint32 actionTargetID, uint16 addEffectMessage)
+void CLuaAction::addEffectMessage(uint32 actionTargetID, MSGBASIC_ID addEffectMessage)
 {
     for (auto&& actionList : m_PLuaAction->actionLists)
     {
@@ -261,8 +261,8 @@ void CLuaAction::Register()
     SOL_REGISTER("setAnimation", CLuaAction::setAnimation);
     SOL_REGISTER("getCategory", CLuaAction::getCategory);
     SOL_REGISTER("setCategory", CLuaAction::setCategory);
-    SOL_REGISTER("speceffect", CLuaAction::speceffect);
-    SOL_REGISTER("reaction", CLuaAction::reaction);
+    SOL_REGISTER("resolution", CLuaAction::resolution);
+    SOL_REGISTER("info", CLuaAction::info);
     SOL_REGISTER("modifier", CLuaAction::modifier);
     SOL_REGISTER("additionalEffect", CLuaAction::additionalEffect);
     SOL_REGISTER("addEffectParam", CLuaAction::addEffectParam);

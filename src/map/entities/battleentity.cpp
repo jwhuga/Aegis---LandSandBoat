@@ -1971,12 +1971,12 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     PSpell->setPrimaryTargetID(PActionTarget->id);
 
     action.id         = id;
-    action.actiontype = ACTION_MAGIC_FINISH;
+    action.actiontype = ActionCategory::MagicFinish;
     action.actionid   = static_cast<uint16>(PSpell->getID());
     action.recast     = state.GetRecast();
     action.spellgroup = PSpell->getSpellGroup();
 
-    uint16 msg = MSGBASIC_NONE;
+    MSGBASIC_ID msg = MSGBASIC_NONE;
 
     for (auto* PTarget : PAI->TargetFind->m_targets)
     {
@@ -2032,17 +2032,22 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
                 msg = PSpell->getAoEMessage();
             }
 
-            actionTarget.modifier = PSpell->getModifier();
-            PSpell->setModifier(MODIFIER::NONE); // Reset modifier on use
+            actionResult.modifier = PSpell->getModifier();
+            PSpell->setModifier(ActionModifier::None); // Reset modifier on use
 
-            actionTarget.param = damage;
+            // Handle EFFECT_NONE - spell failed to apply
+            if (damage == EFFECT_NONE)
+            {
+                actionResult.resolution = ActionResolution::Miss;
+                actionResult.param      = 0;
+            }
         }
 
-        if (actionTarget.animation == 122)
+        if (actionResult.animation == ActionAnimation::Teleport)
         { // Teleport spells don't target unqualified members
             if (PSpell->getMessage() == MSGBASIC_NONE)
             {
-                actionTarget.animation = 0; // stop target from going invisible
+                actionResult.animation = ActionAnimation::None; // stop target from going invisible
                 if (PTarget != PActionTarget)
                 {
                     action.actionLists.pop_back();
@@ -2169,7 +2174,7 @@ void CBattleEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& ac
     auto* PWeaponskill = state.GetSkill();
 
     action.id         = id;
-    action.actiontype = ACTION_WEAPONSKILL_FINISH;
+    action.actiontype = ActionCategory::SkillFinish;
     action.actionid   = PWeaponskill->getID();
 }
 
@@ -2213,15 +2218,15 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     action.id = id;
     if (objtype == TYPE_PET && static_cast<CPetEntity*>(this)->getPetType() == PET_TYPE::AVATAR)
     {
-        action.actiontype = ACTION_PET_MOBABILITY_FINISH;
+        action.actiontype = ActionCategory::PetSkillFinish;
     }
     else if (PSkill->getID() < 256)
     {
-        action.actiontype = ACTION_WEAPONSKILL_FINISH;
+        action.actiontype = ActionCategory::SkillFinish;
     }
     else
     {
-        action.actiontype = ACTION_MOBABILITY_FINISH;
+        action.actiontype = ActionCategory::MobSkillFinish;
     }
     action.actionid = PSkill->getID();
 
@@ -2292,9 +2297,11 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             // This ability targets self for aoe skills (such as Frozen Mist)
             // And it found no valid targets in range, the skill and animation should still trigger
             // action.actiontype unchanged
-            actionTarget.animation  = PSkill->getAnimationID();
-            actionTarget.reaction   = REACTION::MISS | REACTION::HIT | REACTION::GUARDED;
-            actionTarget.speceffect = SPECEFFECT::SELFAOE_MISS;
+            actionResult.animation  = PSkill->getAnimationID();
+            actionResult.resolution = ActionResolution::Miss;
+            actionResult.info       = ActionInfo::UnknownAoE;
+
+            // TODO: This is supposed to emit an extra 'spte'!
         }
         else
         {
@@ -2314,8 +2321,8 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     PSkill->setHP(health.hp);
     PSkill->setHPP(GetHPP());
 
-    uint16 msg            = 0;
-    uint16 defaultMessage = PSkill->getMsg();
+    MSGBASIC_ID msg            = MSGBASIC_NONE;
+    MSGBASIC_ID defaultMessage = PSkill->getMsg();
 
     bool first{ true };
     for (auto&& PTargetFound : PAI->TargetFind->m_targets)
@@ -2386,11 +2393,11 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
         if (PSkill->hasMissMsg())
         {
-            target.reaction   = REACTION::MISS;
-            target.speceffect = SPECEFFECT::NONE;
+            result.resolution = ActionResolution::Miss;
+            result.param      = 0;
             if (msg == PSkill->getAoEMsg())
             {
-                msg = 282;
+                msg = MSGBASIC_TARGET_EVADES;
             }
         }
         else
@@ -2399,17 +2406,11 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             target.speceffect = SPECEFFECT::HIT;
         }
 
-        // TODO: Should this be reaction and not speceffect?
-        if (target.speceffect == SPECEFFECT::HIT) // Formerly bitwise and, though nothing in this function adds additional bits to the field
+        if (result.resolution != ActionResolution::Miss && result.resolution != ActionResolution::Parry)
         {
-            target.speceffect = SPECEFFECT::RECOIL;
-            if (target.reaction == REACTION::HIT)
+            if (result.resolution == ActionResolution::Hit)
             {
-                target.knockback = PSkill->getKnockback();
-            }
-            else
-            {
-                target.knockback = 0;
+                result.knockback = PSkill->getKnockback();
             }
 
             if (first && PTargetFound->health.hp > 0 && PSkill->getPrimarySkillchain() != 0)
@@ -2542,13 +2543,13 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
     // Create a new attack round.
     CAttackRound attackRound(this, PTarget);
 
-    action.actiontype  = ACTION_ATTACK;
     action.id          = this->id;
     actionList_t& list = action.getNewActionList();
 
     list.ActionTargetID = PTarget->id;
 
     CBattleEntity* POriginalTarget = PTarget;
+    action.actiontype                = ActionCategory::BasicAttack;
 
     /////////////////////////////////////////////////////////////////////////
     //  Start of the attack loop.
@@ -2572,15 +2573,13 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
         if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE, 0))
         {
-            actionTarget.messageID  = 32;
-            actionTarget.reaction   = REACTION::EVADE;
-            actionTarget.speceffect = SPECEFFECT::NONE;
+            actionResult.messageID  = MSGBASIC_TARGET_DODGES;
+            actionResult.resolution = ActionResolution::Miss;
         }
         else if (attack.IsDeflected())
         {
-            actionTarget.messageID  = 1;
-            actionTarget.reaction   = REACTION::PARRY | REACTION::HIT;
-            actionTarget.speceffect = SPECEFFECT::NONE;
+            actionResult.messageID  = MSGBASIC_ATTACK_HITS;
+            actionResult.resolution = ActionResolution::Parry;
         }
         else if ((xirand::GetRandomNumber(100) < attack.GetHitRate() || attackRound.GetSATAOccured()) &&
                  !PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_ALL_MISS))
@@ -2588,41 +2587,36 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             // Check parry.
             if (attack.CheckParried())
             {
-                actionTarget.messageID  = 70;
-                actionTarget.reaction   = REACTION::PARRY | REACTION::HIT;
-                actionTarget.speceffect = SPECEFFECT::NONE;
+                actionResult.messageID  = MSGBASIC_TARGET_PARRIES;
+                actionResult.resolution = ActionResolution::Parry;
                 battleutils::HandleTacticalParry(PTarget);
                 battleutils::HandleIssekiganEnmityBonus(PTarget, this);
             }
             // attack hit, try to be absorbed by shadow unless it is a SATA attack round
             else if (!(attackRound.GetSATAOccured()) && battleutils::IsAbsorbByShadow(PTarget, this))
             {
-                actionTarget.messageID = MSGBASIC_SHADOW_ABSORB;
-                actionTarget.param     = 1;
-                actionTarget.reaction  = REACTION::EVADE;
+                actionResult.messageID  = MSGBASIC_SHADOW_ABSORB;
+                actionResult.param      = 1;
+                actionResult.resolution = ActionResolution::Miss;
                 attack.SetEvaded(true);
             }
             else if (attack.CheckAnticipated() || attack.CheckCounter())
             {
                 if (attack.IsAnticipated())
                 {
-                    actionTarget.messageID  = 30;
-                    actionTarget.reaction   = REACTION::EVADE;
-                    actionTarget.speceffect = SPECEFFECT::NONE;
+                    actionResult.messageID  = MSGBASIC_TARGET_ANTICIPATES;
+                    actionResult.resolution = ActionResolution::Miss;
                 }
                 if (attack.IsCountered())
                 {
-                    actionTarget.reaction     = REACTION::EVADE;
-                    actionTarget.speceffect   = SPECEFFECT::NONE;
-                    actionTarget.param        = 0;
-                    actionTarget.messageID    = 0;
-                    actionTarget.spikesEffect = SUBEFFECT_COUNTER;
+                    actionResult.resolution   = ActionResolution::Miss;
+                    actionResult.spikesEffect = SUBEFFECT_COUNTER;
                     if (battleutils::IsAbsorbByShadow(this, PTarget))
                     {
-                        actionTarget.spikesParam   = 1;
-                        actionTarget.spikesMessage = MSGBASIC_COUNTER_ABS_BY_SHADOW;
-                        actionTarget.messageID     = 0;
-                        actionTarget.param         = 0;
+                        actionResult.spikesParam   = 1;
+                        actionResult.spikesMessage = MSGBASIC_COUNTER_ABS_BY_SHADOW;
+                        actionResult.messageID     = MSGBASIC_NONE;
+                        actionResult.param         = 0;
                     }
                     else
                     {
@@ -2666,7 +2660,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
                         actionTarget.spikesParam =
                             battleutils::TakePhysicalDamage(PTarget, this, attack.GetAttackType(), damage, false, SLOT_MAIN, 1, nullptr, true, false, true);
-                        actionTarget.spikesMessage = 33;
+                        actionResult.spikesMessage = MSGBASIC_ATTACK_COUNTERED_DAMAGE;
                         if (PTarget->objtype == TYPE_PC)
                         {
                             charutils::TrySkillUP((CCharEntity*)PTarget, skilltype, GetMLevel());
@@ -2689,13 +2683,14 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
                 this->PAI->EventHandler.triggerListener("MELEE_SWING_HIT", this, PTarget, &attack);
 
-                actionTarget.reaction = REACTION::HIT;
+                actionResult.resolution = ActionResolution::Hit;
 
                 // Critical hit.
                 if (attack.IsCritical())
                 {
-                    actionTarget.speceffect = SPECEFFECT::CRITICAL_HIT;
-                    actionTarget.messageID  = attack.GetAttackType() == PHYSICAL_ATTACK_TYPE::DAKEN ? 353 : 67;
+                    // TODO: Use withPhysicalDamage
+                    actionResult.info |= ActionInfo::CriticalHit;
+                    actionResult.messageID = attack.GetAttackType() == PHYSICAL_ATTACK_TYPE::DAKEN ? MSGBASIC_RANGED_ATTACK_CRIT : MSGBASIC_ATTACK_CRIT;
 
                     if (PTarget->objtype == TYPE_MOB)
                     {
@@ -2709,14 +2704,13 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 // Not critical hit.
                 else
                 {
-                    actionTarget.speceffect = SPECEFFECT::HIT;
-                    actionTarget.messageID  = attack.GetAttackType() == PHYSICAL_ATTACK_TYPE::DAKEN ? 352 : 1;
+                    actionResult.messageID = attack.GetAttackType() == PHYSICAL_ATTACK_TYPE::DAKEN ? MSGBASIC_RANGED_ATTACK_HIT : MSGBASIC_ATTACK_HITS;
                 }
 
                 // Guarded. TODO: Stuff guards that shouldn't.
                 if (attack.IsGuarded())
                 {
-                    actionTarget.reaction |= REACTION::GUARDED;
+                    actionResult.resolution = ActionResolution::Guard;
                     battleutils::HandleTacticalGuard(PTarget);
                 }
 
@@ -2739,15 +2733,15 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 // Try shield block
                 if (attack.IsBlocked())
                 {
-                    actionTarget.reaction |= REACTION::BLOCK;
+                    actionResult.resolution = ActionResolution::Block;
                 }
 
                 actionTarget.param =
                     battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true, attack.IsCountered(), attack.IsCovered(), POriginalTarget);
                 if (actionTarget.param < 0)
                 {
-                    actionTarget.param     = -(actionTarget.param);
-                    actionTarget.messageID = 373;
+                    actionResult.param     = -(actionResult.param);
+                    actionResult.messageID = MSGBASIC_SPIKES_EFFECT_RECOVER;
                 }
             }
 
@@ -2778,9 +2772,8 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         else
         {
             // misses the target
-            actionTarget.reaction   = REACTION::EVADE;
-            actionTarget.speceffect = SPECEFFECT::NONE;
-            actionTarget.messageID  = 15;
+            actionResult.resolution = ActionResolution::Miss;
+            actionResult.messageID  = MSGBASIC_ATTACK_MISSES;
             attack.SetEvaded(true);
 
             // Check & Handle Afflatus Misery Accuracy Bonus
@@ -2796,13 +2789,13 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         }
 
         // If we didn't hit at all, set param to 0 if we didn't blink any shadows.
-        if ((actionTarget.reaction & REACTION::HIT) == REACTION::NONE && actionTarget.messageID != MSGBASIC_SHADOW_ABSORB)
+        if (actionResult.resolution == ActionResolution::Miss && actionResult.messageID != MSGBASIC_SHADOW_ABSORB)
         {
             actionTarget.param = 0;
         }
 
         // if we did hit, run enspell/spike routines as long as this isn't a Daken swing
-        if ((actionTarget.reaction & REACTION::MISS) == REACTION::NONE && attack.GetAttackType() != PHYSICAL_ATTACK_TYPE::DAKEN)
+        if (actionResult.resolution == ActionResolution::Hit && attack.GetAttackType() != PHYSICAL_ATTACK_TYPE::DAKEN)
         {
             // Handle addtl effects/enspells only if the target is not already dead
             if (PTarget->GetHPP() > 0)
@@ -2813,15 +2806,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         }
 
         // if we parried, run battuta check if applicable
-        if ((actionTarget.reaction & REACTION::PARRY) == REACTION::PARRY && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BATTUTA))
+        if (actionResult.resolution == ActionResolution::Parry && PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_BATTUTA))
         {
-            battleutils::HandleParrySpikesDamage(this, PTarget, &actionTarget, attack.GetDamage());
-        }
-
-        // set recoil if we hit and dealt non-zero damage
-        if (actionTarget.speceffect == SPECEFFECT::HIT && actionTarget.param > 0)
-        {
-            actionTarget.speceffect = SPECEFFECT::RECOIL;
+            battleutils::HandleParrySpikesDamage(this, PTarget, &actionResult, attack.GetDamage());
         }
 
         // try zanshin only on single swing attack rounds - it is last priority in the multi-hit order
@@ -2831,9 +2818,9 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
             uint16 zanshinChance = this->getMod(Mod::ZANSHIN) + battleutils::GetMeritValue(this, MERIT_ZASHIN_ATTACK_RATE);
             zanshinChance        = std::clamp<uint16>(zanshinChance, 0, 100);
             // zanshin may only proc on a missed/guarded/countered swing or as SAM main with hasso up (at 25% of the base zanshin rate)
-            if ((((actionTarget.reaction & REACTION::MISS) != REACTION::NONE || (actionTarget.reaction & REACTION::GUARDED) != REACTION::NONE || actionTarget.spikesEffect == SUBEFFECT_COUNTER) &&
-                 xirand::GetRandomNumber(100) < zanshinChance) ||
-                (GetMJob() == JOB_SAM && this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO) && xirand::GetRandomNumber(100) < (zanshinChance / 4)))
+            if ((actionResult.resolution != ActionResolution::Hit || actionResult.spikesEffect == SUBEFFECT_COUNTER) &&
+                    xirand::GetRandomNumber(100) < zanshinChance ||
+                (GetMJob() == JOB_SAM && this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO) && xirand::GetRandomNumber(100) < zanshinChance / 4))
             {
                 attackRound.AddAttackSwing(PHYSICAL_ATTACK_TYPE::ZANSHIN, PHYSICAL_ATTACK_DIRECTION::RIGHTATTACK, 1);
             }

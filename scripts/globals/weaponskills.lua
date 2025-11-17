@@ -941,9 +941,9 @@ xi.weaponskills.takeWeaponskillDamage = function(defender, attacker, wsParams, p
 
             if finaldmg > 0 then
                 if wsResults.guardedHits and wsResults.guardedHits > 0 then
-                    action:reaction(defender:getID(), xi.reaction.GUARDED)
+                    action:resolution(defender:getID(), xi.action.resolution.GUARD)
                 else
-                    action:reaction(defender:getID(), xi.reaction.HIT)
+                    action:resolution(defender:getID(), xi.action.resolution.HIT)
                 end
             end
         else
@@ -965,7 +965,7 @@ xi.weaponskills.takeWeaponskillDamage = function(defender, attacker, wsParams, p
             action:messageID(defender:getID(), xi.msg.basic.EVADES)
         end
 
-        action:reaction(defender:getID(), xi.reaction.EVADE)
+        action:resolution(defender:getID(), xi.action.resolution.MISS)
     end
 
     local targetTPMult   = wsParams.targetTPMult or 1

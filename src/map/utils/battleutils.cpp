@@ -792,7 +792,7 @@ bool HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
 
         if (battleutils::IsAbsorbByShadow(PAttacker, PDefender)) // Struck a shadow
         {
-            Action->spikesMessage = 535;
+            Action->spikesMessage = MSGBASIC_RETALIATE_SHADOW_ABSORBS;
         }
         else // Struck the target
         {
@@ -977,7 +977,7 @@ bool HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
     return false;
 }
 
-bool HandleParrySpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage)
+bool HandleParrySpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, int32 damage)
 {
     Action->spikesEffect  = (SUBEFFECT)PDefender->getMod(Mod::PARRY_SPIKES);
     Action->spikesMessage = MSGBASIC_SPIKES_EFFECT_DMG;
@@ -1075,7 +1075,6 @@ bool HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, actio
     return false;
 }
 
-void HandleSpikesStatusEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action)
 {
     int lvlDiff = 0;
     if (PDefender)
@@ -1338,6 +1337,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
             else
             {
                 Action->addEffectMessage = 229;
+                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_ADDITIONAL_DAMAGE;
             }
 
             PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_TYPE::MAGICAL, damageType);
@@ -1351,7 +1351,6 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
             if (Action->addEffectParam < 0)
             {
                 Action->addEffectParam   = -Action->addEffectParam;
-                Action->addEffectMessage = 384;
             }
 
             PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_TYPE::MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
@@ -1417,7 +1416,6 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
     else if (PAttacker->objtype == TYPE_MOB && ((CMobEntity*)PAttacker)->getMobMod(MOBMOD_ADD_EFFECT) > 0)
     {
         luautils::OnAdditionalEffect(PAttacker, PDefender, Action, finaldamage);
-        if (Action->addEffectMessage == 163 && Action->addEffectParam < 0)
         {
             Action->addEffectMessage = 384;
         }
@@ -1577,11 +1575,6 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
  *  Handle Ranged weapon's additional effects (e.g. Bolts)               *
  *                                                                       *
  ************************************************************************/
-
-void HandleRangedAdditionalEffect(CCharEntity* PAttacker, CBattleEntity* PDefender, apAction_t* Action)
-{
-    // TODO: remove function
-}
 
 uint8 GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int16 accBonus)
 {
