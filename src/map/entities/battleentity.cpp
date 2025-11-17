@@ -2211,33 +2211,39 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     }
     action.actionid = PSkill->getID();
 
-    if (PAI->TargetFind->isWithinRange(&PTarget->loc.p, distance))
+    // Self-centered AoEs (mob_skill_aoe = 1) don't have a "primary target" concept
+    // They should find targets around the mob regardless of where any specific entity is
+    bool isSelfCenteredAoE = PSkill->getAoe() == static_cast<uint8>(AOE_RADIUS::ATTACKER);
+
+    // For non-self-centered skills, check if the primary target is within range
+    if (!isSelfCenteredAoE && !PAI->TargetFind->isWithinRange(&PTarget->loc.p, distance))
     {
-        if (PSkill->isAoE())
-        {
-            PAI->TargetFind->findWithinArea(PTarget, static_cast<AOE_RADIUS>(PSkill->getAoe()), PSkill->getRadius(), findFlags, PSkill->getValidTargets());
-        }
-        else if (PSkill->isConal())
-        {
-            float angle = 45.0f;
-            PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags, PSkill->getValidTargets(), PSkill->getAoe());
-        }
-        else
         ActionInterrupts::MobSkillOutOfRange(this, PTarget);
         return;
-        {
-            if (this->objtype == TYPE_MOB && PTarget->objtype == TYPE_PC)
-            {
-                CBattleEntity* PCoverAbilityUser = battleutils::GetCoverAbilityUser(PTarget, this);
-                if (PCoverAbilityUser != nullptr)
-                {
-                    PTarget = PCoverAbilityUser;
-                }
-            }
+    }
 
-            PAI->TargetFind->findSingleTarget(PTarget, findFlags, PSkill->getValidTargets());
+    // Find targets based on skill type
+    if (PSkill->isAoE())
+    {
+        PAI->TargetFind->findWithinArea(PTarget, static_cast<AOE_RADIUS>(PSkill->getAoe()), PSkill->getRadius(), findFlags, PSkill->getValidTargets());
+    }
+    else if (PSkill->isConal())
+    {
+        float angle = 45.0f;
+        PAI->TargetFind->findWithinCone(PTarget, distance, angle, findFlags, PSkill->getValidTargets(), PSkill->getAoe());
+    }
+    else
+    {
+        if (this->objtype == TYPE_MOB && PTarget->objtype == TYPE_PC)
+        {
+            CBattleEntity* PCoverAbilityUser = battleutils::GetCoverAbilityUser(PTarget, this);
+            if (PCoverAbilityUser != nullptr)
+            {
+                PTarget = PCoverAbilityUser;
+            }
         }
 
+        PAI->TargetFind->findSingleTarget(PTarget, findFlags, PSkill->getValidTargets());
     }
 
     uint16 targets  = static_cast<uint16>(PAI->TargetFind->m_targets.size());
@@ -2257,11 +2263,9 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     // No targets, perhaps something like Super Jump or otherwise untargetable
     if (targets == 0)
     {
-        actionList_t& actionList  = action.getNewActionList();
-        actionList.ActionTargetID = id;
-
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.messageID       = 0;
+        action_target_t& actionTarget = action.getNewTarget(id);
+        action_result_t& actionResult = actionTarget.getNewResult();
+        actionResult.messageID        = MSGBASIC_NONE;
 
         if (skipSelf)
         {
@@ -2293,14 +2297,27 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
     MSGBASIC_ID defaultMessage = PSkill->getMsg();
 
     bool first{ true };
+
+    // Process self first if present in target list (for self-buff abilities)
+    // This ensures the caster appears as the first target in the packet
+    CBattleEntity* selfTarget = nullptr;
     for (auto&& PTargetFound : PAI->TargetFind->m_targets)
+    {
+        if (PTargetFound == this)
+        {
+            selfTarget = PTargetFound;
+            break;
+        }
+    }
+
+    // Lambda to process a target
+    auto processTarget = [&](CBattleEntity* PTargetFound)
     {
         if (PTarget == PTargetFound && skipSelf)
         {
             // This ability targets self for aoe skills (such as Frozen Mist)
             // Ignore self completely
-
-            continue;
+            return;
         }
 
         action_target_t& target = action.getNewTarget(PTargetFound->id);
@@ -2409,6 +2426,21 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             battleutils::ClaimMob(PTargetFound, this);
         }
         battleutils::DirtyExp(PTargetFound, this);
+    };
+
+    // Process self first if present in targets
+    if (selfTarget)
+    {
+        processTarget(selfTarget);
+    }
+
+    // Process remaining targets (skip self since it was already processed)
+    for (auto&& PTargetFound : PAI->TargetFind->m_targets)
+    {
+        if (PTargetFound != this)
+        {
+            processTarget(PTargetFound);
+        }
     }
 
     PTarget = dynamic_cast<CBattleEntity*>(state.GetTarget()); // TODO: why is this recast here? can state change between now and the original cast?

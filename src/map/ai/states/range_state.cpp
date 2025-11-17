@@ -142,7 +142,6 @@ bool CRangeState::Update(timer::time_point tick)
 {
     if (m_PEntity && m_PEntity->isAlive() && (tick > GetEntryTime() + m_aimTime && !IsCompleted()))
     {
-
         // Use cached target from construction instead of re-validating
         // This allows the attack to complete with a miss when target moves out of range
         auto* PTarget = GetTarget();
