@@ -380,10 +380,12 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
             actionTarget.messageID  = 352;
             actionTarget.reaction   = REACTION::HIT;
             actionTarget.speceffect = SPECEFFECT::CRITICAL_HIT;
+            actionResult.messageID  = MSGBASIC_RANGED_ATTACK_HIT;
+            actionResult.resolution = ActionResolution::Hit;
         }
 
-        actionTarget.param =
-            battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
+        int32 finalDamage = battleutils::TakePhysicalDamage(this, PTarget, PHYSICAL_ATTACK_TYPE::RANGED, totalDamage, false, slot, realHits, nullptr, true, true);
+        actionResult.recordDamage(attack_outcome_t{
 
         // lower damage based on shadows taken
         if (shadowsTaken)
@@ -417,9 +419,6 @@ void CTrustEntity::OnRangedAttack(CRangeState& state, action_t& action)
         PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE_MESSAGE>(PTarget, PTarget, 0, shadowsTaken, MSGBASIC_SHADOW_ABSORB));
     }
 
-    if (actionTarget.speceffect == SPECEFFECT::HIT && actionTarget.param > 0)
-    {
-        actionTarget.speceffect = SPECEFFECT::RECOIL;
     }
 
     // remove barrage effect if present

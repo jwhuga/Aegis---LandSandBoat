@@ -75,7 +75,7 @@ bool CAttackState::Update(timer::time_point tick)
             if (m_PEntity->OnAttack(*this, action))
             {
                 // CMobEntity::OnAttack(...) can generate it's own action with a mobmod, and that leaves this action.actionType = 0, which is never valid. Skip sending the packet.
-                if (action.actiontype != ACTION_NONE)
+                if (action.actiontype != ActionCategory::None)
                 {
                     m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, std::make_unique<CActionPacket>(action));
                 }

@@ -1984,20 +1984,20 @@ auto InstantiateDynamicMob(uint32 groupid, uint16 groupZoneId, uint16 targetZone
 
 void WeaknessTrigger(CBaseEntity* PTarget, WeaknessType level)
 {
-    uint16 animationID = 0;
+    ActionAnimation animationID = ActionAnimation::None;
     switch (level)
     {
         case WeaknessType::RED:
-            animationID = 1806;
+            animationID = ActionAnimation::RedTrigger;
             break;
         case WeaknessType::YELLOW:
-            animationID = 1807;
+            animationID = ActionAnimation::YellowTrigger;
             break;
         case WeaknessType::BLUE:
-            animationID = 1808;
+            animationID = ActionAnimation::BlueTrigger;
             break;
         case WeaknessType::WHITE:
-            animationID = 1946;
+            animationID = ActionAnimation::WhiteTrigger;
             break;
     }
     action_t action;

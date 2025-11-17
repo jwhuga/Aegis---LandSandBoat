@@ -513,8 +513,8 @@ void CPetEntity::OnPetSkillFinished(CPetSkillState& state, action_t& action)
     PSkill->setHP(health.hp);
     PSkill->setHPP(GetHPP());
 
-    uint16 msg            = 0;
-    uint16 defaultMessage = PSkill->getMsg();
+    MSGBASIC_ID msg            = MSGBASIC_NONE;
+    MSGBASIC_ID defaultMessage = PSkill->getMsg();
 
     bool first{ true };
     for (auto&& PTargetFound : PAI->TargetFind->m_targets)
@@ -570,24 +570,20 @@ void CPetEntity::OnPetSkillFinished(CPetSkillState& state, action_t& action)
             target.param = damage;
         }
 
-        target.messageID = msg;
+        target.messageID = static_cast<MSGBASIC_ID>(msg);
 
         if (PSkill->hasMissMsg())
         {
-            target.reaction   = REACTION::MISS;
-            target.speceffect = SPECEFFECT::NONE;
+            target.resolution = ActionResolution::Miss;
         }
         else
         {
-            target.reaction   = REACTION::HIT;
-            target.speceffect = SPECEFFECT::HIT;
+            target.resolution = ActionResolution::Hit;
         }
 
-        // TODO: Should this be reaction and not speceffect?
-        if (target.speceffect == SPECEFFECT::HIT) // Formerly bitwise and, though nothing in this function adds additional bits to the field
+        if (target.resolution != ActionResolution::Miss && target.resolution != ActionResolution::Parry)
         {
-            target.speceffect = SPECEFFECT::RECOIL;
-            target.knockback  = PSkill->getKnockback();
+            target.knockback = PSkill->getKnockback();
             if (first && PTargetFound->health.hp > 0 && PSkill->getPrimarySkillchain() != 0)
             {
                 SUBEFFECT effect = battleutils::GetSkillChainEffect(
