@@ -160,8 +160,6 @@ local packets   =
 
             xi.test.world:skipTime(5)
             xi.test.world:skipTime(5)
-            player:despawnPet()
-            xi.test.world:tickEntity(player)
         end,
 
         expected =
@@ -324,18 +322,11 @@ local packets   =
             player:changeJob(xi.job.DRG)
             player:setLevel(99)
 
-            -- Ensure mob is in range (previous test may have moved it out of range)
             mob:setPos(player:getXPos() + 2, player:getYPos(), player:getZPos())
-
-            -- Ensure no residual pet from previous tests
-            if player:hasPet() then
-                player:despawnPet()
-                xi.test.world:tickEntity(player)
-            end
 
             player.actions:useAbility(player, xi.jobAbility.CALL_WYVERN)
             xi.test.world:tickEntity(player)
-            xi.test.world:skipTime(1) -- Wait for wyvern to fully initialize
+            xi.test.world:skipTime(1)
 
             local wyvern = player:getPet()
             assert(wyvern)
@@ -353,8 +344,6 @@ local packets   =
 
             xi.test.world:skipTime(5)
             xi.test.world:skipTime(5)
-            player:despawnPet()
-            xi.test.world:tickEntity(player)
         end,
 
         expected =
@@ -378,7 +367,7 @@ local packets   =
                                 kind      = 0,
                                 sub_kind  = 0,
                                 info      = 0,
-                                scale     = ph.IGNORE, -- TODO: Scale should always be 0 for magic attacks
+                                scale     = 0,
                                 value     = xi.jobAbility.FROST_BREATH,
                                 message   = xi.msg.basic.READIES_SKILL_2,
                                 bit       = 0,

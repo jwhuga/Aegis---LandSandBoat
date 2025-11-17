@@ -42,7 +42,6 @@ local packets =
                             message       = ph.IGNORE,
                             bit           = 0,
                             has_proc      = false,
-
                             has_react     = true,
                             react_kind    = xi.subEffect.BLAZE_SPIKES,
                             react_info    = 0,
@@ -134,7 +133,7 @@ local packets =
             player:setMod(xi.mod.ACC, 1000)
             player:addItem(xi.item.BRONZE_DAGGER)
             player:equipItem(xi.item.BRONZE_DAGGER, nil, xi.slot.MAIN)
-            local warMob = player.entities:moveTo(17534980) -- Vanguard Footsoldier
+            local warMob = player.entities:moveTo('Vanguard_Footsoldier')
             player.actions:engage(warMob)
             for i = 1, 20 do
                 xi.test.world:tickEntity(player)
@@ -153,7 +152,7 @@ local packets =
             target  =
             {
                 {
-                    m_uID      = 17534980,
+                    m_uID      = ph.IGNORE,
                     result_sum = 1,
                     result     =
                     {
@@ -183,7 +182,7 @@ local packets =
             player:setMod(xi.mod.ACC, 1000)
             player:addItem(xi.item.BRONZE_DAGGER)
             player:equipItem(xi.item.BRONZE_DAGGER, nil, xi.slot.MAIN)
-            local mnkMob = player.entities:moveTo(17535124) -- Vanguard Grappler
+            local mnkMob = player.entities:moveTo('Vanguard_Grappler')
             -- Not all paths use the lua function? Need the MOD for now.
             stub('xi.combat.physical.isGuarded', true)
             mnkMob:setMod(xi.mod.ADDITIVE_GUARD, 100)
@@ -206,7 +205,7 @@ local packets =
             target  =
             {
                 {
-                    m_uID      = 17535124,
+                    m_uID      = ph.IGNORE,
                     result_sum = 1,
                     result     =
                     {
