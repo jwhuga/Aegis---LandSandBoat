@@ -2701,12 +2701,21 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     actionResult.resolution = ActionResolution::Block;
                 }
 
-                actionResult.param =
-                    battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true, attack.IsCountered(), attack.IsCovered(), POriginalTarget);
-                if (actionResult.param < 0)
+                const auto damage = battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true, attack.IsCountered(), attack.IsCovered(), POriginalTarget);
+                if (damage < 0)
                 {
-                    actionResult.param     = -(actionResult.param);
+                    actionResult.param     = -damage;
                     actionResult.messageID = MSGBASIC_SPIKES_EFFECT_RECOVER;
+                }
+                else
+                {
+                    // This will set the physical hit distortion accordingly
+                    actionResult.recordDamage(attack_outcome_t{
+                        .atkType    = ATTACK_TYPE::PHYSICAL,
+                        .damage     = damage,
+                        .target     = PTarget,
+                        .isCritical = attack.IsCritical(),
+                    });
                 }
             }
 
