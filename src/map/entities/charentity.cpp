@@ -1320,16 +1320,13 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                 (StatusEffectContainer->HasStatusEffect(EFFECT_CHAIN_AFFINITY) || StatusEffectContainer->HasStatusEffect(EFFECT_AZURE_LORE)) &&
                 static_cast<CBlueSpell*>(PSpell)->getPrimarySkillchain() != 0)
             {
-                auto*     PBlueSpell = static_cast<CBlueSpell*>(PSpell);
-                SUBEFFECT effect     = battleutils::GetSkillChainEffect(PTarget, PBlueSpell->getPrimarySkillchain(), PBlueSpell->getSecondarySkillchain(), 0);
-                if (effect != SUBEFFECT_NONE)
+                auto*      PBlueSpell = static_cast<CBlueSpell*>(PSpell);
+                const auto effect     = battleutils::GetSkillChainEffect(PTarget, PBlueSpell->getPrimarySkillchain(), PBlueSpell->getSecondarySkillchain(), 0);
+                if (effect != ActionProcSkillChain::None)
                 {
-                    uint16 skillChainDamage = battleutils::TakeSkillchainDamage(static_cast<CBattleEntity*>(this), PTarget, actionTarget.param, taChar);
-
-                    actionTarget.addEffectParam   = skillChainDamage;
-                    actionTarget.addEffectMessage = 287 + effect;
-                    actionTarget.additionalEffect = effect;
+                    actionResult.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PTarget, actionResult.param, taChar));
                 }
+
                 if (StatusEffectContainer->HasStatusEffect({ EFFECT_SEKKANOKI, EFFECT_MEIKYO_SHISUI }))
                 {
                     health.tp = (health.tp > 1000 ? health.tp - 1000 : 0);
@@ -1349,9 +1346,9 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                 PSpell->getSpellGroup() == SPELLGROUP_BLACK &&
                 (StatusEffectContainer->HasStatusEffect(EFFECT_IMMANENCE)))
             {
-                auto      immanenceApplies = true;
-                auto      isHelix          = false;
-                SUBEFFECT effect           = SUBEFFECT_NONE;
+                auto immanenceApplies = true;
+                auto isHelix          = false;
+                auto effect           = ActionProcSkillChain::None;
                 switch (PSpell->getSpellFamily())
                 {
                     case SPELLFAMILY_GEOHELIX:
@@ -1408,21 +1405,9 @@ void CCharEntity::OnCastFinished(CMagicState& state, action_t& action)
                     StatusEffectContainer->DelStatusEffect(EFFECT_IMMANENCE);
                 }
 
-                if (effect != SUBEFFECT_NONE)
+                if (effect != ActionProcSkillChain::None)
                 {
-                    int32 skillChainDamage = battleutils::TakeSkillchainDamage(static_cast<CBattleEntity*>(this), PTarget, actionTarget.param, nullptr);
-
-                    if (skillChainDamage < 0)
-                    {
-                        actionTarget.addEffectParam   = -skillChainDamage;
-                        actionTarget.addEffectMessage = 384 + effect;
-                    }
-                    else
-                    {
-                        actionTarget.addEffectParam   = skillChainDamage;
-                        actionTarget.addEffectMessage = 287 + effect;
-                    }
-                    actionTarget.additionalEffect = effect;
+                    actionResult.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PTarget, actionResult.param, nullptr));
 
                     // Closing a skillchain with an immanence Helix will make the magic burst window longer
                     auto scEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
@@ -1568,34 +1553,22 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                     {
                         // NOTE: GetSkillChainEffect is INSIDE this if statement because it
                         //  ALTERS the state of the resonance, which misses and non-elemental skills should NOT do.
-                        SUBEFFECT effect = battleutils::GetSkillChainEffect(
+                        const auto effect = battleutils::GetSkillChainEffect(
                             PBattleTarget,
                             PWeaponSkill->getPrimarySkillchain(),
                             PWeaponSkill->getSecondarySkillchain(),
                             PWeaponSkill->getTertiarySkillchain());
-                        // See SUBEFFECT enum in battleentity.h
-                        if (effect != SUBEFFECT_NONE)
+                        if (effect != ActionProcSkillChain::None)
                         {
-                            actionTarget.addEffectParam = battleutils::TakeSkillchainDamage(this, PBattleTarget, damage, taChar);
-                            if (actionTarget.addEffectParam < 0)
-                            {
-                                actionTarget.addEffectParam   = -actionTarget.addEffectParam;
-                                actionTarget.addEffectMessage = 384 + effect;
-                            }
-                            else
-                            {
-                                actionTarget.addEffectMessage = 287 + effect;
-                            }
-
-                            actionTarget.additionalEffect = effect;
+                            actionResult.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PBattleTarget, damage, taChar));
 
                             // Despite appearances, ws_points_skillchain is not a multiplier it is just an amount "per skillchain level"
                             const auto wsPointsSkillchain = settings::get<uint8>("map.WS_POINTS_SKILLCHAIN");
-                            if (effect >= 7 && effect < 15)
+                            if (effect >= ActionProcSkillChain::Compression && effect < ActionProcSkillChain::Radiance)
                             {
                                 wspoints += (1 * wsPointsSkillchain); // Level 1
                             }
-                            else if (effect >= 3)
+                            else if (effect >= ActionProcSkillChain::Gravitation)
                             {
                                 wspoints += (2 * wsPointsSkillchain); // Level 2
                             }

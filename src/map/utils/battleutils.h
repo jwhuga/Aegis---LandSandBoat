@@ -29,6 +29,7 @@
 
 #include "entities/battleentity.h"
 
+enum class ActionProcSkillChain : uint8_t;
 enum class Weather : uint16_t;
 class CMobEntity;
 class CAbility;
@@ -130,10 +131,10 @@ void FreeWeaponSkillsList();
 void FreeMobSkillList();
 void FreePetSkillList();
 
-SUBEFFECT            GetSkillChainEffect(CBattleEntity* PDefender, uint8 primary, uint8 secondary, uint8 tertiary);
+auto                 GetSkillChainEffect(const CBattleEntity* PDefender, uint8 primary, uint8 secondary, uint8 tertiary) -> ActionProcSkillChain;
 SKILLCHAIN_ELEMENT   FormSkillchain(const std::list<SKILLCHAIN_ELEMENT>& resonance, const std::list<SKILLCHAIN_ELEMENT>& skill);
 uint8                GetSkillchainTier(SKILLCHAIN_ELEMENT skillchain);
-uint8                GetSkillchainSubeffect(SKILLCHAIN_ELEMENT skillchain);
+auto                 GetSkillchainSubeffect(SKILLCHAIN_ELEMENT skillchain) -> ActionProcSkillChain;
 int16                GetSkillchainMinimumResistance(SKILLCHAIN_ELEMENT element, CBattleEntity* PDefender, ELEMENT& appliedEle);
 std::vector<ELEMENT> GetSkillchainMagicElement(SKILLCHAIN_ELEMENT skillchain);
 Mod                  GetResistanceRankModFromElement(ELEMENT& element);

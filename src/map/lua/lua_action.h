@@ -24,6 +24,7 @@
 #include "ability.h"
 #include "common/cbasetypes.h"
 #include "enums/action/knockback.h"
+#include "enums/action/proc_kind.h"
 #include "luautils.h"
 
 enum class HitDistortion : uint8_t;
@@ -64,7 +65,7 @@ public:
     void knockback(uint32 actionTargetId, Knockback knockback) const;
     void recordDamage(const CLuaBaseEntity* PLuaTarget, ATTACK_TYPE atkType, int32 damage, std::optional<bool> isCritical = false) const;
     void modifier(uint32 actionTargetId, uint8 modifier) const;
-    void additionalEffect(uint32 actionTargetId, uint16 additionalEffect) const;
+    void additionalEffect(uint32 actionTargetId, ActionProcAddEffect additionalEffect) const;
     void addEffectParam(uint32 actionTargetId, int32 addEffectParam) const;
     void addEffectMessage(uint32 actionTargetId, MSGBASIC_ID addEffectMessage) const;
     auto addAdditionalTarget(uint32 actionTargetId) const -> bool;

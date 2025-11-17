@@ -236,13 +236,13 @@ void CLuaAction::modifier(const uint32 actionTargetId, uint8 modifier) const
     }
 }
 
-void CLuaAction::additionalEffect(const uint32 actionTargetId, uint16 additionalEffect) const
+void CLuaAction::additionalEffect(const uint32 actionTargetId, const ActionProcAddEffect additionalEffect) const
 {
     for (auto&& actionTarget : m_PLuaAction->targets)
     {
         if (actionTarget.actorId == actionTargetId)
         {
-            actionTarget.results[0].additionalEffect = static_cast<SUBEFFECT>(additionalEffect);
+            actionTarget.results[0].additionalEffect = additionalEffect;
             return;
         }
     }
@@ -260,7 +260,7 @@ void CLuaAction::addEffectParam(const uint32 actionTargetId, const int32 addEffe
     }
 }
 
-void CLuaAction::addEffectMessage(const uint32 actionTargetId, MSGBASIC_ID addEffectMessage) const
+void CLuaAction::addEffectMessage(const uint32 actionTargetId, const MSGBASIC_ID addEffectMessage) const
 {
     for (auto&& actionTarget : m_PLuaAction->targets)
     {
