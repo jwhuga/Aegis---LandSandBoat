@@ -57,31 +57,20 @@ local function performWSJump(player, target, action, params, abilityID)
     local taChar = player:getTrickAttackChar(target)
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, 0, params, 1000, action, true, taChar)
     local totalHits  = tpHits + extraHits
-    local specEffect = 0x00
 
     if totalHits > 0 then
-        if target:getHP() <= 0 then
-            specEffect = bit.bor(specEffect, 0x01) -- Add in 'killed target' bit
-        end
-
-        if criticalHit then -- set crit bit
-            specEffect = bit.bor(specEffect, 0x02)
-        end
-
         if
             abilityID == xi.jobAbility.SOUL_JUMP or
             abilityID == xi.jobAbility.SPIRIT_JUMP
         then
-            specEffect = bit.bor(specEffect, 0x04) -- Add in Soul/Spirit bit
+            action:info(target, 4) -- Special info flag for these abilities.
         end
 
         -- TODO: process additional effects such as Delphinius, Pteroslaver Mail +2/3, Hebo's Spear, enspells, other weapon built-in add effects
 
-        action:speceffect(target:getID(), specEffect)
         action:messageID(target:getID(), xi.msg.basic.USES_JA_TAKE_DAMAGE)
     else
         action:messageID(target:getID(), xi.msg.basic.JA_MISS_2)
-        action:speceffect(target:getID(), specEffect)
     end
 
     -- Jumps add JUMP_TP_BONUS regardless of 0 dmg or miss and is affected by Store TP but not the target's subtle blow
@@ -592,8 +581,6 @@ xi.job_utils.dragoon.useSteadyWing = function(player, target, ability, action)
     if wyvern then
         local power = wyvern:getMaxHP() * 0.3 + wyvern:getMaxHP() - wyvern:getHP()
 
-        action:reaction(wyvern:getID(), 0x10) -- Observed on retail
-
         if wyvern:addStatusEffect(xi.effect.STONESKIN, power, 0, 300) then
             local effect = wyvern:getStatusEffect(xi.effect.STONESKIN)
 
@@ -643,7 +630,6 @@ xi.job_utils.dragoon.useHealingBreath = function(wyvern, target, skill, action)
     local totalHPRestored = target:addHP(curePower)
 
     skill:setMsg(xi.msg.basic.JA_RECOVERS_HP_2)
-    action:reaction(target:getID(), 0x18)
 
     -- also cure the Wyvern if Spirit Bond is up
     if master:hasStatusEffect(xi.effect.SPIRIT_BOND) then
@@ -652,7 +638,6 @@ xi.job_utils.dragoon.useHealingBreath = function(wyvern, target, skill, action)
         action:addAdditionalTarget(wyvern:getID())
         action:setAnimation(wyvern:getID(), action:getAnimation(target:getID()))
         action:messageID(wyvern:getID(), xi.msg.basic.SELF_HEAL_SECONDARY)
-        action:reaction(wyvern:getID(), 0x18)
         action:param(wyvern:getID(), totalWyvernHPRestored)
     end
 

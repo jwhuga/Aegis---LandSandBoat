@@ -77,9 +77,9 @@ function CAction:setCategory(category)
 end
 
 ---@param actionTargetID integer
----@param speceffect integer
+---@param info xi.action.info
 ---@return nil
-function CAction:speceffect(actionTargetID, speceffect)
+function CAction:info(actionTargetID, info)
 end
 
 ---@param actionTargetID integer

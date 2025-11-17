@@ -940,7 +940,6 @@ xi.weaponskills.takeWeaponskillDamage = function(defender, attacker, wsParams, p
             end
 
             if finaldmg > 0 then
-                action:speceffect(defender:getID(), xi.specEffect.RECOIL)
                 if wsResults.guardedHits and wsResults.guardedHits > 0 then
                     action:reaction(defender:getID(), xi.reaction.GUARDED)
                 else
