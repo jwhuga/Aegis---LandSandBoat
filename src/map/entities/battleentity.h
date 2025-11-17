@@ -374,40 +374,6 @@ enum IMMUNITY : uint32
 };
 DECLARE_FORMAT_AS_UNDERLYING(IMMUNITY);
 
-struct apAction_t
-{
-    CBattleEntity* ActionTarget;     // 32 bits
-    REACTION       reaction;         //  5 bits
-    uint16         animation;        // 12 bits
-    SPECEFFECT     speceffect;       // 7 bits
-    uint8          knockback;        // 3 bits
-    int32          param;            // 17 bits
-    uint16         messageID;        // 10 bits
-    SUBEFFECT      additionalEffect; // 10 bits
-    int32          addEffectParam;   // 17 bits
-    uint16         addEffectMessage; // 10 bits
-    SUBEFFECT      spikesEffect;     // 10 bits
-    uint16         spikesParam;      // 14 bits
-    uint16         spikesMessage;    // 10 bits
-
-    apAction_t()
-    : ActionTarget(nullptr)
-    , reaction(REACTION::NONE)
-    , animation(0)
-    , speceffect(SPECEFFECT::NONE)
-    , knockback(0)
-    , param(0)
-    , messageID(0)
-    , additionalEffect(SUBEFFECT_NONE)
-    , addEffectParam(0)
-    , addEffectMessage(0)
-    , spikesEffect(SUBEFFECT_NONE)
-    , spikesParam(0)
-    , spikesMessage(0)
-    {
-    }
-};
-
 struct health_t
 {
     int16 tp;
@@ -421,7 +387,6 @@ struct battlehistory_t
     ATTACK_TYPE lastHitTaken_atkType;
 };
 
-typedef std::vector<apAction_t> ActionList_t;
 class CModifier;
 class CParty;
 class CStatusEffectContainer;
@@ -662,8 +627,6 @@ public:
     TraitList_t TraitList;
 
     EntityID_t m_OwnerID{}; // ID of the attacking entity (after death will store the ID of the entity that dealt the final blow)
-
-    ActionList_t m_ActionList{}; // List of actions performed in one attack (you will need to write a structure that includes an ActionList in which there will be categories, animations, etc.)
 
     CParty*           PParty;
     CBattleEntity*    PPet;
