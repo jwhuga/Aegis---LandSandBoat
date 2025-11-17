@@ -7,7 +7,7 @@ local packets =
     {
         test = function(player, mob)
             stub('xi.mobskills.mobPhysicalMove', { dmg = 1, hitslanded = 1, isCritical = false })
-            local pmob = player.entities:moveTo(17293345)
+            local pmob = player.entities:moveTo('Giant_Hunter')
             player:changeJob(xi.job.BST)
             player:spawnPet(xi.petId.COLDBLOOD_COMO)
             local pet = player:getPet()
@@ -63,7 +63,7 @@ local packets =
                 target  =
                 {
                     {
-                        m_uID      = 17293345,
+                        m_uID      = ph.IGNORE,
                         result_sum = 1,
                         result     =
                         {
@@ -93,7 +93,7 @@ local packets =
                 target  =
                 {
                     {
-                        m_uID      = 17293345,
+                        m_uID      = ph.IGNORE,
                         result_sum = 1,
                         result     =
                         {

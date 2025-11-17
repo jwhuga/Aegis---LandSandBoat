@@ -161,11 +161,11 @@ describe('BATTLE2', function()
 
                     -- Determine if we expect one packet or multiple
                     local expectedPackets = {}
-                    if caseDefinition.expected.m_uID ~= nil then
-                        -- Single packet (has m_uID at top level)
+                    if caseDefinition.expected[1] == nil then
+                        -- Single packet (no array index [1])
                         expectedPackets = { caseDefinition.expected }
                     else
-                        -- Multiple packets (array of packets)
+                        -- Multiple packets (array with index [1])
                         expectedPackets = caseDefinition.expected
                     end
 

@@ -168,7 +168,7 @@ local packets =
             player:addItem(xi.item.TERPSICHORE_99)
             player:equipItem(xi.item.TERPSICHORE_99, nil, xi.slot.MAIN)
             player:setTP(3000)
-            local mnkMob = player.entities:moveTo(17535124) -- Vanguard Grappler
+            local mnkMob = player.entities:moveTo('Vanguard_Grappler')
             stub('xi.combat.physical.isGuarded', true)
             mnkMob:setMod(xi.mod.ADDITIVE_GUARD, 100)
 
@@ -190,7 +190,7 @@ local packets =
             target  =
             {
                 {
-                    m_uID      = 17535124,
+                    m_uID      = ph.IGNORE,
                     result_sum = 1,
                     result     =
                     {
@@ -220,11 +220,8 @@ local packets =
             player:setMod(xi.mod.ACC, 10000)
             player:addItem(xi.item.MASAMUNE_99)
             player:equipItem(xi.item.MASAMUNE_99, nil, xi.slot.MAIN)
-            stub('math.random', 0)
 
             player.actions:skillchain(mob, xi.weaponskill.TACHI_FUDO, xi.weaponskill.TACHI_FUDO)
-
-            mob:setUnkillable(false)
         end,
 
         expected =

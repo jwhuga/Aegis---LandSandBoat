@@ -7,7 +7,7 @@ local packets =
     {
         test = function(player, mob)
             player:gotoZone(xi.zone.UPPER_DELKFUTTS_TOWER)
-            local bats = player.entities:moveTo(17424476) -- Incubus Bats
+            local bats = player.entities:moveTo('Incubus_Bats')
             bats:addTP(3000)
             bats:useMobAbility(xi.mobSkill.SONIC_BOOM_1, player)
             xi.test.world:tickEntity(bats) -- Tick the AI so the skill gets readied
@@ -15,7 +15,7 @@ local packets =
 
         expected =
         {
-            m_uID   = 17424476,
+            m_uID   = ph.IGNORE,
             trg_sum = 1,
             res_sum = 0,
             cmd_no  = xi.action.category.WEAPONSKILL_START,
@@ -29,11 +29,11 @@ local packets =
                     result     =
                     {
                         {
-                            miss      = 0, -- Retail garbage
-                            kind      = 0, -- Retail garbage
-                            sub_kind  = 0, -- Retail garbage
-                            info      = 0, -- Retail garbage
-                            scale     = 0, -- Retail garbage
+                            miss      = 0,
+                            kind      = 0,
+                            sub_kind  = 0,
+                            info      = 0,
+                            scale     = 0,
                             value     = xi.mobSkill.SONIC_BOOM_1,
                             message   = xi.msg.basic.READIES_SKILL,
                             bit       = 0,
@@ -51,7 +51,7 @@ local packets =
             -- Force the skill to miss
             stub('xi.mobskills.mobStatusEffectMove', xi.msg.basic.SKILL_MISS)
             player:gotoZone(xi.zone.UPPER_DELKFUTTS_TOWER)
-            local bats = player.entities:moveTo(17424476) -- Incubus Bats
+            local bats = player.entities:moveTo('Incubus_Bats') -- Incubus Bats
             bats:addTP(3000)
             bats:useMobAbility(xi.mobSkill.SONIC_BOOM_1, player, 0)
             xi.test.world:tickEntity(bats) -- Tick the AI so the skill gets readied
@@ -59,7 +59,7 @@ local packets =
 
         expected =
         {
-            m_uID   = 17424476,
+            m_uID   = ph.IGNORE,
             trg_sum = 1,
             res_sum = 0,
             cmd_no  = xi.action.category.MOBABILITY_FINISH,
@@ -93,14 +93,14 @@ local packets =
     {
         test = function(player, mob)
             player:gotoZone(xi.zone.DYNAMIS_SAN_DORIA)
-            local thfMob = player.entities:moveTo(17534984) -- Vanguard_Pillager
+            local thfMob = player.entities:moveTo('Vanguard_Pillager')
             thfMob:useMobAbility(xi.jsa.PERFECT_DODGE)
             xi.test.world:tickEntity(thfMob)
         end,
 
         expected =
         {
-            m_uID   = 17534984,
+            m_uID   = ph.IGNORE,
             trg_sum = 1,
             res_sum = 0,
             cmd_no  = xi.action.category.MOBABILITY_FINISH,
@@ -109,7 +109,7 @@ local packets =
             target  =
             {
                 {
-                    m_uID      = 17534984,
+                    m_uID      = ph.IGNORE,
                     result_sum = 1,
                     result     =
                     {
@@ -134,7 +134,7 @@ local packets =
     {
         test = function(player, mob)
             player:gotoZone(xi.zone.DYNAMIS_SAN_DORIA)
-            local thfMob = player.entities:moveTo(17534984) -- Vanguard_Pillager
+            local thfMob = player.entities:moveTo('Vanguard_Pillager')
             thfMob:useMobAbility(xi.mobSkill.HOWL, thfMob, 0)
             xi.test.world:tickEntity(thfMob)
             xi.test.world:skipTime(10)
@@ -143,7 +143,7 @@ local packets =
 
         expected =
         {
-            m_uID   = 17534984,
+            m_uID   = ph.IGNORE,
             trg_sum = ph.IGNORE,
             res_sum = 0,
             cmd_no  = xi.action.category.MOBABILITY_FINISH,
@@ -152,7 +152,7 @@ local packets =
             target  =
             {
                 {
-                    m_uID      = 17534984,
+                    m_uID      = ph.IGNORE,
                     result_sum = 1,
                     result     =
                     {
@@ -197,7 +197,7 @@ local packets =
         test = function(player, mob)
             -- Ruszor always complete their skill, even if no one is in damage range.
             player:gotoZone(xi.zone.BEAUCEDINE_GLACIER_S)
-            local ruszor = player.entities:moveTo(17334316) -- Ruszor
+            local ruszor = player.entities:moveTo('Ruszor')
             ruszor:updateEnmity(player)
             ruszor:useMobAbility(xi.mobSkill.HYDRO_WAVE, player, 6)
             xi.test.world:tickEntity(ruszor)
@@ -210,7 +210,7 @@ local packets =
         expected =
         {
             {
-                m_uID   = 17334316,
+                m_uID   = ph.IGNORE,
                 trg_sum = 1,
                 res_sum = 0,
                 cmd_no  = xi.action.category.WEAPONSKILL_START,
@@ -219,7 +219,7 @@ local packets =
                 target  =
                 {
                     {
-                        m_uID      = 17334316,
+                        m_uID      = ph.IGNORE,
                         result_sum = 1,
                         result     =
                         {
@@ -240,7 +240,7 @@ local packets =
                 },
             },
             {
-                m_uID   = 17334316,
+                m_uID   = ph.IGNORE,
                 trg_sum = 1,
                 res_sum = 0,
                 cmd_no  = xi.action.category.MOBABILITY_FINISH,
@@ -249,7 +249,7 @@ local packets =
                 target  =
                 {
                     {
-                        m_uID      = 17334316,
+                        m_uID      = ph.IGNORE,
                         result_sum = 1,
                         result     =
                         {
@@ -270,7 +270,7 @@ local packets =
                 },
             },
             --             { -- TODO: LSB is not emitting this extra spte packet
-            --                 m_uID   = 17334316,
+            --                 m_uID   = ph.IGNORE,
             --                 trg_sum = 1,
             --                 res_sum = 0,
             --                 cmd_no  = xi.action.category.WEAPONSKILL_START,
@@ -279,7 +279,7 @@ local packets =
             --                 target  =
             --                 {
             --                     {
-            --                         m_uID      = 17334316,
+            --                         m_uID      = ph.IGNORE,
             --                         result_sum = 1,
             --                         result     =
             --                         {
@@ -313,7 +313,7 @@ local packets =
     {
         test = function(player, mob)
             player:gotoZone(xi.zone.DYNAMIS_WINDURST)
-            local yagudo = player.entities:moveTo(17543175) -- Vanguard Chanter
+            local yagudo = player.entities:moveTo('Vanguard_Chanter')
             yagudo:updateEnmity(player)
             yagudo:addTP(3000)
             yagudo:useMobAbility(xi.mobSkill.SWEEP, player, 5, true)
@@ -326,7 +326,7 @@ local packets =
         expected =
         {
             {
-                m_uID   = 17543175,
+                m_uID   = ph.IGNORE,
                 trg_sum = 1,
                 res_sum = 0,
                 cmd_no  = xi.action.category.WEAPONSKILL_START,
@@ -356,7 +356,7 @@ local packets =
                 },
             },
             {
-                m_uID   = 17543175,
+                m_uID   = ph.IGNORE,
                 trg_sum = 1,
                 res_sum = 0,
                 cmd_no  = xi.action.category.MAGIC_FINISH,
@@ -365,7 +365,7 @@ local packets =
                 target  =
                 {
                     {
-                        m_uID      = 17543175,
+                        m_uID      = ph.IGNORE,
                         result_sum = 1,
                         result     =
                         {
@@ -390,7 +390,7 @@ local packets =
     ['Mob dies mid-ready'] =
     {
         test = function(player)
-            local mob = player.entities:moveTo(17293370)
+            local mob = player.entities:moveTo('Clipper')
             mob:useMobAbility(xi.mobSkill.BIG_SCISSORS, player, 10)
             xi.test.world:tickEntity(mob)
             mob:setHP(0)              -- Kill mob while in "ready" state
@@ -399,7 +399,7 @@ local packets =
 
         expected =
         {
-            m_uID   = 17293370,
+            m_uID   = ph.IGNORE,
             trg_sum = 1,
             res_sum = 0,
             cmd_no  = xi.action.category.WEAPONSKILL_START,
@@ -408,7 +408,7 @@ local packets =
             target  =
             {
                 {
-                    m_uID      = 17293370,
+                    m_uID      = ph.IGNORE,
                     result_sum = 1,
                     result     =
                     {
@@ -433,7 +433,7 @@ local packets =
     {
         test = function(player, mob)
             player:gotoZone(xi.zone.BEAUCEDINE_GLACIER_S)
-            local ruszor = player.entities:moveTo(17334314) -- Ruszor
+            local ruszor = player.entities:moveTo('Ruszor')
             ruszor:updateEnmity(player)
             ruszor:useMobAbility(xi.mobSkill.AQUA_BLAST, player, 0)
             xi.test.world:tickEntity(ruszor)
@@ -442,7 +442,7 @@ local packets =
 
         expected =
         {
-            m_uID   = 17334314,
+            m_uID   = ph.IGNORE,
             trg_sum = 1,
             res_sum = 0,
             cmd_no  = xi.action.category.MOBABILITY_FINISH,
