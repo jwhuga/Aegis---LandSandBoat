@@ -954,7 +954,7 @@ xi.weaponskills.takeWeaponskillDamage = function(defender, attacker, wsParams, p
             end
         end
 
-        action:recordDamage(defender, attack.type, math.abs(finaldmg)) -- TODO: Critical bit?
+        action:recordDamage(defender, attack.type, math.abs(finaldmg), wsResults.criticalHit)
     elseif wsResults.shadowsAbsorbed > 0 then
         action:messageID(defender:getID(), xi.msg.basic.SHADOW_ABSORB)
         action:param(defender:getID(), wsResults.shadowsAbsorbed)
