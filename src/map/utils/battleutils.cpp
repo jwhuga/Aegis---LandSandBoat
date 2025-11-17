@@ -3505,32 +3505,32 @@ bool IsIntimidated(CBattleEntity* PAttacker, CBattleEntity* PDefender)
  ************************************************************************/
 #define PAIR(x, y) (((x) << 8) + (y))
 
-uint8 GetSkillchainSubeffect(SKILLCHAIN_ELEMENT skillchain)
+auto GetSkillchainSubeffect(const SKILLCHAIN_ELEMENT skillchain) -> ActionProcSkillChain
 {
     if (skillchain < SC_NONE || skillchain > SC_DARKNESS_II)
     {
         ShowWarning("battleutils::GetSkillchainSubeffect() - Invalid Element passed to function.");
-        return 0;
+        return ActionProcSkillChain::None;
     }
 
-    static const uint8 effects[] = {
-        SUBEFFECT_NONE,          // SC_NONE
-        SUBEFFECT_TRANSFIXION,   // SC_TRANSFIXION
-        SUBEFFECT_COMPRESSION,   // SC_COMPRESSION
-        SUBEFFECT_LIQUEFACATION, // SC_LIQUEFACTION
-        SUBEFFECT_SCISSION,      // SC_SCISSION
-        SUBEFFECT_REVERBERATION, // SC_REVERBERATION
-        SUBEFFECT_DETONATION,    // SC_DETONATION
-        SUBEFFECT_INDURATION,    // SC_INDURATION
-        SUBEFFECT_IMPACTION,     // SC_IMPACTION
-        SUBEFFECT_GRAVITATION,   // SC_GRAVITATION
-        SUBEFFECT_DISTORTION,    // SC_DISTORTION
-        SUBEFFECT_FUSION,        // SC_FUSION
-        SUBEFFECT_FRAGMENTATION, // SC_FRAGMENTATION
-        SUBEFFECT_LIGHT,         // SC_LIGHT
-        SUBEFFECT_DARKNESS,      // SC_DARKNESS
-        SUBEFFECT_LIGHT,         // SC_LIGHT_II
-        SUBEFFECT_DARKNESS,      // SC_DARKNESS_II
+    static constexpr ActionProcSkillChain effects[] = {
+        ActionProcSkillChain::None,          // SC_NONE
+        ActionProcSkillChain::Transfixion,   // SC_TRANSFIXION
+        ActionProcSkillChain::Compression,   // SC_COMPRESSION
+        ActionProcSkillChain::Liquefaction,  // SC_LIQUEFACTION
+        ActionProcSkillChain::Scission,      // SC_SCISSION
+        ActionProcSkillChain::Reverberation, // SC_REVERBERATION
+        ActionProcSkillChain::Detonation,    // SC_DETONATION
+        ActionProcSkillChain::Induration,    // SC_INDURATION
+        ActionProcSkillChain::Impaction,     // SC_IMPACTION
+        ActionProcSkillChain::Gravitation,   // SC_GRAVITATION
+        ActionProcSkillChain::Distortion,    // SC_DISTORTION
+        ActionProcSkillChain::Fusion,        // SC_FUSION
+        ActionProcSkillChain::Fragmentation, // SC_FRAGMENTATION
+        ActionProcSkillChain::Light,         // SC_LIGHT
+        ActionProcSkillChain::Darkness,      // SC_DARKNESS
+        ActionProcSkillChain::Light,         // SC_LIGHT_II
+        ActionProcSkillChain::Darkness,      // SC_DARKNESS_II
     };
 
     return effects[skillchain];
@@ -3632,115 +3632,113 @@ SKILLCHAIN_ELEMENT FormSkillchain(const std::list<SKILLCHAIN_ELEMENT>& resonance
     return SC_NONE;
 }
 
-SUBEFFECT GetSkillChainEffect(CBattleEntity* PDefender, uint8 primary, uint8 secondary, uint8 tertiary)
+auto GetSkillChainEffect(const CBattleEntity* PDefender, uint8 primary, uint8 secondary, uint8 tertiary) -> ActionProcSkillChain
 {
     CStatusEffect*     PSCEffect           = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
     CStatusEffect*     PCBEffect           = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_CHAINBOUND, 0);
     SKILLCHAIN_ELEMENT skillchain          = SC_NONE;
-    auto               combined_properties = primary | (secondary << 4) | (tertiary << 8);
+    const auto         combined_properties = primary | (secondary << 4) | (tertiary << 8);
 
     if (PSCEffect == nullptr && PCBEffect == nullptr)
     {
         // No effect exists, apply an effect using the weaponskill ID as the power with a tier of 0.
         PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SKILLCHAIN, 0, combined_properties, 0s, 10s, 0, 0, 0));
-        return SUBEFFECT_NONE;
+        return ActionProcSkillChain::None;
     }
-    else
+
+    std::list<SKILLCHAIN_ELEMENT>       resonanceProperties;
+    const std::list<SKILLCHAIN_ELEMENT> skillProperties = { static_cast<SKILLCHAIN_ELEMENT>(primary), static_cast<SKILLCHAIN_ELEMENT>(secondary), static_cast<SKILLCHAIN_ELEMENT>(tertiary) };
+
+    // Chainbound active on target
+    if (PCBEffect)
     {
-        std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
-        std::list<SKILLCHAIN_ELEMENT> skillProperties = { (SKILLCHAIN_ELEMENT)primary, (SKILLCHAIN_ELEMENT)secondary, (SKILLCHAIN_ELEMENT)tertiary };
-
-        // Chainbound active on target
-        if (PCBEffect)
+        if (PCBEffect->GetStartTime() + 2s < timer::now())
         {
-            if (PCBEffect->GetStartTime() + 2s < timer::now())
+            // Konzen-Ittai
+            if (PCBEffect->GetPower() > 1)
             {
-                // Konzen-Ittai
-                if (PCBEffect->GetPower() > 1)
-                {
-                    resonanceProperties.emplace_back(SC_LIGHT);
-                    resonanceProperties.emplace_back(SC_DARKNESS);
-                    resonanceProperties.emplace_back(SC_GRAVITATION);
-                    resonanceProperties.emplace_back(SC_FRAGMENTATION);
-                    resonanceProperties.emplace_back(SC_DISTORTION);
-                    resonanceProperties.emplace_back(SC_FUSION);
-                }
-                resonanceProperties.emplace_back(SC_LIQUEFACTION);
-                resonanceProperties.emplace_back(SC_INDURATION);
-                resonanceProperties.emplace_back(SC_REVERBERATION);
-                resonanceProperties.emplace_back(SC_IMPACTION);
-                resonanceProperties.emplace_back(SC_COMPRESSION);
-
-                skillchain = FormSkillchain(resonanceProperties, skillProperties);
+                resonanceProperties.emplace_back(SC_LIGHT);
+                resonanceProperties.emplace_back(SC_DARKNESS);
+                resonanceProperties.emplace_back(SC_GRAVITATION);
+                resonanceProperties.emplace_back(SC_FRAGMENTATION);
+                resonanceProperties.emplace_back(SC_DISTORTION);
+                resonanceProperties.emplace_back(SC_FUSION);
             }
-            PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SKILLCHAIN, 0, combined_properties, 0s, 10s, 0, 0, 0));
-            PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_CHAINBOUND);
-            PSCEffect = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
+            resonanceProperties.emplace_back(SC_LIQUEFACTION);
+            resonanceProperties.emplace_back(SC_INDURATION);
+            resonanceProperties.emplace_back(SC_REVERBERATION);
+            resonanceProperties.emplace_back(SC_IMPACTION);
+            resonanceProperties.emplace_back(SC_COMPRESSION);
+
+            skillchain = FormSkillchain(resonanceProperties, skillProperties);
         }
-        // Previous effect exists
-        else if (PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now())
-        {
-            if (PSCEffect->GetTier() == 0)
-            {
-                if (!PSCEffect->GetPower())
-                {
-                    ShowWarning("PSCEffect Power was 0.");
-                    return SUBEFFECT_NONE;
-                }
-
-                // Previous effect is an opening effect, meaning the power is
-                // actually the ID of the opening weaponskill.  We need all 3
-                // of the possible skillchain properties on the initial link.
-                auto properties = PSCEffect->GetPower();
-                resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)(properties & 0b1111));
-                resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)((properties >> 4) & 0b1111));
-                resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)((properties >> 8) & 0b1111));
-                skillchain = FormSkillchain(resonanceProperties, skillProperties);
-            }
-            else
-            {
-                // Previous effect is not an opening effect, meaning the power is
-                // The skill chain ID resonating.
-                resonanceProperties.emplace_back((SKILLCHAIN_ELEMENT)PSCEffect->GetPower());
-                skillchain = FormSkillchain(resonanceProperties, skillProperties);
-            }
-        }
-
-        Mod resistanceRankMods[] = { Mod::FIRE_RES_RANK, Mod::ICE_RES_RANK, Mod::WIND_RES_RANK, Mod::EARTH_RES_RANK, Mod::THUNDER_RES_RANK, Mod::ICE_RES_RANK, Mod::LIGHT_RES_RANK, Mod::DARK_RES_RANK };
-
-        // Reset the effects resistance rank mods
-        for (auto& resistanceRank : resistanceRankMods)
-        {
-            PSCEffect->setMod(resistanceRank, 0);
-        }
-
-        if (skillchain != SC_NONE)
-        {
-            PSCEffect->SetStartTime(timer::now());
-            PSCEffect->SetDuration(PSCEffect->GetDuration() - 1s);
-            PSCEffect->SetTier(GetSkillchainTier(skillchain));
-            PSCEffect->SetPower(skillchain);
-            PSCEffect->SetSubPower(std::min(PSCEffect->GetSubPower() + 1, 5)); // Linked, limited to 5
-
-            // Set new resistance rank modifiers
-            // https://www.bg-wiki.com/ffxi/Resist#Modifying_Resistance_Rank
-            for (auto& element : GetSkillchainMagicElement(skillchain))
-            {
-                Mod resistanceRankMod = GetResistanceRankModFromElement(element);
-                PSCEffect->setMod(resistanceRankMod, -1);
-            }
-
-            return (SUBEFFECT)GetSkillchainSubeffect(skillchain);
-        }
-
-        PSCEffect->SetStartTime(timer::now());
-        PSCEffect->SetDuration(10s);
-        PSCEffect->SetTier(0);
-        PSCEffect->SetPower(combined_properties);
-        PSCEffect->SetSubPower(0);
-
-        return SUBEFFECT_NONE;
+        PDefender->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_SKILLCHAIN, 0, combined_properties, 0s, 10s, 0, 0, 0));
+        PDefender->StatusEffectContainer->DelStatusEffect(EFFECT_CHAINBOUND);
+        PSCEffect = PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
     }
+    // Previous effect exists
+    else if (PSCEffect && PSCEffect->GetStartTime() + 3s < timer::now())
+    {
+        if (PSCEffect->GetTier() == 0)
+        {
+            if (!PSCEffect->GetPower())
+            {
+                ShowWarning("PSCEffect Power was 0.");
+                return ActionProcSkillChain::None;
+            }
+
+            // Previous effect is an opening effect, meaning the power is
+            // actually the ID of the opening weaponskill.  We need all 3
+            // of the possible skillchain properties on the initial link.
+            const auto properties = PSCEffect->GetPower();
+            resonanceProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>(properties & 0b1111));
+            resonanceProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>((properties >> 4) & 0b1111));
+            resonanceProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>((properties >> 8) & 0b1111));
+            skillchain = FormSkillchain(resonanceProperties, skillProperties);
+        }
+        else
+        {
+            // Previous effect is not an opening effect, meaning the power is
+            // The skill chain ID resonating.
+            resonanceProperties.emplace_back(static_cast<SKILLCHAIN_ELEMENT>(PSCEffect->GetPower()));
+            skillchain = FormSkillchain(resonanceProperties, skillProperties);
+        }
+    }
+
+    Mod resistanceRankMods[] = { Mod::FIRE_RES_RANK, Mod::ICE_RES_RANK, Mod::WIND_RES_RANK, Mod::EARTH_RES_RANK, Mod::THUNDER_RES_RANK, Mod::ICE_RES_RANK, Mod::LIGHT_RES_RANK, Mod::DARK_RES_RANK };
+
+    // Reset the effects resistance rank mods
+    for (const auto& resistanceRank : resistanceRankMods)
+    {
+        PSCEffect->setMod(resistanceRank, 0);
+    }
+
+    if (skillchain != SC_NONE)
+    {
+        PSCEffect->SetStartTime(timer::now());
+        PSCEffect->SetDuration(PSCEffect->GetDuration() - 1s);
+        PSCEffect->SetTier(GetSkillchainTier(skillchain));
+        PSCEffect->SetPower(skillchain);
+        PSCEffect->SetSubPower(std::min(PSCEffect->GetSubPower() + 1, 5)); // Linked, limited to 5
+
+        // Set new resistance rank modifiers
+        // https://www.bg-wiki.com/ffxi/Resist#Modifying_Resistance_Rank
+        for (auto& element : GetSkillchainMagicElement(skillchain))
+        {
+            const Mod resistanceRankMod = GetResistanceRankModFromElement(element);
+            PSCEffect->setMod(resistanceRankMod, -1);
+        }
+
+        return GetSkillchainSubeffect(skillchain);
+    }
+
+    PSCEffect->SetStartTime(timer::now());
+    PSCEffect->SetDuration(10s);
+    PSCEffect->SetTier(0);
+    PSCEffect->SetPower(combined_properties);
+    PSCEffect->SetSubPower(0);
+
+    return ActionProcSkillChain::None;
 }
 
 // This whole thing need re-evaluated

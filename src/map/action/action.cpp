@@ -25,18 +25,18 @@
 #include "packets/s2c/0x028_battle2.h"
 #include "utils/battleutils.h"
 
-void action_result_t::recordSkillchain(const SUBEFFECT effect, const int16_t dmg)
+void action_result_t::recordSkillchain(const ActionProcSkillChain effect, const int16_t dmg)
 {
     if (dmg < 0)
     {
         // Absorbs damage
         this->addEffectParam   = -dmg;
-        this->addEffectMessage = static_cast<MSGBASIC_ID>(384 + effect);
+        this->addEffectMessage = static_cast<MSGBASIC_ID>(384 + static_cast<uint8_t>(effect));
     }
     else
     {
         this->addEffectParam   = dmg;
-        this->addEffectMessage = static_cast<MSGBASIC_ID>(287 + effect);
+        this->addEffectMessage = static_cast<MSGBASIC_ID>(287 + static_cast<uint8_t>(effect));
     }
 
     this->additionalEffect = effect;

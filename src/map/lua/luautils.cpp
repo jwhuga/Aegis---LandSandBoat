@@ -2430,7 +2430,7 @@ void OnAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
         return;
     }
 
-    Action->additionalEffect = (SUBEFFECT)(result.get_type(0) == sol::type::number ? result.get<int32>(0) : 0);
+    Action->additionalEffect = result.get_type(0) == sol::type::number ? result.get<ActionProcAddEffect>(0) : ActionProcAddEffect::None;
     Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MSGBASIC_ID>(1) : MSGBASIC_NONE;
     Action->addEffectParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 }
@@ -2486,7 +2486,7 @@ int32 additionalEffectAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender,
         return -1;
     }
 
-    Action->additionalEffect = (SUBEFFECT)(result.get_type(0) == sol::type::number ? result.get<int32>(0) : 0);
+    Action->additionalEffect = result.get_type(0) == sol::type::number ? result.get<ActionProcAddEffect>(0) : ActionProcAddEffect::None;
     Action->addEffectMessage = result.get_type(1) == sol::type::number ? result.get<MSGBASIC_ID>(1) : MSGBASIC_NONE;
     Action->addEffectParam   = result.get_type(2) == sol::type::number ? result.get<int32>(2) : 0;
 

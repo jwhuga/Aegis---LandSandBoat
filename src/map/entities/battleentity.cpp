@@ -2395,21 +2395,10 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
             if (first && PTargetFound->health.hp > 0 && PSkill->getPrimarySkillchain() != 0)
             {
-                SUBEFFECT effect = battleutils::GetSkillChainEffect(PTargetFound, PSkill->getPrimarySkillchain(), PSkill->getSecondarySkillchain(), PSkill->getTertiarySkillchain());
-                if (effect != SUBEFFECT_NONE)
+                const auto effect = battleutils::GetSkillChainEffect(PTargetFound, PSkill->getPrimarySkillchain(), PSkill->getSecondarySkillchain(), PSkill->getTertiarySkillchain());
+                if (effect != ActionProcSkillChain::None)
                 {
-                    int32 skillChainDamage = battleutils::TakeSkillchainDamage(this, PTargetFound, target.param, nullptr);
-                    if (skillChainDamage < 0)
-                    {
-                        target.addEffectParam   = -skillChainDamage;
-                        target.addEffectMessage = 384 + effect;
-                    }
-                    else
-                    {
-                        target.addEffectParam   = skillChainDamage;
-                        target.addEffectMessage = 287 + effect;
-                    }
-                    target.additionalEffect = effect;
+                    result.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PTargetFound, result.param, nullptr));
                 }
 
                 first = false;

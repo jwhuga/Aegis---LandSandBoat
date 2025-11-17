@@ -553,24 +553,14 @@ void CTrustEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& act
                     {
                         // NOTE: GetSkillChainEffect is INSIDE this if statement because it
                         //  ALTERS the state of the resonance, which misses and non-elemental skills should NOT do.
-                        SUBEFFECT effect = battleutils::GetSkillChainEffect(
+                        const auto effect = battleutils::GetSkillChainEffect(
                             PBattleTarget,
                             PWeaponSkill->getPrimarySkillchain(),
                             PWeaponSkill->getSecondarySkillchain(),
                             PWeaponSkill->getTertiarySkillchain());
-                        if (effect != SUBEFFECT_NONE)
+                        if (effect != ActionProcSkillChain::None)
                         {
-                            actionTarget.addEffectParam = battleutils::TakeSkillchainDamage(this, PBattleTarget, damage, taChar);
-                            if (actionTarget.addEffectParam < 0)
-                            {
-                                actionTarget.addEffectParam   = -actionTarget.addEffectParam;
-                                actionTarget.addEffectMessage = 384 + effect;
-                            }
-                            else
-                            {
-                                actionTarget.addEffectMessage = 287 + effect;
-                            }
-                            actionTarget.additionalEffect = effect;
+                            actionResult.recordSkillchain(effect, battleutils::TakeSkillchainDamage(this, PBattleTarget, damage, taChar));
                         }
                     }
                 }
