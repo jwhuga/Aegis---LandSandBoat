@@ -25,6 +25,7 @@
 #include "common/logging.h"
 #include "common/utils.h"
 
+#include "action/action.h"
 #include "battlefield.h"
 #include "battleutils.h"
 #include "grades.h"
@@ -34,7 +35,7 @@
 #include "mob_modifier.h"
 #include "mob_spell_container.h"
 #include "mob_spell_list.h"
-#include "packets/action.h"
+#include "packets/s2c/0x028_battle2.h"
 #include "status_effect_container.h"
 #include "trait.h"
 #include "zone_entities.h"
@@ -2000,15 +2001,24 @@ void WeaknessTrigger(CBaseEntity* PTarget, WeaknessType level)
             animationID = ActionAnimation::WhiteTrigger;
             break;
     }
-    action_t action;
-    action.actiontype      = ACTION_MOBABILITY_FINISH;
-    action.id              = PTarget->id;
-    actionList_t& list     = action.getNewActionList();
-    list.ActionTargetID    = PTarget->id;
-    actionTarget_t& target = list.getNewActionTarget();
-    target.animation       = animationID;
-    target.param           = 2582;
-    PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE, std::make_unique<CActionPacket>(action));
+    // TODO: Weakness Triggers are actually MAGIC_SCHEDULOR + Terror flag...
+    action_t action{
+        .actorId    = PTarget->id,
+        .actiontype = ActionCategory::MobSkillFinish,
+        .targets    = {
+            {
+                   .actorId = PTarget->id,
+                   .results = {
+                    {
+                           .animation = animationID,
+                           .param     = 2582,
+                    },
+                },
+            },
+        },
+    };
+
+    PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
 }
 
 }; // namespace mobutils

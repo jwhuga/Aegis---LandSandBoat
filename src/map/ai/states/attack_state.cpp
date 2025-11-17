@@ -21,6 +21,7 @@
 
 #include "attack_state.h"
 
+#include "action/action.h"
 #include "entities/battleentity.h"
 
 #include "ai/ai_container.h"

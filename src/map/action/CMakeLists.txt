@@ -1,0 +1,5 @@
+set(ACTION_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/action.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/action.cpp
+    PARENT_SCOPE
+)

@@ -41,6 +41,7 @@
 #include "common/utils.h"
 #include "petentity.h"
 
+#include "action/action.h"
 #include "packets/s2c/0x029_battle_message.h"
 
 CPetEntity::CPetEntity(PET_TYPE petType)
@@ -315,33 +316,33 @@ void CPetEntity::OnAbility(CAbilityState& state, action_t& action)
             return;
         }
 
-        action.id                    = this->id;
-        action.actiontype            = PAbility->getActionType();
-        action.actionid              = PAbility->getID();
-        actionList_t& actionList     = action.getNewActionList();
-        actionList.ActionTargetID    = PTarget->id;
-        actionTarget_t& actionTarget = actionList.getNewActionTarget();
-        actionTarget.reaction        = REACTION::NONE;
-        actionTarget.speceffect      = SPECEFFECT::RECOIL;
-        actionTarget.animation       = PAbility->getAnimationID();
-        actionTarget.param           = 0;
-        auto prevMsg                 = actionTarget.messageID;
+        action.actorId                = this->id;
+        action.actiontype             = PAbility->getActionType();
+        action.actionid               = PAbility->getID();
+        action_target_t& actionTarget = action.getNewTarget(PTarget->id);
+        action_result_t& actionResult = actionTarget.getNewResult();
+        actionResult.resolution       = ActionResolution::Hit;
+        actionResult.animation        = PAbility->getAnimationID();
+        actionResult.param            = 0;
+        auto prevMsg                  = actionResult.messageID;
 
         int32 value = luautils::OnUseAbility(this, PTarget, PAbility, &action);
-        if (prevMsg == actionTarget.messageID)
+        if (prevMsg == actionResult.messageID)
         {
-            actionTarget.messageID = PAbility->getMessage();
+            actionResult.messageID = PAbility->getMessage();
         }
-        if (actionTarget.messageID == 0)
+
+        if (actionResult.messageID == 0)
         {
-            actionTarget.messageID = MSGBASIC_USES_JA;
+            actionResult.messageID = MSGBASIC_USES_JA;
         }
-        actionTarget.param = value;
+
+        actionResult.param = value;
 
         if (value < 0)
         {
-            actionTarget.messageID = ability::GetAbsorbMessage(static_cast<MSGBASIC_ID>(actionTarget.messageID));
-            actionTarget.param     = -value;
+            actionResult.messageID = ability::GetAbsorbMessage(actionResult.messageID);
+            actionResult.param     = -value;
         }
     }
     else // Can't target anything, just cancel the animation.
@@ -429,8 +430,8 @@ void CPetEntity::OnPetSkillFinished(CPetSkillState& state, action_t& action)
         findFlags |= FINDFLAGS_DEAD;
     }
 
-    action.id         = id;
-    action.actiontype = (ACTIONTYPE)PSkill->getSkillFinishCategory();
+    action.actorId    = id;
+    action.actiontype = PSkill->getSkillFinishCategory();
     if (PSkill->getMobSkillID() > 0)
     {
         // jug pet skills emulate mob skills but still have the same flow as wyvern and smn pet skills
@@ -519,23 +520,16 @@ void CPetEntity::OnPetSkillFinished(CPetSkillState& state, action_t& action)
     bool first{ true };
     for (auto&& PTargetFound : PAI->TargetFind->m_targets)
     {
-        actionList_t& list = action.getNewActionList();
-
-        list.ActionTargetID = PTargetFound->id;
-
-        actionTarget_t& target = list.getNewActionTarget();
-
-        list.ActionTargetID = PTargetFound->id;
-        target.reaction     = REACTION::HIT;
-        target.speceffect   = SPECEFFECT::HIT;
-        target.animation    = PSkill->getAnimationID();
-        target.messageID    = PSkill->getMsg();
+        action_target_t& actionTarget = action.getNewTarget(PTargetFound->id);
+        action_result_t& actionResult = actionTarget.getNewResult();
+        actionTarget.actorId          = PTargetFound->id;
+        actionResult.resolution       = ActionResolution::Hit;
+        actionResult.animation        = PSkill->getAnimationID();
+        actionResult.messageID        = PSkill->getMsg();
 
         // reset the skill's message back to default
         PSkill->setMsg(defaultMessage);
         int32 damage = 0;
-
-        target.animation = PSkill->getAnimationID();
 
         /* if (petType == PET_TYPE::AUTOMATON) // TODO: figure out Automaton
         {
@@ -562,28 +556,55 @@ void CPetEntity::OnPetSkillFinished(CPetSkillState& state, action_t& action)
         {
             // TODO: verify this message does/does not vary depending on mob/avatar/automaton use
             //       furthermore, this likely needs to be PSkill->setMsg(MSGBASIC_SKILL_RECOVERS_HP) and happen before the above code
-            msg          = MSGBASIC_SKILL_RECOVERS_HP;
-            target.param = std::clamp(-damage, 0, PTargetFound->GetMaxHP() - PTargetFound->health.hp);
+            msg = MSGBASIC_SKILL_RECOVERS_HP;
+            actionResult.recordDamage(attack_outcome_t{
+                .atkType = ATTACK_TYPE::PHYSICAL,
+                .damage  = std::clamp(-damage, 0, PTargetFound->GetMaxHP() - PTargetFound->health.hp),
+                .target  = PTargetFound,
+            });
+        }
+        else if (damage > 0 && PSkill->isDamageMsg())
+        {
+            // Check if Lua already set the damage via action:damage()
+            // If target.param is still 0, Lua didn't set it, so this is physical damage
+            // that needs scale/crit info set via withPhysicalDamage().
+            //
+            // TEMPORARY: This check exists because not all pet ability scripts have been
+            // migrated to use the correct Lua action binding:
+            //   - Physical attacks should call: action:physicalDamage(target, dmg, isCrit)
+            //   - Magical attacks should call: action:damage(target, dmg)
+            //
+            // Once all scripts are migrated, this entire block can be removed since Lua
+            // will handle setting damage with the appropriate scale/crit info.
+            if (actionResult.param == 0)
+            {
+                actionResult.recordDamage(attack_outcome_t{
+                    .atkType = ATTACK_TYPE::PHYSICAL,
+                    .damage  = damage,
+                    .target  = PTargetFound,
+                });
+            }
         }
         else
         {
-            target.param = damage;
+            // Buffs/debuffs/status effects - just set param directly
+            actionResult.param = damage;
         }
 
-        target.messageID = static_cast<MSGBASIC_ID>(msg);
+        actionResult.messageID = msg;
 
         if (PSkill->hasMissMsg())
         {
-            target.resolution = ActionResolution::Miss;
+            actionResult.resolution = ActionResolution::Miss;
         }
         else
         {
-            target.resolution = ActionResolution::Hit;
+            actionResult.resolution = ActionResolution::Hit;
         }
 
-        if (target.resolution != ActionResolution::Miss && target.resolution != ActionResolution::Parry)
+        if (actionResult.resolution != ActionResolution::Miss && actionResult.resolution != ActionResolution::Parry)
         {
-            target.knockback = PSkill->getKnockback();
+            actionResult.knockback = PSkill->getKnockback();
             if (first && PTargetFound->health.hp > 0 && PSkill->getPrimarySkillchain() != 0)
             {
                 SUBEFFECT effect = battleutils::GetSkillChainEffect(

@@ -1,0 +1,224 @@
+﻿/*
+===========================================================================
+
+  Copyright (c) 2025 LandSandBoat Dev Teams
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see http://www.gnu.org/licenses/
+
+===========================================================================
+*/
+
+#pragma once
+
+#include "common/cbasetypes.h"
+#include "entities/battleentity.h"
+#include "enums/action/animation.h"
+#include "enums/action/category.h"
+#include "enums/action/hit_distortion.h"
+#include "enums/action/info.h"
+#include "enums/action/knockback.h"
+#include "enums/action/modifier.h"
+#include "enums/action/resolution.h"
+#include "enums/four_cc.h"
+#include "spell.h"
+#include "zone.h"
+
+#define MAX_ACTION_TARGETS 64
+
+struct attack_outcome_t
+{
+    ATTACK_TYPE    atkType{ ATTACK_TYPE::PHYSICAL };
+    int32          damage{ 0 };
+    CBattleEntity* target{ nullptr };
+    bool           isCritical{ false };
+};
+
+struct action_result_t
+{
+    ActionResolution resolution{ ActionResolution::Hit };  // result.miss (3 bits)
+    uint8_t          kind{ 0 };                            // result.kind (2 bits)
+    ActionAnimation  animation{ ActionAnimation::None };   // result.sub_kind (12 bits)
+    ActionInfo       info{ ActionInfo::None };             // result.info (5 bits)
+    HitDistortion    hitDistortion{ HitDistortion::None }; // result.scale (2 bits) (shared with knockback)
+    Knockback        knockback{ Knockback::None };         // result.scale (3 bits) (shared with hitDistortion)
+    int32            param{ 0 };                           // result.value - 17 bits
+    MSGBASIC_ID      messageID{ MSGBASIC_NONE };           // result.message - 10 bits
+    ActionModifier   modifier{ ActionModifier::None };     // result.bit - 31 bits
+    SUBEFFECT        additionalEffect{ SUBEFFECT_NONE };   // result.has_proc (1 bit), result.proc_kind (6 bits)
+    uint8_t          addEffectInfo{ 0 };                   // result.proc_info (4 bits)
+    int32            addEffectParam{ 0 };                  // result.proc_value (17 bits)
+    MSGBASIC_ID      addEffectMessage{ MSGBASIC_NONE };    // result.proc_message (10 bits)
+    SUBEFFECT        spikesEffect{ SUBEFFECT_NONE };       // result.has_react (1 bit), result.react_kind (6 bits)
+    uint8_t          spikesInfo{ 0 };                      // result.react_info (4 bits)
+    uint16           spikesParam{ 0 };                     // result.react_value (14 bits)
+    MSGBASIC_ID      spikesMessage{ MSGBASIC_NONE };       // result.react_message (10 bits)
+
+    void recordSkillchain(SUBEFFECT effect, int16_t dmg);
+    auto recordDamage(const attack_outcome_t& outcome) -> action_result_t&;
+};
+
+struct action_target_t
+{
+    uint32                       actorId; // 32 bits
+    std::vector<action_result_t> results;
+
+    auto getNewResult() -> action_result_t&
+    {
+        return *results.emplace(results.end());
+    }
+};
+
+struct action_t
+{
+    uint32                       actorId{ 0 };
+    ActionCategory               actiontype{ ActionCategory::None };
+    uint32                       actionid{ 0 };
+    timer::duration              recast{ 0s };
+    SPELLGROUP                   spellgroup{ SPELLGROUP_NONE };
+    std::vector<action_target_t> targets{};
+
+    auto getNewTarget(const uint32 targetId) -> action_target_t&
+    {
+        return targets.emplace_back(action_target_t{ .actorId = targetId });
+    }
+
+    template <typename Func>
+    void ForEachResult(Func&& func)
+    {
+        for (auto& actionTarget : targets)
+        {
+            std::ranges::for_each(actionTarget.results, std::forward<Func>(func));
+        }
+    }
+
+    template <typename Func>
+    void ForEachTarget(Func&& func)
+    {
+        for (auto& target : targets)
+        {
+            func(target);
+        }
+    }
+
+    void normalize()
+    {
+        // Only MagicFinish emits recast
+        if (actiontype != ActionCategory::MagicFinish)
+        {
+            recast = 0s;
+        }
+
+        switch (actiontype)
+        {
+            case ActionCategory::BasicAttack:
+            {
+                this->actionid = static_cast<uint32_t>(FourCC::BasicAttack);
+
+                // result.kind is always 1
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 1;
+                              });
+                break;
+            }
+            case ActionCategory::RangedFinish:
+            {
+                // result.kind is always 2
+                // Note: XiPackets claim this is always 1
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 2;
+                              });
+                break;
+            }
+            case ActionCategory::SkillFinish:
+            {
+                // result.kind is always 3
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 3;
+                              });
+                break;
+            }
+            case ActionCategory::ItemFinish:
+            {
+                // result.kind is always 1
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 1;
+                              });
+                break;
+            }
+            case ActionCategory::AbilityFinish:
+            {
+                // result.kind is always 2
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 2;
+                              });
+                break;
+            }
+            case ActionCategory::MagicStart:
+            case ActionCategory::MagicFinish:
+            case ActionCategory::RangedStart:
+            case ActionCategory::SkillStart:
+            case ActionCategory::ItemStart:
+            case ActionCategory::AbilityStart:
+            {
+                // While retail will show varied values in 'kind',
+                // they don't appear to be used by the client and are not consistently set
+                // indicating they may just be uncleared buffers leftovers.
+                break;
+            }
+            case ActionCategory::MobSkillFinish:
+            {
+                // XiPackets claim this is 2 for trusts, 3 for mobs
+                // But captures only show 3 for either.
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 3;
+                              });
+                break;
+            }
+            case ActionCategory::PetSkillFinish:
+            {
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 3;
+                              });
+                break;
+            }
+            case ActionCategory::Dancer:
+            {
+                // result.kind is always 2
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 2;
+                              });
+                break;
+            }
+            case ActionCategory::RuneFencer:
+            {
+                // result.kind is always 3
+                ForEachResult([](action_result_t& result)
+                              {
+                                  result.kind = 3;
+                              });
+                break;
+            }
+            default:
+                break;
+        }
+    }
+};

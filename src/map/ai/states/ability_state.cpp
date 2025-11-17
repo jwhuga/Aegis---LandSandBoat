@@ -22,12 +22,13 @@
 #include "ability_state.h"
 
 #include "ability.h"
+#include "action/action.h"
 #include "ai/ai_container.h"
 #include "common/utils.h"
 #include "enmity_container.h"
 #include "entities/charentity.h"
 #include "entities/mobentity.h"
-#include "packets/action.h"
+#include "packets/s2c/0x028_battle2.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "recast_container.h"
 #include "status_effect_container.h"
@@ -63,16 +64,23 @@ CAbilityState::CAbilityState(CBattleEntity* PEntity, uint16 targid, uint16 abili
 
     if (m_castTime > 0s && CanUseAbility())
     {
-        action_t action;
-        action.id              = PEntity->id;
-        action.actiontype      = ACTION_WEAPONSKILL_START;
-        auto& list             = action.getNewActionList();
-        list.ActionTargetID    = PTarget->id;
-        auto& actionTarget     = list.getNewActionTarget();
-        actionTarget.reaction  = REACTION::HIT | REACTION::ABILITY; // TODO: not all abilities are HIT + Ability (provoke/chi blast has been observed as only REACTION:ABILITY)
-        actionTarget.animation = 121;
-        actionTarget.messageID = 326;
-        actionTarget.param     = PAbility->getID();
+        action_t action{
+            .actorId    = PEntity->id,
+            .actiontype = ActionCategory::AbilityStart,
+            .targets    = {
+                {
+                       .actorId = PTarget->id,
+                       .results = {
+                        {
+                               .animation = ActionAnimation::SkillStart,
+                               .param     = PAbility->getID(),
+                               .messageID = MSGBASIC_READIES_SKILL,
+                        },
+                    },
+                },
+            }
+        };
+
         PEntity->loc.zone->PushPacket(PEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
         m_PEntity->PAI->EventHandler.triggerListener("ABILITY_START", m_PEntity, PAbility);
 
@@ -132,7 +140,7 @@ bool CAbilityState::Update(timer::time_point tick)
     {
         if (CanUseAbility())
         {
-            action_t action;
+            action_t action{};
             m_PEntity->OnAbility(*this, action);
             m_PEntity->PAI->EventHandler.triggerListener("ABILITY_USE", m_PEntity, GetTarget(), m_PAbility.get(), &action);
             m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
@@ -214,17 +222,6 @@ bool CAbilityState::CanUseAbility()
                 return false;
             }
 
-            // TODO: Remove this when all pet abilities are moved to PetSkill system.
-            if (PAbility->getID() >= ABILITY_HEALING_RUBY && !battleutils::GetPetSkill(PAbility->getID()))
-            {
-                // Blood pact MP costs are stored under animation ID
-                if (PChar->health.mp < PAbility->getAnimationID())
-                {
-                    PChar->pushPacket<GP_SERV_COMMAND_BATTLE_MESSAGE>(PChar, PTarget, 0, 0, MSGBASIC_UNABLE_TO_USE_JA);
-                    return false;
-                }
-            }
-
             CBaseEntity* PMsgTarget = PChar;
             int32        errNo      = luautils::OnAbilityCheck(PChar, PTarget, PAbility, &PMsgTarget);
             if (errNo != 0)
@@ -238,7 +235,6 @@ bool CAbilityState::CanUseAbility()
     }
     else
     {
-        bool   tooFarAway      = false;
         bool   cancelAbility   = false;
         bool   hasAmnesia      = m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_AMNESIA);
         bool   hasImpairment   = m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_IMPAIRMENT);
@@ -260,7 +256,6 @@ bool CAbilityState::CanUseAbility()
             if (m_PEntity != PTarget && distance(m_PEntity->loc.p, PTarget->loc.p) > PAbility->getRange())
             {
                 cancelAbility = true;
-                tooFarAway    = true;
             }
         }
 

@@ -35,6 +35,7 @@
 #include "common/utils.h"
 
 #include "ability.h"
+#include "action/action.h"
 #include "alliance.h"
 #include "aman.h"
 #include "battlefield.h"
@@ -98,7 +99,6 @@
 #include "items/item_furnishing.h"
 #include "items/item_linkshell.h"
 
-#include "packets/action.h"
 #include "packets/char_status.h"
 #include "packets/char_sync.h"
 #include "packets/entity_update.h"
@@ -110,6 +110,7 @@
 #include "packets/s2c/0x01f_item_list.h"
 #include "packets/s2c/0x020_item_attr.h"
 #include "packets/s2c/0x027_talknumwork2.h"
+#include "packets/s2c/0x028_battle2.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "packets/s2c/0x02a_talknumwork.h"
 #include "packets/s2c/0x02d_battle_message2.h"
@@ -913,22 +914,27 @@ void CLuaBaseEntity::injectActionPacket(const uint32 inTargetID, uint16 inCatego
     auto reaction   = static_cast<ActionResolution>(inReaction);
     auto actiontype = static_cast<ActionCategory>(inCategory);
 
-    action_t Action;
+    action_t Action{
+        .actorId    = m_PBaseEntity->id,
+        .actiontype = actiontype,
+        .actionid   = inActionParam,
+        .targets    = {
+            {
+                   .actorId = inTargetID,
+                   .results = {
+                    {
+                           .resolution = reaction,
+                           .animation  = static_cast<ActionAnimation>(inAnimationID),
+                           .info       = info,
+                           .param      = inParam,
+                           .messageID  = static_cast<MSGBASIC_ID>(inMessage),
+                    },
+                },
+            },
+        },
+    };
 
-    Action.id       = m_PBaseEntity->id;
-    Action.actionid = inActionParam;
-
-    Action.actiontype      = actiontype;
-    actionList_t& list     = Action.getNewActionList();
-    list.ActionTargetID    = inTargetID;
-    actionTarget_t& target = list.getNewActionTarget();
-    target.animation       = inAnimationID;
-    target.param           = inParam;
-    target.messageID       = inMessage;
-    target.speceffect      = speceffect;
-    target.reaction        = reaction;
-
-    m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<CActionPacket>(Action));
+    m_PBaseEntity->loc.zone->PushPacket(m_PBaseEntity, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(Action));
 }
 
 /************************************************************************
@@ -18538,16 +18544,24 @@ void CLuaBaseEntity::restoreFromChest(CLuaBaseEntity* PLuaBaseEntity, uint32 res
                     break;
             }
 
-            action_t Action;
-            Action.id              = PTarget->id;
-            Action.actiontype      = ACTION_MOBABILITY_FINISH;
-            actionList_t& list     = Action.getNewActionList();
-            list.ActionTargetID    = PChar->id;
-            actionTarget_t& target = list.getNewActionTarget();
-            target.animation       = animationID;
-            target.messageID       = messageID;
-            target.param           = messageParam;
-            PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE, std::make_unique<CActionPacket>(Action));
+            auto Action = action_t{
+                .actorId    = PTarget->id,
+                .actiontype = ActionCategory::MobSkillFinish,
+                .targets    = {
+                    {
+                           .actorId = PChar->id,
+                           .results = {
+                            {
+                                   .animation = animationID,
+                                   .param     = messageParam,
+                                   .messageID = messageID,
+                            },
+                        },
+                    },
+                },
+            };
+
+            PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE, std::make_unique<GP_SERV_COMMAND_BATTLE2>(Action));
         }
     }
 }

@@ -53,7 +53,6 @@
 
 #include "items/item_puppet.h"
 
-#include "packets/action.h"
 #include "packets/s2c/0x017_chat_std.h"
 #include "packets/s2c/0x05a_motionmes.h"
 #include "packets/s2c/0x0f9_res.h"
@@ -70,6 +69,7 @@
 #include "utils/zoneutils.h"
 
 #include "ability.h"
+#include "action/action.h"
 #include "battlefield.h"
 #include "conquest_system.h"
 #include "daily_system.h"
@@ -2405,7 +2405,7 @@ void OnNpcSpawn(CBaseEntity* PNpc)
 }
 
 // Used by mobs
-void OnAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage)
+void OnAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, int32 damage)
 {
     TracyZoneScoped;
 
@@ -2436,7 +2436,7 @@ void OnAdditionalEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
 }
 
 // Used by mobs
-void OnSpikesDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, actionTarget_t* Action, int32 damage)
+void OnSpikesDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, action_result_t* Action, int32 damage)
 {
     TracyZoneScoped;
 
@@ -2463,7 +2463,7 @@ void OnSpikesDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, actionTa
 }
 
 // Used by items
-int32 additionalEffectAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, CItemWeapon* PItem, actionTarget_t* Action, int32 baseAttackDamage)
+int32 additionalEffectAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender, CItemWeapon* PItem, action_result_t* Action, int32 baseAttackDamage)
 {
     TracyZoneScoped;
 
@@ -2495,7 +2495,7 @@ int32 additionalEffectAttack(CBattleEntity* PAttacker, CBattleEntity* PDefender,
 
 // NOTE: This is currently unused
 // future use: migrating items to scripts\globals\additional_effects.lua
-void additionalEffectSpikes(CBattleEntity* PDefender, CBattleEntity* PAttacker, CItemEquipment* PItem, actionTarget_t* Action, int32 baseAttackDamage)
+void additionalEffectSpikes(CBattleEntity* PDefender, CBattleEntity* PAttacker, CItemEquipment* PItem, action_result_t* Action, int32 baseAttackDamage)
 {
     TracyZoneScoped;
 

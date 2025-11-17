@@ -36,7 +36,7 @@
 
 #include "lua/luautils.h"
 
-#include "ability.h"
+#include "action/action.h"
 #include "ai/ai_container.h"
 #include "ai/controllers/pet_controller.h"
 #include "ai/controllers/player_charm_controller.h"
@@ -49,6 +49,8 @@
 #include "entities/mobentity.h"
 #include "entities/petentity.h"
 #include "entities/trustentity.h"
+#include "enums/action/hit_distortion.h"
+#include "enums/action/info.h"
 #include "enums/msg_std.h"
 #include "enums/weather.h"
 #include "item_container.h"
@@ -747,7 +749,7 @@ int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender,
  *                                                                       *
  ************************************************************************/
 
-int32 CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint16 damageTaken)
+int32 CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, uint16 damageTaken)
 {
     ELEMENT spikeElement = (ELEMENT)((uint8)GetSpikesDamageType(Action->spikesEffect) - (uint8)DAMAGE_TYPE::ELEMENTAL);
     int32   damage       = Action->spikesParam;
@@ -773,7 +775,7 @@ int32 CalculateSpikeDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, a
     return damage;
 }
 
-bool HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, int32 damage)
+bool HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, int32 damage)
 {
     Action->spikesEffect  = (SUBEFFECT)PDefender->getMod(Mod::SPIKES);
     Action->spikesMessage = MSGBASIC_SPIKES_EFFECT_DMG;
@@ -787,7 +789,7 @@ bool HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
         // Other theories exist but were not proven or reliably tested (I have to assume too many things to even consider JP translations about weapon
         // delay), this at least has data to back it up.
         // https://web.archive.org/web/20141228105335/http://www.bluegartr.com/threads/120193-Retaliation-Testing?s=7a6221e10ffdfaa6a7f5e8f0387f787d&p=4620727&viewfull=1#post4620727
-        Action->reaction     = REACTION::HIT;
+        Action->resolution   = ActionResolution::Hit;
         Action->spikesEffect = SUBEFFECT_COUNTER;
 
         if (battleutils::IsAbsorbByShadow(PAttacker, PDefender)) // Struck a shadow
@@ -824,7 +826,7 @@ bool HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
             dmg                = dmg + bonus;
 
             // TP and stoneskin are handled inside TakePhysicalDamage
-            Action->spikesMessage = 536;
+            Action->spikesMessage = MSGBASIC_RETALIATE_DAMAGE;
             Action->spikesParam =
                 battleutils::TakePhysicalDamage(PDefender, PAttacker, PHYSICAL_ATTACK_TYPE::NORMAL, dmg, false, SLOT_MAIN, 1, nullptr, true, true, true);
         }
@@ -906,14 +908,14 @@ bool HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
                     break;
 
                 case SPIKE_REPRISAL:
-                    if ((Action->reaction & REACTION::BLOCK) == REACTION::BLOCK)
+                    if (Action->resolution == ActionResolution::Block)
                     {
                         PAttacker->takeDamage(spikesDamage, PDefender, ATTACK_TYPE::MAGICAL, DAMAGE_TYPE::LIGHT);
                     }
                     else
                     {
                         // only works on shield blocks
-                        Action->spikesEffect = (SUBEFFECT)0;
+                        Action->spikesEffect = static_cast<SUBEFFECT>(0);
                         return false;
                     }
                     break;
@@ -972,7 +974,7 @@ bool HandleSpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, acti
     else if (Action->spikesEffect == 0)
     {
         Action->spikesParam   = 0;
-        Action->spikesMessage = 0;
+        Action->spikesMessage = MSGBASIC_NONE;
     }
     return false;
 }
@@ -1015,7 +1017,7 @@ bool HandleParrySpikesDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender,
     return false;
 }
 
-bool HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, uint8 damage, SUBEFFECT spikesType, uint8 chance)
+bool HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, uint8 damage, SUBEFFECT spikesType, uint8 chance)
 {
     int lvlDiff = std::clamp((PDefender->GetMLevel() - PAttacker->GetMLevel()), -5, 5) * 2;
 
@@ -1069,12 +1071,13 @@ bool HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, actio
         // However, it wasn't worth the effort when the whole thing is going to be eventually burned down to make way for fully scripted spikes
         Action->spikesEffect  = SUBEFFECT_NONE;
         Action->spikesParam   = 0;
-        Action->spikesMessage = 0;
+        Action->spikesMessage = MSGBASIC_NONE;
     }
 
     return false;
 }
 
+void HandleSpikesStatusEffect(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action)
 {
     int lvlDiff = 0;
     if (PDefender)
@@ -1119,7 +1122,7 @@ bool HandleSpikesEquip(CBattleEntity* PAttacker, CBattleEntity* PDefender, actio
  *                                                                       *
  ************************************************************************/
 
-void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTarget_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 finaldamage, CAttack& attack)
+void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_result_t* Action, bool isFirstSwing, CItemWeapon* weapon, int32 finaldamage, CAttack& attack)
 {
     CCharEntity* PChar = nullptr;
 
@@ -1190,7 +1193,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
                         PMob->m_THLvl++;
 
                         Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE; // Looks like enlight, and is reflected in the capture
-                        Action->addEffectMessage = static_cast<uint16>(MsgStd::TreasureHunterProc);
+                        Action->addEffectMessage = static_cast<MSGBASIC_ID>(MsgStd::TreasureHunterProc);
                         Action->addEffectParam   = PMob->m_THLvl;
                         return;
                     }
@@ -1200,7 +1203,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
     }
 
     Action->additionalEffect = SUBEFFECT_NONE;
-    Action->addEffectMessage = 0;
+    Action->addEffectMessage = MSGBASIC_NONE;
     Action->addEffectParam   = 0;
 
     EFFECT previous_daze       = EFFECT_NONE;
@@ -1288,7 +1291,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
         if (enspell == ENSPELL_BLOOD_WEAPON && PDefender->m_EcoSystem != ECOSYSTEM::UNDEAD)
         {
             Action->additionalEffect = SUBEFFECT_HP_DRAIN;
-            Action->addEffectMessage = 161;
+            Action->addEffectMessage = MSGBASIC_ADD_EFFECT_HP_DRAINED;
 
             // Increase HP Absorbed by 2% per JP
             int32 absorbed = Action->param;
@@ -1332,11 +1335,10 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
             if (Action->addEffectParam < 0)
             {
                 Action->addEffectParam   = -Action->addEffectParam;
-                Action->addEffectMessage = 384;
+                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_RECOVERS_HP;
             }
             else
             {
-                Action->addEffectMessage = 229;
                 Action->addEffectMessage = MSGBASIC_ADD_EFFECT_ADDITIONAL_DAMAGE;
             }
 
@@ -1345,12 +1347,13 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
         else if (enspell == ENSPELL_AUSPICE && isFirstSwing)
         {
             Action->additionalEffect = SUBEFFECT_LIGHT_DAMAGE;
-            Action->addEffectMessage = 229;
+            Action->addEffectMessage = MSGBASIC_ADD_EFFECT_ADDITIONAL_DAMAGE;
             Action->addEffectParam   = CalculateEnspellDamage(PAttacker, PDefender, 2, 7, weapon);
 
             if (Action->addEffectParam < 0)
             {
                 Action->addEffectParam   = -Action->addEffectParam;
+                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_RECOVERS_HP;
             }
 
             PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_TYPE::MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
@@ -1396,9 +1399,9 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
     else if (PAttacker->objtype == TYPE_PC && battleutils::GetScaledItemModifier(PAttacker, weapon, Mod::ITEM_ADDEFFECT_TYPE) > 0 &&
              luautils::additionalEffectAttack(PAttacker, PDefender, weapon, Action, finaldamage) == 0 && Action->additionalEffect)
     {
-        if (Action->addEffectMessage == 163 && Action->addEffectParam < 0)
+        if (Action->addEffectMessage == MSGBASIC_ADD_EFFECT_DAMAGE && Action->addEffectParam < 0)
         {
-            Action->addEffectMessage = 384; // TODO: enums instead of raw IDs
+            Action->addEffectMessage = MSGBASIC_ADD_EFFECT_RECOVERS_HP;
         }
     }
     // check script for grip if main failed
@@ -1408,16 +1411,17 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
              luautils::additionalEffectAttack(PAttacker, PDefender, static_cast<CItemWeapon*>(static_cast<CCharEntity*>(PAttacker)->getEquip(SLOT_SUB)), Action, finaldamage) == 0 &&
              Action->additionalEffect)
     {
-        if (Action->addEffectMessage == 163 && Action->addEffectParam < 0)
+        if (Action->addEffectMessage == MSGBASIC_ADD_EFFECT_DAMAGE && Action->addEffectParam < 0)
         {
-            Action->addEffectMessage = 384;
+            Action->addEffectMessage = MSGBASIC_ADD_EFFECT_RECOVERS_HP;
         }
     }
     else if (PAttacker->objtype == TYPE_MOB && ((CMobEntity*)PAttacker)->getMobMod(MOBMOD_ADD_EFFECT) > 0)
     {
         luautils::OnAdditionalEffect(PAttacker, PDefender, Action, finaldamage);
+        if (Action->addEffectMessage == MSGBASIC_ADD_EFFECT_DAMAGE && Action->addEffectParam < 0)
         {
-            Action->addEffectMessage = 384;
+            Action->addEffectMessage = MSGBASIC_ADD_EFFECT_RECOVERS_HP;
         }
     }
     else
@@ -1518,7 +1522,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
                 }
 
                 Action->additionalEffect = SUBEFFECT_HP_DRAIN;
-                Action->addEffectMessage = 161;
+                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_HP_DRAINED;
                 Action->addEffectParam   = Samba;
 
                 PAttacker->addHP(Samba); // does not do any additional damage to targets HP, only heals the attacker
@@ -1547,7 +1551,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
                 }
 
                 Action->additionalEffect = SUBEFFECT_MP_DRAIN;
-                Action->addEffectMessage = 162;
+                Action->addEffectMessage = MSGBASIC_ADD_EFFECT_MP_DRAINED;
 
                 int16 mpDrained = PDefender->addMP(-Samba);
 
@@ -1569,12 +1573,6 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, actionTar
         }
     }
 }
-
-/************************************************************************
- *                                                                       *
- *  Handle Ranged weapon's additional effects (e.g. Bolts)               *
- *                                                                       *
- ************************************************************************/
 
 uint8 GetRangedHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, bool isBarrage, int16 accBonus)
 {
@@ -6920,5 +6918,4 @@ void addEcosystemKillerEffects(CBattleEntity* PBattleEntity)
             break;
     }
 }
-
 }; // namespace battleutils

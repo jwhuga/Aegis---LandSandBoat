@@ -22,11 +22,16 @@
 #ifndef _LUAACTION_H
 #define _LUAACTION_H
 
+#include "ability.h"
 #include "common/cbasetypes.h"
+#include "enums/action/knockback.h"
 #include "luautils.h"
 
+enum class HitDistortion : uint8_t;
+enum class ActionInfo : uint8_t;
+enum class ActionResolution : uint8_t;
 struct action_t;
-struct actionList_t;
+struct action_target_t;
 class CLuaAction
 {
     action_t* m_PLuaAction;
@@ -56,6 +61,10 @@ public:
     void   setCategory(uint8 category);
     void   resolution(uint32 actionTargetID, ActionResolution resolution) const;
     void   info(uint32 actionTargetID, ActionInfo info) const;
+    void   hitDistortion(uint32 actionTargetID, HitDistortion distortion) const;
+    void   knockback(uint32 actionTargetID, Knockback knockback) const;
+    void   damage(CLuaBaseEntity* PLuaTarget, int32 damage) const;
+    void   physicalDamage(CLuaBaseEntity* PLuaTarget, int32 damage, bool isCritical) const;
     void   modifier(uint32 actionTargetID, uint8 modifier);
     void   additionalEffect(uint32 actionTargetID, uint16 additionalEffect);
     void   addEffectParam(uint32 actionTargetID, int32 addEffectParam);
