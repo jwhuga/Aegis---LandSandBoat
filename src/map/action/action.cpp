@@ -70,13 +70,13 @@ auto action_result_t::recordDamage(const attack_outcome_t& outcome) -> action_re
                 const uint8_t damageHPP  = PTarget->GetMaxHP() > 0 ? static_cast<uint8_t>((outcome.damage * 100) / PTarget->GetMaxHP()) : 0;
                 auto          distortion = HitDistortion::None;
 
-                // Values below are not quite made up but deserve refinement as the captured ranges appear to vary based on some unknown conditions
-                // This has been observed as 30~37% depending on the mob
-                if (damageHPP > 30)
+                // Values below need to be refined
+                // Lower level mobs appear to use slightly different thresholds
+                if (damageHPP >= 20)
                 {
                     distortion = HitDistortion::Heavy;
                 }
-                else if (damageHPP > 17)
+                else if (damageHPP >= 10)
                 {
                     distortion = HitDistortion::Medium;
                 }
