@@ -900,45 +900,55 @@ xi.spells.damage.calculateAreaOfEffectResistance = function(target, spell)
     return areaOfEffectMultiplier
 end
 
-xi.spells.damage.calculateNukeAbsorbOrNullify = function(target, spellElement)
-    local nukeAbsorbOrNullify = 1
-    local liementFactor       = target:checkLiementAbsorb(xi.damageType.ELEMENTAL + spellElement) -- Check for Liement.
-
+xi.spells.damage.calculateAbsorption = function(target, element, isMagic)
     -- Absobtion by liement.
+    local liementFactor = target:checkLiementAbsorb(xi.damageType.ELEMENTAL + element) -- Check for Liement.
     if liementFactor < 0 then
         return liementFactor
     end
 
-    -- Elemental damage.
-    local absorbElementModValue  = 0
-    local nullifyElementModValue = 0
-
-    if spellElement > xi.element.NONE then
-        absorbElementModValue  = target:getMod(xi.data.element.getElementalAbsorptionModifier(spellElement))
-        nullifyElementModValue = target:getMod(xi.data.element.getElementalNullificationModifier(spellElement))
+    -- Absorb: All damage.
+    if math.random(1, 100) <= target:getMod(xi.mod.ABSORB_DMG_CHANCE) then
+        return -1
     end
 
-    -- Calculate chance for spell absorption.
-    local absorbChance = math.random(1, 100)
-    if
-        absorbChance <= target:getMod(xi.mod.ABSORB_DMG_CHANCE) or -- All damage.
-        absorbChance <= target:getMod(xi.mod.MAGIC_ABSORB) or      -- Magical damage.
-        absorbChance <= absorbElementModValue                      -- Element damage.
-    then
-        nukeAbsorbOrNullify = -1
+    -- Absorb: Magic damage.
+    if isMagic and math.random(1, 100) <= target:getMod(xi.mod.MAGIC_ABSORB) then
+        return -1
     end
 
-    -- Calculate chance for spell nullification.
-    local nullifyChance = math.random(1, 100)
-    if
-        nullifyChance <= target:getMod(xi.mod.NULL_DAMAGE) or         -- All damage.
-        nullifyChance <= target:getMod(xi.mod.NULL_MAGICAL_DAMAGE) or -- Magical damage.
-        nullifyChance <= nullifyElementModValue                       -- Element damage.
-    then
-        nukeAbsorbOrNullify = 0
+    -- Absorb: Element damage.
+    if element > 0 and math.random(1, 100) <= target:getMod(xi.data.element.getElementalAbsorptionModifier(element)) then
+        return-1
     end
 
-    return nukeAbsorbOrNullify
+    -- No absorption.
+    return 1
+end
+
+xi.spells.damage.calculateNullification = function(target, element, isMagic, isbreath)
+    -- Nullify: All damage.
+    if math.random(1, 100) <= target:getMod(xi.mod.NULL_DAMAGE) then
+        return 0
+    end
+
+    -- Nullify: Magic damage.
+    if isMagic and math.random(1, 100) <= target:getMod(xi.mod.NULL_MAGICAL_DAMAGE) then
+        return 0
+    end
+
+    -- Nullify: Breath damage.
+    if isBreath and math.random(1, 100) <= target:getMod(xi.mod.NULL_BREATH_DAMAGE) then
+        return 0
+    end
+
+    -- Nullify: Element damage.
+    if element > 0 and math.random(1, 100) <= target:getMod(xi.data.element.getElementalNullificationModifier(element)) then
+        return 0
+    end
+
+    -- No nullification.
+    return 1
 end
 
 xi.spells.damage.calculateIfMagicBurst = function(target, spellElement, skillchainCount)
@@ -1075,23 +1085,21 @@ xi.spells.damage.useDamageSpell = function(caster, target, spell)
     local statUsed     = pTable[spellId][column.STAT_USED]
     local bonusMacc    = pTable[spellId][column.BONUS_MACC] + cardinalChantBonus(caster, target, xi.direction.SOUTH, spellId, skillType)
 
-    -- Calculate damage absobtion or nullification.
-    local nukeAbsorbOrNullify = xi.spells.damage.calculateNukeAbsorbOrNullify(target, spellElement)
-
     -- Skip everything if we nullify the spell.
-    if nukeAbsorbOrNullify == 0 then
+    if xi.spells.damage.calculateNullification(target, spellElement, true, false) == 0 then
         spell:setMsg(xi.msg.basic.MAGIC_RESIST)
 
         return 0
     end
 
     -- Skip resistances, magic damage adjustment (TMDA), magic burst and nuke-wall if we absorb the spell.
+    local absorb                      = xi.spells.damage.calculateAbsorption(target, spellElement, true)
     local resistTier                  = 1
     local targetMagicDamageAdjustment = 1
     local magicBurst                  = 1
     local magicBurstBonus             = 1
 
-    if nukeAbsorbOrNullify > 0 then
+    if absorb > 0 then
         resistTier                  = xi.combat.magicHitRate.calculateResistRate(caster, target, spellGroup, skillType, 0, spellElement, statUsed, 0, bonusMacc)
         targetMagicDamageAdjustment = xi.spells.damage.calculateTMDA(target, spellElement)
 
@@ -1172,12 +1180,12 @@ xi.spells.damage.useDamageSpell = function(caster, target, spell)
     finalDamage = math.floor(finalDamage * scarletDeliriumMultiplier)
     finalDamage = math.floor(finalDamage * helixMeritMultiplier)
     finalDamage = math.floor(finalDamage * areaOfEffectResistance)
-    finalDamage = math.floor(finalDamage * nukeAbsorbOrNullify)
+    finalDamage = math.floor(finalDamage * absorb)
     finalDamage = math.floor(finalDamage * magicBurst)
     finalDamage = math.floor(finalDamage * magicBurstBonus)
 
     -- Handle "Nuke Wall". It must be handled after all previous calculations, but before clamp.
-    if nukeAbsorbOrNullify > 0 then
+    if absorb > 0 then
         local nukeWallFactor = xi.spells.damage.calculateNukeWallFactor(target, spellElement, finalDamage)
         finalDamage          = math.floor(finalDamage * nukeWallFactor)
     end
