@@ -67,7 +67,8 @@ xi.ability.adjustDamage = function(dmg, attacker, skill, target, skilltype, skil
     elseif skilltype == xi.attackType.MAGICAL then
         local element = utils.clamp(skillparam - 5, xi.element.NONE, xi.element.DARK) -- Transform damage type to element
         dmg = math.floor(dmg * xi.spells.damage.calculateTMDA(target, element))
-        dmg = math.floor(dmg * xi.spells.damage.calculateNukeAbsorbOrNullify(target, element))
+        dmg = math.floor(dmg * xi.spells.damage.calculateAbsorption(target, element, true))
+        dmg = math.floor(dmg * xi.spells.damage.calculateNullification(target, element, true, false))
         dmg = math.floor(target:handleSevereDamage(dmg, false))
     elseif skilltype == xi.attackType.BREATH then
         dmg = target:breathDmgTaken(dmg)

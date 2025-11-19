@@ -284,7 +284,8 @@ local function calculateHybridMagicDamage(tp, physicaldmg, attacker, target, wsP
     magicdmg = math.floor(target:handleSevereDamage(magicdmg, false))
 
     if magicdmg > 0 then
-        magicdmg = math.floor(magicdmg * xi.spells.damage.calculateNukeAbsorbOrNullify(target, wsParams.ele))
+        magicdmg = math.floor(magicdmg * xi.spells.damage.calculateAbsorption(target, wsParams.ele, true))
+        magicdmg = math.floor(magicdmg * xi.spells.damage.calculateNullification(target, wsParams.ele, true, false))
     end
 
     if magicdmg > 0 then -- handle nonzero damage if previous function does not absorb or nullify
@@ -900,7 +901,8 @@ xi.weaponskills.doMagicWeaponskill = function(attacker, target, wsID, wsParams, 
             return dmg
         end
 
-        dmg = dmg * xi.spells.damage.calculateNukeAbsorbOrNullify(target, wsParams.ele)
+        dmg = dmg * xi.spells.damage.calculateAbsorption(target, wsParams.ele, true)
+        dmg = dmg * xi.spells.damage.calculateNullification(target, wsParams.ele, true, false)
 
         if dmg > 0 then
             dmg = dmg - target:getMod(xi.mod.PHALANX)
