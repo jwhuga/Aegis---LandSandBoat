@@ -295,6 +295,8 @@ xi.spells.blue.usePhysicalSpell = function(caster, target, spell, params)
         hitsdone = hitsdone + 1
     end
 
+    finaldmg = math.floor(finaldmg * xi.spells.damage.calculateDamageAdjustment(target, true, false, false, false))
+
     if finaldmg <= 0 then
         spell:setMsg(xi.msg.basic.MAGIC_NO_EFFECT)
     end
@@ -433,7 +435,7 @@ xi.spells.blue.useDrainSpell = function(caster, target, spell, params, damageCap
     end
 
     finalDamage = math.floor(finalDamage * xi.spells.damage.calculateEbullienceMultiplier(caster, spellGroup))
-    finalDamage = math.floor(finalDamage * xi.spells.damage.calculateTMDA(target, spellElement))
+    finalDamage = math.floor(finalDamage * xi.spells.damage.calculateDamageAdjustment(target, false, true, false, false))
     finalDamage = math.floor(finalDamage * xi.settings.main.BLUE_POWER)
 
     -- MP drain
@@ -495,7 +497,7 @@ xi.spells.blue.useBreathSpell = function(caster, target, spell, params)
     local breathSDT                   = 1 + caster:getMod(xi.mod.BREATH_DMG_DEALT) / 100
     local absorb                      = xi.spells.damage.calculateAbsorption(target, spellElement, false)
     local nullify                     = xi.spells.damage.calculateNullification(target, spellElement, false, true)
-    local targetMagicDamageAdjustment = xi.spells.damage.calculateTMDA(target, spellElement)
+    local targetMagicDamageAdjustment = xi.spells.damage.calculateDamageAdjustment(target, false, false, false, true)
     local multipleTargetReduction     = xi.spells.damage.calculateMTDR(spell)
     local elementalStaffBonus         = xi.spells.damage.calculateElementalStaffBonus(caster, spellElement)
     local elementalAffinityBonus      = xi.spells.damage.calculateElementalAffinityBonus(caster, spellElement)
@@ -589,9 +591,6 @@ xi.spells.blue.applySpellDamage = function(caster, target, spell, dmg, params, t
             -- TODO: verify Afflatus/enmity from absorb?
             return dmg
         end
-
-        local targetMagicDamageAdjustment = xi.spells.damage.calculateTMDA(target, spell:getElement())
-        dmg                               = math.floor(dmg * targetMagicDamageAdjustment)
 
         dmg = utils.oneforall(target, dmg)
     end
