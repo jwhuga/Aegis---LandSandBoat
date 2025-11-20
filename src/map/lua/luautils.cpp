@@ -3729,7 +3729,7 @@ std::tuple<int32, uint8, uint8> OnUseWeaponSkill(CBattleEntity* PChar, CBaseEnti
     return std::make_tuple(dmg, tpHitsLanded, extraHitsLanded);
 }
 
-uint16 OnMobWeaponSkillPrepare(CBattleEntity* PMob, CBattleEntity* PTarget)
+uint16 OnMobMobskillChoose(CBattleEntity* PMob, CBattleEntity* PTarget)
 {
     TracyZoneScoped;
 
@@ -3738,17 +3738,17 @@ uint16 OnMobWeaponSkillPrepare(CBattleEntity* PMob, CBattleEntity* PTarget)
         return 0;
     }
 
-    sol::function onMobWeaponSkillPrepare = getEntityCachedFunction(PMob, "onMobWeaponSkillPrepare");
-    if (!onMobWeaponSkillPrepare.valid())
+    sol::function onMobMobskillChoose = getEntityCachedFunction(PMob, "onMobMobskillChoose");
+    if (!onMobMobskillChoose.valid())
     {
         return 0;
     }
 
-    auto result = onMobWeaponSkillPrepare(PMob, PTarget);
+    auto result = onMobMobskillChoose(PMob, PTarget);
     if (!result.valid())
     {
         sol::error err = result;
-        ShowError("luautils::onMobWeaponSkillPrepare: %s", err.what());
+        ShowError("luautils::onMobMobskillChoose: %s", err.what());
         return 0;
     }
 

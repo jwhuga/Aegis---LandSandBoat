@@ -21,7 +21,7 @@ entity.onMobSpellChoose = function(mob, target, spellId)
     return spellList[math.random(1, #spellList)]
 end
 
-entity.onMobWeaponSkillPrepare = function(mob, target)
+entity.onMobMobskillChoose = function(mob, target)
     local skillList =
     {
         xi.mobSkill.HELLDIVE_1,
