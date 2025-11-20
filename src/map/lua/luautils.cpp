@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -2825,7 +2825,7 @@ void OnSpellInterrupted(CBattleEntity* PCaster, CSpell* PSpell)
     }
 }
 
-std::optional<SpellID> OnMobMagicPrepare(CBattleEntity* PCaster, CBattleEntity* PTarget, std::optional<SpellID> startingSpellId)
+std::optional<SpellID> OnMobSpellChoose(CBattleEntity* PCaster, CBattleEntity* PTarget, std::optional<SpellID> startingSpellId)
 {
     TracyZoneScoped;
 
@@ -2834,8 +2834,8 @@ std::optional<SpellID> OnMobMagicPrepare(CBattleEntity* PCaster, CBattleEntity* 
         return {};
     }
 
-    sol::function onMobMagicPrepare = getEntityCachedFunction(PCaster, "onMobMagicPrepare");
-    if (!onMobMagicPrepare.valid())
+    sol::function onMobSpellChoose = getEntityCachedFunction(PCaster, "onMobSpellChoose");
+    if (!onMobSpellChoose.valid())
     {
         return {};
     }
@@ -2846,11 +2846,11 @@ std::optional<SpellID> OnMobMagicPrepare(CBattleEntity* PCaster, CBattleEntity* 
         PSpell = spell::GetSpell(startingSpellId.value());
     }
 
-    auto result = onMobMagicPrepare(PCaster, PTarget, PSpell);
+    auto result = onMobSpellChoose(PCaster, PTarget, PSpell);
     if (!result.valid())
     {
         sol::error err = result;
-        ShowError("luautils::OnMobMagicPrepare: %s", err.what());
+        ShowError("luautils::OnMobSpellChoose: %s", err.what());
         ReportErrorToPlayer(PCaster, err.what());
         return {};
     }

@@ -31,7 +31,7 @@ entity.onMobWeaponSkillPrepare = function(mob, target)
     end
 end
 
-entity.onMobMagicPrepare = function(mob, target, spellId)
+entity.onMobSpellChoose = function(mob, target, spellId)
     if mob:getLocalVar('tga4Next') ~= 0 then
         mob:setLocalVar('tga4Next', 0)
         return xi.magic.spell.THUNDAGA_IV

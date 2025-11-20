@@ -21,13 +21,14 @@ entity.onMobEngage = function(mob, target)
     mob:useMobAbility(xi.mobSkill.WHISTLE)
 end
 
-entity.onMobMagicPrepare = function(mob, spell)
+entity.onMobSpellChoose = function(mob, target, spellId)
     local spellList =
     {
         xi.magic.spell.DIAGA,
         xi.magic.spell.STONE_II,
         xi.magic.spell.BIND
     }
+
     return spellList[math.random(1, #spellList)]
 end
 
