@@ -26,7 +26,7 @@
 ---@field onMobRoam? fun(mob: CBaseEntity)
 ---@field onMobDespawn? fun(mob: CBaseEntity)
 ---@field onPlayerAbilityUse? fun(mob: CBaseEntity, player: CBaseEntity, ability: CAbility)
----@field onMobWeaponSkillPrepare? fun(mob: CBaseEntity, target: CBaseEntity): integer?
+---@field onMobMobskillChoose? fun(mob: CBaseEntity, target: CBaseEntity): integer?
 ---@field onMobWeaponSkill? fun(target: CBaseEntity, mob: CBaseEntity, mobSkill: CMobSkill, action: CAction): integer?
 ---@field onMobSkillTarget? fun(target: CBaseEntity, mob: CBaseEntity, mobSkill: CMobSkill): CBaseEntity?
 ---@field onAdditionalEffect? fun(mob: CBaseEntity, target: CBaseEntity, damage: integer): (integer?, integer?, integer?)

@@ -33,7 +33,7 @@ entity.onMobSpellChoose = function(mob, target, spellId)
 end
 
 -- Only uses Healing Breeze as a weapon skill.
-entity.onMobWeaponSkillPrepare = function(mob, target)
+entity.onMobMobskillChoose = function(mob, target)
     return xi.mobSkill.HEALING_BREEZE
 end
 

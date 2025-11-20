@@ -352,7 +352,7 @@ auto CMobController::MobSkill(int listId) -> bool
 
         auto skillList{ battleutils::GetMobSkillList(listId) };
 
-        if (auto overrideSkill = luautils::OnMobWeaponSkillPrepare(PMob, PTarget); overrideSkill > 0)
+        if (auto overrideSkill = luautils::OnMobMobskillChoose(PMob, PTarget); overrideSkill > 0)
         {
             skillList = { overrideSkill };
         }
