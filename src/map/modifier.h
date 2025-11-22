@@ -288,8 +288,9 @@ enum class Mod
     SPELLINTERRUPT        = 168, // % Spell Interruption Rate
 
     // Movement speed modifiers in use order.
+    // See CBattleEntity::UpdateSpeed
     MOUNT_MOVE                = 972,  // % Mount Movement Speed
-    MOVE_SPEED_STACKABLE      = 75,   // Additive modifier. Applied before multipliers. Gear movement speed penalties. Value as reported in SERVERSTATUS packet.
+    MOVE_SPEED_STACKABLE      = 75,   // Additive modifier. Applied before multipliers. Gear movement speed penalties.
     MOVE_SPEED_WEIGHT_PENALTY = 77,   // Multiplicative modifier. For Gravity and curse.
     MOVE_SPEED_FLEE           = 1085, // Multiplicative modifier.
     MOVE_SPEED_CHEER          = 1087, // Multiplicative modifier from "cheer" type KI's.
@@ -1116,7 +1117,7 @@ enum class Mod
 
     MOGHANCEMENT_GIL_BONUS_P = 1158, // Kill shot gil bonus (yes, really)
 
-    KNOCKBACK_REDUCTION = 1172, // Reduces distance knocked +? gear. Unit is NOT yalms.
+    KNOCKBACK_REDUCTION = 1172, // Reduces distance knocked +? gear. See Knockback enum.
 
     // IF YOU ADD ANY NEW MODIFIER HERE, ADD IT IN scripts/enum/mod.lua ASWELL!
 

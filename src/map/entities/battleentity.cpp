@@ -2571,7 +2571,7 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             }
 
             // Evading negates knockback
-            result.knockback  = Knockback::None;
+            result.knockback = Knockback::None;
         }
         else
         {
