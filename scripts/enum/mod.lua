@@ -278,7 +278,7 @@ xi.mod =
 
     -- Movement speed modifiers in use order.
     MOUNT_MOVE                      =  972, -- % Mount Movement Speed
-    MOVE_SPEED_STACKABLE            =   75, -- Additive modifier. Applied before multipliers. Gear movement speed penalties.
+    MOVE_SPEED_STACKABLE            =   75, -- Additive modifier. Applied before multipliers. Gear movement speed penalties. Value as reported in SERVERSTATUS packet.
     MOVE_SPEED_WEIGHT_PENALTY       =   77, -- Multiplicative modifier. For Gravity and curse.
     MOVE_SPEED_FLEE                 = 1085, -- Multiplicative modifier.
     MOVE_SPEED_CHEER                = 1087, -- Multiplicative modifier from "cheer" type KI's.
