@@ -1080,6 +1080,8 @@ xi.mod =
     -- TODO: These mods are not yet implemented.
     REWARD_RECAST                   = 1152, -- TODO: Reduces Reward recast time (seconds)
 
+    KNOCKBACK_REDUCTION = 1172, -- Reduces distance knocked back
+
     -- IF YOU ADD ANY NEW MODIFIER HERE, ADD IT IN src/map/modifier.h ASWELL!
 
     -- The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
