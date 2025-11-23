@@ -10306,8 +10306,8 @@ INSERT INTO `mob_groups` VALUES (16,1910,144,'Heavy_Metal_Crab',0,128,0,25,0,22,
 INSERT INTO `mob_groups` VALUES (17,2635,144,'Metal_Crab',0,128,0,15,0,19,19,0);
 INSERT INTO `mob_groups` VALUES (18,2468,144,'Macha',0,128,0,1400,1400,32,32,0);
 INSERT INTO `mob_groups` VALUES (19,2820,144,'Neman',0,128,0,1000,0,30,30,0);
-INSERT INTO `mob_groups` VALUES (20,2646,144,'Metsanneitsyt',0,128,0,0,0,30,30,0);
-INSERT INTO `mob_groups` VALUES (21,2645,144,'Metsanhaltija',0,128,0,0,0,30,30,0);
+INSERT INTO `mob_groups` VALUES (20,2646,144,'Metsanneitsyt',0,128,0,2200,2200,36,36,0);
+INSERT INTO `mob_groups` VALUES (21,2645,144,'Metsanhaltija',0,128,0,0,0,32,33,0);
 INSERT INTO `mob_groups` VALUES (22,1363,144,'Flayer_Franz',0,128,0,0,0,45,45,0);
 INSERT INTO `mob_groups` VALUES (23,2975,144,'Flesh_Eater',0,128,0,0,0,38,40,0);
 INSERT INTO `mob_groups` VALUES (24,3282,144,'Queen_Jelly',0,128,0,0,4800,41,41,0);

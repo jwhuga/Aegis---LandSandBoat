@@ -313,7 +313,7 @@ INSERT INTO `mob_skills` VALUES (295,39,'magic_fruit',0,0.0,7.0,2000,1500,1,0,0,
 -- INSERT INTO `mob_skills` VALUES (296,72,'drill_branch',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (297,41,'pinecone_bomb',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (298,42,'leafstorm',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (299,76,'entangle',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (299,76,'entangle_drain',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (300,44,'head_butt',0,0.0,7.0,1500,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (301,45,'dream_flower',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (302,46,'wild_oats',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -342,8 +342,8 @@ INSERT INTO `mob_skills` VALUES (324,68,'photosynthesis',0,0.0,7.0,2000,1500,1,0
 INSERT INTO `mob_skills` VALUES (325,161,'random_kiss',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (326,164,'absorbing_kiss',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (327,165,'deep_kiss',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (328,72,'drill_branch',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (329,73,'pinecone_bomb',0,0.0,23.5,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (328,72,'drill_branch',4,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (329,73,'pinecone_bomb',2,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (330,344,'shuffle',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (331,75,'leafstorm',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (332,76,'entangle',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -699,7 +699,7 @@ INSERT INTO `mob_skills` VALUES (681,425,'crystal_weapon_water',0,0.0,15.0,2000,
 INSERT INTO `mob_skills` VALUES (682,426,'crystal_weapon_wind',0,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (683,427,'bludgeon',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (684,428,'deal_out',4,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (685,429,'sprout_spin',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (685,429,'sprout_spin',1,0.0,15.0,2000,1500,4,0,0,2,0,0,0);
 INSERT INTO `mob_skills` VALUES (686,430,'slumber_powder',1,0.0,10.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (687,431,'sprout_smack',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (688,432,'mighty_strikes',0,0.0,7.0,2000,0,1,2,0,0,0,0,0);
@@ -941,10 +941,10 @@ INSERT INTO `mob_skills` VALUES (923,144,'giga_scream',0,0.0,7.0,2000,1000,4,0,0
 INSERT INTO `mob_skills` VALUES (924,145,'dread_dive',0,0.0,7.0,2000,1500,4,0,0,2,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (925,669,'feather_barrier',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (926,147,'stormwind',1,0.0,15.0,6000,1500,4,0,0,0,0,0,0); -- animation times may very.
--- INSERT INTO `mob_skills` VALUES (927,671,'drill_branch',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (928,672,'pinecone_bomb',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (929,75,'leafstorm',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (930,674,'entangle',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (927,72,'drill_branch_nm',4,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (928,73,'pinecone_bomb_nm',2,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (929,75,'leafstorm_dispel',1,0.0,15.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (930,76,'entangle_poison',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (931,633,'cross_reaver',4,0.0,7.0,2000,500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (932,634,'havoc_spiral',1,0.0,7.0,2000,500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (933,635,'dominion_slash',2,0.0,15.0,2000,500,4,0,0,0,0,0,0);
@@ -1040,7 +1040,7 @@ INSERT INTO `mob_skills` VALUES (1022,723,'call_wyvern',0,0.0,7.0,2000,0,1,4,0,0
 INSERT INTO `mob_skills` VALUES (1023,438,'astral_flow_pet',0,0.0,7.0,2000,0,1,2,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1024,725,'warp_out',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1025,726,'warp_in',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
--- INSERT INTO `mob_skills` VALUES (1026,727,'arbor_storm',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
+-- INSERT INTO `mob_skills` VALUES (1026,727,'arbor_storm',1,0.0,10.0,2000,1500,4,0,0,2,0,0,0); -- TODO: Capture Animation (TP move itself is finished)
 -- INSERT INTO `mob_skills` VALUES (1027,728,'combo',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1028,729,'tackle',0,0.0,7.0,2000,0,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1029,730,'one-ilm_punch',0,0.0,7.0,2000,1500,4,0,0,0,0,0,0);
