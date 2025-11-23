@@ -10195,8 +10195,8 @@ INSERT INTO `mob_groups` VALUES (25,1513,140,'Ghelsba_Pugil',330,0,975,0,0,3,6,0
 INSERT INTO `mob_groups` VALUES (26,884,140,'Cyranuce_M_Cutauleon',0,128,0,0,0,20,20,0);
 INSERT INTO `mob_groups` VALUES (27,766,140,'Colo-colo',0,128,0,1000,0,21,21,0);
 INSERT INTO `mob_groups` VALUES (28,1441,140,'Furies',0,128,0,700,0,20,20,0);
-INSERT INTO `mob_groups` VALUES (29,2181,140,'Kalamainu',0,128,0,0,0,30,30,0);
-INSERT INTO `mob_groups` VALUES (30,2227,140,'Kilioa',0,128,0,0,0,30,30,0);
+INSERT INTO `mob_groups` VALUES (29,2181,140,'Kalamainu',0,128,0,1550,0,31,32,0);
+INSERT INTO `mob_groups` VALUES (30,2227,140,'Kilioa',0,128,0,1550,0,31,32,0);
 INSERT INTO `mob_groups` VALUES (31,3937,140,'Toadpillow',0,128,0,0,0,30,30,0);
 INSERT INTO `mob_groups` VALUES (32,3938,140,'Toadsquab',0,128,0,0,0,30,30,0);
 INSERT INTO `mob_groups` VALUES (33,3935,140,'Toadbolster',0,128,0,0,0,30,30,0);
