@@ -33,6 +33,8 @@ xi.mobSkill =
     BERSERK_DHALMEL          =  286,
     HEALING_BREEZE           =  287,
 
+    ENTANGLE_DRAIN           =  299,
+
     SUBSTITUTE               =  307,
     FROGKICK_1               =  308,
     SPORE_1                  =  309,
@@ -200,6 +202,11 @@ xi.mobSkill =
     DIAMOND_DUST_2           =  917, -- Confirmed usage: Untargetable avatar astral flow. (Ex. Kirin) (Shiva model avatar)
     JUDGMENT_BOLT_2          =  918, -- Confirmed usage: Untargetable avatar astral flow. (Ex. Kirin) (Ramuh model avatar)
     SEARING_LIGHT_2          =  919, -- Confirmed usage: Untargetable avatar astral flow. (Ex. Kirin, Crimson-toothed Pawberry) (Carbuncle model avatar)
+
+    DRILL_BRANCH_NM          =  927,
+    PINECONE_BOMB_NM         =  928,
+    LEAFSTORM_DISPEL         =  929,
+    ENTANGLE_POISON          =  930,
 
     SHIELD_STRIKE            =  934, -- Ark Angel EV
 
