@@ -59,6 +59,15 @@ xi.mobSkill =
     FLYING_HIP_PRESS         =  360,
     EARTH_SHOCK              =  361,
 
+    TAIL_BLOW_1              =  366,
+    FIREBALL_1               =  367,
+    BLOCKHEAD_1              =  368,
+    BRAIN_CRUSH_1            =  369,
+    BALEFUL_GAZE_LIZARD      =  370,
+    PLAGUE_BREATH_1          =  371,
+    INFRASONICS_1            =  372,
+    SECRETION_1              =  373,
+
     TAIL_ROLL                =  382,
     TUSK                     =  383,
     SCUTUM                   =  384,
