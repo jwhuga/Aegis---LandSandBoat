@@ -87,7 +87,7 @@ private:
     uint8                          m_TertiarySkillchain;
     uint8                          m_Range;
     uint8                          m_AOE;
-    uint8                          m_Radius;
+    uint8                          m_Radius{ 0 };
     uint8                          m_mainOnly;
     uint8                          m_unlockId;
 
