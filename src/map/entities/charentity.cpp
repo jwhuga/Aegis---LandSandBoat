@@ -1832,10 +1832,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
         else if (isAbilityAoE())
         {
             PAI->TargetFind->reset();
-
-            float distance = PAbility->getRange();
-
-            PAI->TargetFind->findWithinArea(this, AOE_RADIUS::ATTACKER, distance, findFlags, PAbility->getValidTarget());
+            PAI->TargetFind->findWithinArea(this, AOE_RADIUS::ATTACKER, PAbility->getRadius(), findFlags, PAbility->getValidTarget());
 
             uint16 prevMsg = 0;
             for (auto&& PTargetFound : PAI->TargetFind->m_targets)
