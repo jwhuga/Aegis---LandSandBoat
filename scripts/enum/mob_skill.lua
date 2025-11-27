@@ -158,6 +158,8 @@ xi.mobSkill =
     BLOW                     =  581,
     BLANK_GAZE               =  586,
 
+    BOMB_TOSS_1              =  591,
+
     BERSERK_BOMB_BIG         =  593, -- Big Bomb / Friars Lantern
     VULCANIAN_IMPACT         =  594, -- Big Bomb / Friars Lantern
     HEAT_WAVE                =  595, -- Big Bomb / Friars Lantern
@@ -293,6 +295,12 @@ xi.mobSkill =
     CALL_BEAST               = 1017, -- "Tango with a Tracker" Shikaree X
 
     HOWL                     = 1062,
+
+    FRYPAN_1                 = 1081,
+    SMOKEBOMB_1              = 1082,
+
+    GOBLIN_DICE_HEAL         = 1099,
+    GOBLIN_DICE_RESET        = 1109,
 
     RANGED_ATTACK_3          = 1154,
 
