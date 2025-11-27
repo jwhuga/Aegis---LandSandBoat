@@ -524,7 +524,7 @@ auto CMobController::TryCastSpell() -> bool
             }
 
             // Check if target is in range before attempting to cast
-            if (PCastTarget && distance(PMob->loc.p, PCastTarget->loc.p) > PSpell->getRange())
+            if (PCastTarget && distance(PMob->loc.p, PCastTarget->loc.p) > PSpell->getRange() + PMob->modelHitboxSize + PCastTarget->modelHitboxSize)
             {
                 return false;
             }
