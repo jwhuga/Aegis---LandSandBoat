@@ -1487,7 +1487,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
 
     SLOTTYPE damslot = SLOT_MAIN;
 
-    if (distance(loc.p, PBattleTarget->loc.p) - PBattleTarget->m_ModelRadius <= PWeaponSkill->getRange())
+    if (distance(loc.p, PBattleTarget->loc.p) <= (PWeaponSkill->getRange() + this->modelHitboxSize + PBattleTarget->modelHitboxSize))
     {
         if (PWeaponSkill->getID() >= 192 && PWeaponSkill->getID() <= 221)
         {
@@ -1638,7 +1638,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
     std::unique_ptr<CBasicPacket> errMsg;
     if (IsValidTarget(PTarget->targid, PAbility->getValidTarget(), errMsg))
     {
-        if (this != PTarget && distance(this->loc.p, PTarget->loc.p) > PAbility->getRange())
+        if (this != PTarget && distance(this->loc.p, PTarget->loc.p) > (PAbility->getRange() + this->modelHitboxSize + PTarget->modelHitboxSize))
         {
             // TODO: Is this relevant? Out of range is a BATTLE_MESSAGE, not an interrupt...
             return;
