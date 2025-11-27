@@ -6781,7 +6781,7 @@ CBattleEntity* GetCoverAbilityUser(CBattleEntity* PCoverAbilityTarget, CBattleEn
             float distTAmob  = distance(PCoverAbilityUser->loc.p, PMob->loc.p);
 
             // check if cover user is within melee range and that cover target is in-line behind
-            if (distTAmob <= static_cast<float>(PMob->GetMeleeRange()) &&        // make sure cover user is within melee range
+            if (distTAmob <= PMob->GetMeleeRange(PCoverAbilityUser) &&           // make sure cover user is within melee range
                 distTAmob >= worldAngleMinDistance &&                            // require closer target not be closer than .5 yalms (.5*.5=.25 distsquared) to mob
                 distTAmob < distance(PCoverAbilityTarget->loc.p, PMob->loc.p) && // make sure cover user is closer to the mob than cover target
                 areInLine(angleTAmob, PMob, PCoverAbilityTarget))

@@ -291,7 +291,7 @@ auto CMobController::CanDetectTarget(CBattleEntity* PTarget, const bool forceSig
         }
     }
 
-    const bool isTargetAndInRange = PMob->GetBattleTargetID() == PTarget->targid && currentDistance <= PMob->GetMeleeRange();
+    const bool isTargetAndInRange = PMob->GetBattleTargetID() == PTarget->targid && currentDistance <= PMob->GetMeleeRange(PTarget);
 
     if (detectSight && !hasInvisible && currentDistance < PMob->getMobMod(MOBMOD_SIGHT_RANGE) && facing(PMob->loc.p, PTarget->loc.p, 64))
     {
@@ -738,7 +738,7 @@ void CMobController::Move()
     }
 
     const bool  move          = PMob->PAI->PathFind->IsFollowingPath();
-    float       attack_range  = PMob->GetMeleeRange();
+    float       attack_range  = PMob->GetMeleeRange(PTarget);
     const int16 offsetMod     = PMob->getMobMod(MOBMOD_TARGET_DISTANCE_OFFSET);
     const float offset        = static_cast<float>(offsetMod) / 10.0f;
     float       closeDistance = (attack_range - (offsetMod == 0 ? 0.2f : offset)) / 2;
