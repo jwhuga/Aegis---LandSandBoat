@@ -16998,7 +16998,7 @@ uint8 CLuaBaseEntity::getModelSize()
  *  Notes   :
  ************************************************************************/
 
-float CLuaBaseEntity::getMeleeRange()
+float CLuaBaseEntity::getMeleeRange(CLuaBaseEntity* target)
 {
     auto* PEntity = dynamic_cast<CBattleEntity*>(m_PBaseEntity);
     if (!PEntity)
@@ -17007,48 +17007,14 @@ float CLuaBaseEntity::getMeleeRange()
         return 0;
     }
 
-    return PEntity->GetMeleeRange();
-}
-
-/************************************************************************
- *  Function: setMeleeRange()
- *  Purpose : Sets the maximum melee range for a mob
- *  Example : mob:setMeleeRange(12.0)
- *  Notes   : This affects the distance players can hit the mob from
- ************************************************************************/
-void CLuaBaseEntity::setMeleeRange(float range)
-{
-    // Only valid for mobs
-    if (m_PBaseEntity->objtype != TYPE_MOB)
+    auto* PTarget = dynamic_cast<CBattleEntity*>(target->m_PBaseEntity);
+    if (!PTarget)
     {
-        ShowWarning("Attempt to set melee range for non-mob entity (%s).", m_PBaseEntity->getName());
-        return;
+        ShowWarning("Invalid Entity (NPC: %s) calling function.", m_PBaseEntity->getName());
+        return 0;
     }
 
-    auto* PMob = static_cast<CMobEntity*>(m_PBaseEntity);
-
-    // Ensure that the cast to MobEntity worked properly and we dont have a NULL PTR
-    if (!PMob)
-    {
-        ShowWarning("Error casting to CMobEntity in CLuaBaseEntity::setMeleeRange()");
-        return;
-    }
-
-    // Account for zero/negative values and set to default melee range value
-    if (range < 3.0f)
-    {
-        range = 3.0f;
-    }
-    else
-    {
-        // Ensure that the range has a precision of .1
-        range = ((float)((int)(range * 10))) / 10;
-    }
-
-    // Update the melee range
-    PMob->m_ModelRadius = range;
-
-    return;
+    return PEntity->GetMeleeRange(PTarget);
 }
 
 /************************************************************************
@@ -20149,7 +20115,6 @@ void CLuaBaseEntity::Register()
 
     SOL_REGISTER("getModelSize", CLuaBaseEntity::getModelSize);
     SOL_REGISTER("getMeleeRange", CLuaBaseEntity::getMeleeRange);
-    SOL_REGISTER("setMeleeRange", CLuaBaseEntity::setMeleeRange);
     SOL_REGISTER("setMobFlags", CLuaBaseEntity::setMobFlags);
     SOL_REGISTER("getMobFlags", CLuaBaseEntity::getMobFlags);
     SOL_REGISTER("setNpcFlags", CLuaBaseEntity::setNpcFlags);

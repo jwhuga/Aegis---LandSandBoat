@@ -3698,13 +3698,9 @@ function CBaseEntity:getModelSize()
 end
 
 ---@nodiscard
+---@param target CBaseEntity
 ---@return number
-function CBaseEntity:getMeleeRange()
-end
-
----@param range number
----@return nil
-function CBaseEntity:setMeleeRange(range)
+function CBaseEntity:getMeleeRange(target)
 end
 
 ---@param flags integer

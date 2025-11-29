@@ -538,9 +538,9 @@ uint32 CBattleEntity::GetWeaponDelay(bool tp)
     return finalDelay;
 }
 
-float CBattleEntity::GetMeleeRange() const
+float CBattleEntity::GetMeleeRange(const CBattleEntity* target) const
 {
-    return m_ModelRadius + 3.0f;
+    return modelHitboxSize + 2.0f + target->modelHitboxSize;
 }
 
 int16 CBattleEntity::GetRangedWeaponDelay(bool forTPCalc)
@@ -2640,7 +2640,7 @@ bool CBattleEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPack
 
     bool  autoAttackEnabled  = PAI->GetController()->IsAutoAttackEnabled();
     float distanceFromTarget = distance(loc.p, PTarget->loc.p);
-    bool  tooFar             = (distanceFromTarget - PTarget->m_ModelRadius) > GetMeleeRange();
+    bool  tooFar             = distanceFromTarget > GetMeleeRange(PTarget);
 
     return !tooFar && autoAttackEnabled;
 }
