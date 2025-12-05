@@ -117,6 +117,10 @@ xi.mobSkill =
 
     MIND_WALL                     =  471, -- Mammet-800
 
+    PETRIFACTIVE_BREATH           =  480,
+
+    CHARGED_WHISKER               =  483,
+
     TRANSMOGRIFICATION            =  487, -- Mammet-800
 
     TRICLIP_1                     =  498,
@@ -190,6 +194,8 @@ xi.mobSkill =
     VULTURE_3                     =  626,
 
     FINAL_METEOR                  =  634, -- Final Meteor Chlevnik
+
+    CHAOTIC_EYE_1                 =  653,
 
     CURSED_SPHERE_1               =  659,
     VENOM_1                       =  660,
@@ -391,6 +397,7 @@ xi.mobSkill =
     CONTAMINATION                 = 1334,
     TOXIC_PICK                    = 1335,
 
+    FRENZIED_RAGE_1               = 1336,
     CHARM_2                       = 1337,
 
     KNIFE_EDGE_CIRCLE             = 1341,
