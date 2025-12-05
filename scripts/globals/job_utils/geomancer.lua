@@ -290,9 +290,9 @@ xi.job_utils.geomancer.bolster = function(player, target, ability)
 end
 
 xi.job_utils.geomancer.fullCircle = function(player, target, ability)
-    local luopan       = getLuopan(player)
+    local luopan = getLuopan(player)
     if not luopan then
-        return nil
+        return
     end
 
     local hppRemaining = luopan:getHPP()
