@@ -172,11 +172,11 @@ bool CBattleEntity::isInGarrison()
     return luautils::callGlobal<bool>("xi.garrison.isInGarrison", this);
 }
 
-bool CBattleEntity::isInMogHouse()
+bool CBattleEntity::inMogHouse()
 {
     if (this->objtype == TYPE_PC)
     {
-        return static_cast<CCharEntity*>(this)->m_moghouseID;
+        return static_cast<CCharEntity*>(this)->inMogHouse();
     }
 
     return false;
