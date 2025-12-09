@@ -333,7 +333,7 @@ CCharEntity::~CCharEntity()
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_RESTRICTION);
     }
 
-    if (PParty && loc.destination != 0 && m_moghouseID == 0)
+    if (PParty && loc.destination != 0 && !isInMogHouse())
     {
         if (PParty->m_PAlliance)
         {
@@ -776,6 +776,11 @@ auto CCharEntity::aman() -> CAMANContainer&
     return *m_AMAN;
 }
 
+auto CCharEntity::isInMogHouse() const -> bool
+{
+    return m_moghouseID != 0;
+}
+
 int8 CCharEntity::getShieldSize()
 {
     CItemEquipment* PItem = getEquip(SLOT_SUB);
@@ -1048,7 +1053,7 @@ void CCharEntity::Tick(timer::time_point tick)
         m_deathSyncTime = tick + death_update_frequency;
     }
 
-    if (m_moghouseID != 0)
+    if (isInMogHouse())
     {
         gardenutils::UpdateGardening(this, SendPacket::Yes);
     }

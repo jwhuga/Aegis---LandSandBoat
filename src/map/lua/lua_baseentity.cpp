@@ -2918,7 +2918,7 @@ bool CLuaBaseEntity::isInMogHouse()
         return false;
     }
 
-    return static_cast<CCharEntity*>(m_PBaseEntity)->m_moghouseID;
+    return static_cast<CCharEntity*>(m_PBaseEntity)->isInMogHouse();
 }
 
 /************************************************************************
