@@ -535,7 +535,7 @@ public:
     uint16 m_moghancementID;
 
     // The character is in ANY Mog House (their own or someone else's)
-    auto isInMogHouse() const -> bool;
+    auto inMogHouse() const -> bool;
 
     CharHistory_t m_charHistory{};
 

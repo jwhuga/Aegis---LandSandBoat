@@ -882,7 +882,7 @@ void CZoneEntities::SpawnNPCs(CCharEntity* PChar)
 {
     TracyZoneScoped;
 
-    if (PChar->isInMogHouse())
+    if (PChar->inMogHouse())
     {
         return;
     }
@@ -1182,7 +1182,7 @@ void CZoneEntities::SpawnConditionalNPCs(CCharEntity* PChar)
     TracyZoneScoped;
 
     // Player information
-    const bool inMogHouse       = PChar->isInMogHouse();
+    const bool inMogHouse       = PChar->inMogHouse();
     const bool inMHinHomeNation = inMogHouse && [&]()
     {
         switch (zoneutils::GetCurrentRegion(PChar->getZone()))
@@ -1640,7 +1640,7 @@ void CZoneEntities::PushPacket(CBaseEntity* PEntity, GLOBAL_MESSAGE_TYPE message
                 TracyZoneCString("CHAR_INZONE");
                 FOR_EACH_PAIR_CAST_SECOND(CCharEntity*, PCurrentChar, m_charList)
                 {
-                    if (!PCurrentChar->isInMogHouse())
+                    if (!PCurrentChar->inMogHouse())
                     {
                         if (PEntity != PCurrentChar)
                         {

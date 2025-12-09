@@ -352,7 +352,7 @@ public:
     bool isInAssault();
     bool isInDynamis();
     bool isInGarrison();
-    bool isInMogHouse();
+    bool inMogHouse();
     bool hasImmunity(uint32 imID);
     bool isAsleep();
     bool isMounted();
