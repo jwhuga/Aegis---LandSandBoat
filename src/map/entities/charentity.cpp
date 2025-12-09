@@ -333,7 +333,7 @@ CCharEntity::~CCharEntity()
         StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_RESTRICTION);
     }
 
-    if (PParty && loc.destination != 0 && !isInMogHouse())
+    if (PParty && loc.destination != 0 && !inMogHouse())
     {
         if (PParty->m_PAlliance)
         {
@@ -776,7 +776,7 @@ auto CCharEntity::aman() -> CAMANContainer&
     return *m_AMAN;
 }
 
-auto CCharEntity::isInMogHouse() const -> bool
+auto CCharEntity::inMogHouse() const -> bool
 {
     return m_moghouseID != 0;
 }
@@ -1053,7 +1053,7 @@ void CCharEntity::Tick(timer::time_point tick)
         m_deathSyncTime = tick + death_update_frequency;
     }
 
-    if (isInMogHouse())
+    if (inMogHouse())
     {
         gardenutils::UpdateGardening(this, SendPacket::Yes);
     }

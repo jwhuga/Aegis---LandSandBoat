@@ -2904,13 +2904,13 @@ uint8 CLuaBaseEntity::getContinentID()
 }
 
 /************************************************************************
- *  Function: isInMogHouse()
+ *  Function: inMogHouse()
  *  Purpose : Returns true if a PC is in their Mog House
- *  Example : if player:isInMogHouse() then -- watch Netflix and chill
+ *  Example : if player:inMogHouse() then -- watch Netflix and chill
  *  Notes   :
  ************************************************************************/
 
-bool CLuaBaseEntity::isInMogHouse()
+bool CLuaBaseEntity::inMogHouse()
 {
     if (m_PBaseEntity->objtype != TYPE_PC)
     {
@@ -2918,7 +2918,7 @@ bool CLuaBaseEntity::isInMogHouse()
         return false;
     }
 
-    return static_cast<CCharEntity*>(m_PBaseEntity)->isInMogHouse();
+    return static_cast<CCharEntity*>(m_PBaseEntity)->inMogHouse();
 }
 
 /************************************************************************
@@ -19529,7 +19529,7 @@ void CLuaBaseEntity::Register()
     SOL_REGISTER("getPreviousZoneLineID", CLuaBaseEntity::getPreviousZoneLineID);
     SOL_REGISTER("getCurrentRegion", CLuaBaseEntity::getCurrentRegion);
     SOL_REGISTER("getContinentID", CLuaBaseEntity::getContinentID);
-    SOL_REGISTER("isInMogHouse", CLuaBaseEntity::isInMogHouse);
+    SOL_REGISTER("inMogHouse", CLuaBaseEntity::inMogHouse);
 
     SOL_REGISTER("getPos", CLuaBaseEntity::getPos);
     SOL_REGISTER("showPosition", CLuaBaseEntity::showPosition);

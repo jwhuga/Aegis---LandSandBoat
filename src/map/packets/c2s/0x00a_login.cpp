@@ -113,7 +113,7 @@ void GP_CLI_COMMAND_LOGIN::process(MapSession* PSession, CCharEntity* PChar) con
         charutils::SaveZonesVisited(PChar);
         charutils::SavePlayTime(PChar);
 
-        if (PChar->isInMogHouse())
+        if (PChar->inMogHouse())
         {
             PChar->m_charHistory.mhEntrances++;
 
