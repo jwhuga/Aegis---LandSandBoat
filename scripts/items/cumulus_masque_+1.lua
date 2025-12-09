@@ -1,14 +1,14 @@
 -----------------------------------
--- ID: 13181
--- Item: Federation Stables Scarf
--- Teleports to Chocobo Stables (Windurst)
+-- ID: 10385
+-- Item: Cumulus Masque +1
+-- Teleport's user to the place of parting (Resienjima)
 -----------------------------------
 ---@type TItem
 local itemObject = {}
 
 itemObject.onItemCheck = function(target, item, param, caster)
     local result = 0
-    if not target:hasVisitedZone(xi.zone.WINDURST_WOODS) then
+    if not target:hasVisitedZone(xi.zone.REISENJIMA) then
         result = xi.msg.basic.ITEM_UNABLE_TO_USE_2
     end
 
@@ -16,7 +16,7 @@ itemObject.onItemCheck = function(target, item, param, caster)
 end
 
 itemObject.onItemUse = function(target)
-    target:addStatusEffectEx(xi.effect.TELEPORT, 0, xi.teleport.id.CHOCO_WINDURST, 0, 4)
+    target:addStatusEffectEx(xi.effect.TELEPORT, 0, xi.teleport.id.CUMULUS_MASQUE, 0, 8)
 end
 
 return itemObject

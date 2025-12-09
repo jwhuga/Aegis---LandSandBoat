@@ -1,7 +1,7 @@
 -----------------------------------
---   ID: 15769
---   Olduum Ring
---   Teleports to Wajoam Woodlands Leypoint
+-- ID: 6457
+-- Item: Flarelet
+-- A sparkler firework that shoots a purple stream of sparks into the air.
 -----------------------------------
 ---@type TItem
 local itemObject = {}
@@ -11,7 +11,6 @@ itemObject.onItemCheck = function(target, item, param, caster)
 end
 
 itemObject.onItemUse = function(target)
-    target:addStatusEffectEx(xi.effect.TELEPORT, 0, xi.teleport.id.WAJAOM_LEYPOINT, 0, 3)
 end
 
 return itemObject
