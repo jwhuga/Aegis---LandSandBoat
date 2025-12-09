@@ -1050,7 +1050,7 @@ void CCharEntity::Tick(timer::time_point tick)
 
     if (m_moghouseID != 0)
     {
-        gardenutils::UpdateGardening(this, true);
+        gardenutils::UpdateGardening(this, SendPacket::Yes);
     }
 }
 
