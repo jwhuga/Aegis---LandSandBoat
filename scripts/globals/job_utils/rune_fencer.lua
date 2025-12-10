@@ -557,11 +557,10 @@ local function calculateSwipeLungeDamage(player, target, skillModifier, gearBonu
     damage = math.floor(damage * multipliers.absorb)
     damage = math.floor(damage * multipliers.nullify)
 
-    -- Handle Phalanx
     if damage > 0 then
-        damage = utils.clamp(damage - target:getMod(xi.mod.PHALANX), 0, 99999) -- Handle Phalanx
-        damage = utils.clamp(utils.oneforall(target, damage), 0, 99999)        -- Handle One For All
-        damage = utils.clamp(utils.stoneskin(target, damage), -99999, 99999)   -- Handle Stoneskin
+        damage = utils.clamp(xi.combat.utilities.handlePhalanx(target, damage), 0, 99999)
+        damage = utils.clamp(xi.combat.utilities.handleOneForAll(target, damage), 0, 99999)
+        damage = utils.clamp(xi.combat.utilities.handleStoneskin(target, damage), -99999, 99999)
     end
 
     return damage
@@ -597,7 +596,7 @@ xi.job_utils.rune_fencer.useSwipeLunge = function(player, target, ability, actio
         player:removeNewestRune() --rune is always consumed if target is still alive
         runesUsed = runesUsed + 1 -- keep track of runes used to change effect later
 
-        local shadows = utils.takeShadows(target, 1, 1)
+        local shadows = xi.combat.utilities.takeShadows(target, 1, 1)
 
         if shadows == 0 then -- we hit a shadow, increment shadow counter and do nothing else.
             shadowsHit = shadowsHit + 1

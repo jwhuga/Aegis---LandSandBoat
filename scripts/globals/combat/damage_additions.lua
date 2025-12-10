@@ -21,7 +21,7 @@ xi.combat.damage.souleaterAddition = function(actor)
     local bonusDamage            = math.floor(actor:getHP() * (0.1 + souleaterEffect + souleaterEffectII))
 
     if bonusDamage > 0 then
-        actor:delHP(utils.stoneskin(actor, bonusDamage * stalwartSoulMultiplier))
+        actor:delHP(xi.combat.utilities.handleStoneskin(actor, bonusDamage * stalwartSoulMultiplier))
 
         if actor:getMainJob() ~= xi.job.DRK then
             return math.floor(bonusDamage / 2)

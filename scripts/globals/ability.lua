@@ -37,7 +37,7 @@ xi.ability.adjustDamage = function(dmg, attacker, skill, target, skilltype, skil
     then
         --remove 'shadowbehav' shadows.
 
-        dmg = utils.takeShadows(target, dmg, shadowbehav)
+        dmg = xi.combat.utilities.takeShadows(target, dmg, shadowbehav)
 
         -- dealt zero damage, so shadows took hit
         if dmg == 0 then
@@ -83,16 +83,13 @@ xi.ability.adjustDamage = function(dmg, attacker, skill, target, skilltype, skil
         return dmg
     end
 
-    -- Handle Phalanx
-    if dmg > 0 then
-        dmg = utils.clamp(dmg - target:getMod(xi.mod.PHALANX), 0, 99999)
-    end
+    dmg = xi.combat.utilities.handlePhalanx(target, dmg)
 
     if skilltype == xi.attackType.MAGICAL then
-        dmg = utils.oneforall(target, dmg)
+        dmg = xi.combat.utilities.handleOneForAll(target, dmg)
     end
 
-    dmg = utils.stoneskin(target, dmg)
+    dmg = xi.combat.utilities.handleStoneskin(target, dmg)
 
     if dmg > 0 then
         target:wakeUp()

@@ -275,7 +275,7 @@ xi.summon.avatarFinalAdjustments = function(dmg, mob, skill, target, skilltype, 
     end
 
     -- Handle shadows depending on shadow behavior / skilltype
-    dmg = utils.takeShadows(target, dmg, shadowbehav)
+    dmg = xi.combat.utilities.takeShadows(target, dmg, shadowbehav)
 
     -- handle Third Eye using shadowbehav as a guide
     local teye = target:getStatusEffect(xi.effect.THIRD_EYE)
@@ -344,16 +344,11 @@ xi.summon.avatarFinalAdjustments = function(dmg, mob, skill, target, skilltype, 
 
     -- handle One For All, Liement
     if skilltype == xi.attackType.MAGICAL then
-        dmg = utils.oneforall(target, dmg)
+        dmg = xi.combat.utilities.handleOneForAll(target, dmg)
     end
 
-    -- Handle Phalanx
-    if dmg > 0 then
-        dmg = utils.clamp(dmg - target:getMod(xi.mod.PHALANX), 0, 99999)
-    end
-
-    -- handling stoneskin
-    dmg = utils.stoneskin(target, dmg)
+    dmg = xi.combat.utilities.handlePhalanx(target, dmg)
+    dmg = xi.combat.utilities.handleStoneskin(target, dmg)
 
     -- Check if the mob has a damage cap
     dmg = target:checkDamageCap(dmg)
