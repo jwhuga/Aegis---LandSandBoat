@@ -101,7 +101,7 @@ jobs:
 
   Docker_Test:
     name: ${{ matrix.os && 'Test' || '' }} # GitHub Actions hack to hide matrix args
-    if: ${{ vars.PUBLISH_DOCKER == 'true' && github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     strategy:
       fail-fast: false
       matrix:
