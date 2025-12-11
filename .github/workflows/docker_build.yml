@@ -159,7 +159,7 @@ jobs:
           flavor: ${{ inputs.os != 'ubuntu' && format('suffix=-{0},onlatest=true', inputs.os) || '' }}
 
       - name: Build devtools image
-        if: ${{ inputs.publish }}
+        if: ${{ vars.PUBLISH_DOCKER == 'true' && inputs.publish }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -176,7 +176,7 @@ jobs:
         with:
           context: .
           file: ${{ format('./docker/{0}.Dockerfile', inputs.os) }}
-          push: ${{ inputs.publish }}
+          push: ${{ vars.PUBLISH_DOCKER == 'true' && inputs.publish }}
           tags: ${{ steps.docker-meta.outputs.tags }}
           labels: ${{ steps.docker-meta.outputs.labels }}
           annotations: ${{ steps.docker-meta.outputs.annotations }}
