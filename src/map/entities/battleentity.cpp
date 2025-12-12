@@ -1065,7 +1065,7 @@ uint16 CBattleEntity::RATT(uint16 bonusAtt)
     {
         skillLevel = m_modStat[Mod::RATT];
     }
-
+    
     int32 RATT = 8 + skillLevel + bonusAtt + m_modStat[Mod::RATT] + battleutils::GetRangedAttackBonuses(this) + std::floor(STR() * strMultiplier);
     // use max to prevent any underflow
     return std::max<int16>(1, RATT + (RATT * m_modStat[Mod::RATTP] / 100.f) + std::min<int16>((RATT * m_modStat[Mod::FOOD_RATTP] / 100.f), m_modStat[Mod::FOOD_RATT_CAP]));
@@ -1077,15 +1077,15 @@ inline uint32 GetAccFromSkill(uint32 skill)
 
     if (skill > 600)
     {
-        accuracy = std::floor<uint32_t>(static_cast<float>(skill - 600) * 0.9f) + 540;
+        accuracy = std::floor<uint32_t>(static_cast<float>(skill - 600.f) * 0.9f) + 540;
     }
     else if (skill > 400)
     {
-        accuracy = std::floor(static_cast<float>(skill - 400) * 0.8f) + 380;
+        accuracy = std::floor(static_cast<float>(skill - 400.f) * 0.8f) + 380;
     }
     else if (skill > 200)
     {
-        accuracy = std::floor(static_cast<float>(skill - 200) * 0.8f) + 380;
+        accuracy = std::floor(static_cast<float>(skill - 200.f) * 0.9f) + 200;
     }
 
     return accuracy;
