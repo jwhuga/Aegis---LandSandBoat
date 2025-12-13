@@ -595,12 +595,43 @@ uint16 CBattleEntity::GetMainWeaponDmg()
 {
     TracyZoneScoped;
 
-    if (objtype == TYPE_MOB ||
-        (objtype == TYPE_PET &&
-         static_cast<CPetEntity*>(this)->getPetType() != PET_TYPE::AUTOMATON))
+    if (objtype == TYPE_MOB)
     {
         auto* PMob = static_cast<CMobEntity*>(this);
         return mobutils::GetWeaponDamage(PMob, SLOT_MAIN);
+    }
+    else if (objtype == TYPE_PET)
+    {
+        auto* PPetEntity = static_cast<CPetEntity*>(this);
+
+        if (PPetEntity->getPetType() == PET_TYPE::AUTOMATON)
+        {
+            // Unsure of the accuracy of this, but it's what we have in petutils
+            return std::floor(GetSkill(SKILL_AUTOMATON_MELEE) / 9 * 2) + 3 + getMod(Mod::MAIN_DMG_RATING);
+        }
+        else if (PPetEntity->getPetType() == PET_TYPE::WYVERN)
+        {
+            // Accurate for lvl 75 circa 2006~2008ish
+            // Unknown if this ever changed
+            return std::floor(GetMLevel() / 2) + 3 + getMod(Mod::MAIN_DMG_RATING);
+        }
+        else if (PPetEntity->getPetType() == PET_TYPE::AVATAR)
+        {
+            // In a 2014 update SE updated Avatar base damage
+            // Based on testing this value appears to be Level now instead of Level * 0.74f
+            uint16 weaponDamage = 1 + GetMLevel();
+            if (PPetEntity->m_PetID == PETID_CARBUNCLE || PPetEntity->m_PetID == PETID_CAIT_SITH)
+            {
+                weaponDamage = static_cast<uint16>(floor(GetMLevel() * 0.9f));
+            }
+
+            return weaponDamage + getMod(Mod::MAIN_DMG_RATING);
+        }
+        else // jugs
+        {
+            // Formula looks fake...
+            return petutils::GetJugWeaponDamage(PPetEntity) + getMod(Mod::MAIN_DMG_RATING);
+        }
     }
 
     if (auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]))
@@ -658,12 +689,43 @@ uint16 CBattleEntity::GetRangedWeaponDmg()
     TracyZoneScoped;
     uint16 dmg = 0;
 
-    if (objtype == TYPE_MOB ||
-        (objtype == TYPE_PET &&
-         static_cast<CPetEntity*>(this)->getPetType() != PET_TYPE::AUTOMATON))
+    if (objtype == TYPE_MOB)
     {
         auto* PMob = static_cast<CMobEntity*>(this);
         return mobutils::GetWeaponDamage(PMob, SLOT_RANGED);
+    }
+    else if (objtype == TYPE_PET)
+    {
+        auto* PPetEntity = static_cast<CPetEntity*>(this);
+
+        if (PPetEntity->getPetType() == PET_TYPE::AUTOMATON)
+        {
+            // Unsure of the accuracy of this, but it's what we have in petutils
+            return std::floor(GetSkill(SKILL_AUTOMATON_RANGED) / 9 * 2) + 3 + getMod(Mod::RANGED_DMG_RATING);
+        }
+        else if (PPetEntity->getPetType() == PET_TYPE::WYVERN)
+        {
+            // Accurate for lvl 75 circa 2006~2008ish
+            // Unknown if this ever changed
+            return std::floor(GetMLevel() / 2) + 3 + getMod(Mod::RANGED_DMG_RATING);
+        }
+        else if (PPetEntity->getPetType() == PET_TYPE::AVATAR)
+        {
+            // In a 2014 update SE updated Avatar base damage
+            // Based on testing this value appears to be Level now instead of Level * 0.74f
+            uint16 weaponDamage = 1 + GetMLevel();
+            if (PPetEntity->m_PetID == PETID_CARBUNCLE || PPetEntity->m_PetID == PETID_CAIT_SITH)
+            {
+                weaponDamage = static_cast<uint16>(floor(GetMLevel() * 0.9f));
+            }
+
+            return weaponDamage + getMod(Mod::RANGED_DMG_RATING);
+        }
+        else // jugs
+        {
+            // Formula looks fake...
+            return petutils::GetJugWeaponDamage(PPetEntity) + getMod(Mod::RANGED_DMG_RATING);
+        }
     }
 
     if (auto* weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_RANGED]))
