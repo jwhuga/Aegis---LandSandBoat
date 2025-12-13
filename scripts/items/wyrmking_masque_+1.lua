@@ -1,17 +1,17 @@
 -----------------------------------
---   ID: 15769
---   Olduum Ring
---   Teleports to Wajoam Woodlands Leypoint
+-- ID: 25658
+-- Wyrmking Masque +1
+-- Dispense: Flarelet x99
 -----------------------------------
 ---@type TItem
 local itemObject = {}
 
 itemObject.onItemCheck = function(target, item, param, caster)
-    return 0
+    return xi.itemUtils.itemBoxOnItemCheck(target)
 end
 
 itemObject.onItemUse = function(target)
-    target:addStatusEffectEx(xi.effect.TELEPORT, 0, xi.teleport.id.WAJAOM_LEYPOINT, 0, 3)
+    npcUtil.giveItem(target, { { xi.item.FLARELET, 99 } })
 end
 
 return itemObject
