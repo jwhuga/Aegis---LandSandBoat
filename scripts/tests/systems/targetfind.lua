@@ -111,4 +111,40 @@ describe('TargetFind', function()
         assert(wyv2:getHPP() ~= 100, 'P1 Wyvern was not hit by Spike Flail')
         assert(wyv3:getHPP() ~= 100, 'P3 Wyvern was not hit by Spike Flail')
     end)
+
+    it('King Behemoth Meteor hits everyone (MOBMOD_AOE_HIT_ALL)', function()
+        ---@type CClientEntityPair
+        local charA, charB
+
+        -- Spawn two chars in Behemoth's Dominion
+        local pConfig =
+        {
+            zone  = xi.zone.BEHEMOTHS_DOMINION,
+            job   = xi.job.WAR,
+            level = 75,
+        }
+
+        charA = xi.test.world:spawnPlayer(pConfig)
+        charA:setUnkillable(true)
+
+        charB = xi.test.world:spawnPlayer(pConfig)
+        charB:setUnkillable(true)
+
+        -- Move both players to King Behemoth
+        charA.entities:moveTo('King_Behemoth')
+        local kb = charB.entities:moveTo('King_Behemoth')
+
+        -- Spawn King Behemoth and claim it with charA only
+        kb:spawn()
+        kb.assert:isAlive()
+        kb:updateClaim(charA)
+
+        -- Make King Behemoth cast Meteor on charA and assert both got hit
+        kb:castSpell(xi.magic.spell.METEOR, charA)
+        xi.test.world:skipTime(10)
+        xi.test.world:skipTime(10)
+
+        assert(charA:getHPP() ~= 100, 'CharA was not hit by Meteor')
+        assert(charB:getHPP() ~= 100, 'CharB was not hit by Meteor')
+    end)
 end)

@@ -188,7 +188,9 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOE_RADIUS radiusType, 
             withPet = PETS_CAN_AOE_BUFF;
         }
 
-        if (m_findFlags & FINDFLAGS_HIT_ALL || (m_findType == FIND_TYPE::MONSTER_PLAYER && ((CMobEntity*)m_PBattleEntity)->GetCallForHelpFlag()))
+        if (m_findType == FIND_TYPE::MONSTER_PLAYER &&
+            ((m_PBattleEntity->objtype == TYPE_MOB && static_cast<CMobEntity*>(m_PBattleEntity)->getMobMod(MOBMOD_AOE_HIT_ALL)) ||
+             static_cast<CMobEntity*>(m_PBattleEntity)->GetCallForHelpFlag()))
         {
             addAllInZone(m_PMasterTarget, withPet);
         }
@@ -547,7 +549,7 @@ bool CTargetFind::validEntity(CBattleEntity* PTarget)
     }
     else
     {
-        if ((m_findFlags & FINDFLAGS_UNLIMITED) || isWithinArea(&PTarget->loc.p))
+        if (isWithinArea(&PTarget->loc.p))
         {
             return true;
         }
