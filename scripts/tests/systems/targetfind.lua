@@ -183,6 +183,7 @@ describe('TargetFind', function()
                 break
             end
         end
+
         assert(qultada, 'Qultada was not summoned')
 
         qultada:useJobAbility(xi.ja.CORSAIRS_ROLL, qultada)
@@ -255,6 +256,7 @@ describe('TargetFind', function()
                 break
             end
         end
+
         assert(valaineral, 'Valaineral was not summoned')
 
         player:setHP(1)
