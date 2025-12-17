@@ -2203,10 +2203,6 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     {
         flags |= FINDFLAGS_DEAD;
     }
-    if (PSpell->getFlag() & SPELLFLAG_HIT_ALL)
-    {
-        flags |= FINDFLAGS_HIT_ALL;
-    }
 
     const auto     result    = luautils::callGlobal<sol::table>("xi.combat.magicAoE.calculateTypeAndRadius", this, PSpell);
     const SPELLAOE aoeType   = result.get_or(1, SPELLAOE_NONE);
@@ -2457,10 +2453,6 @@ void CBattleEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
 
     float distance  = PSkill->getDistance();
     uint8 findFlags = 0;
-    if (PSkill->getFlag() & SKILLFLAG_HIT_ALL)
-    {
-        findFlags |= FINDFLAGS_HIT_ALL;
-    }
 
     // Mob buff abilities also hit monster's pets
     if (PSkill->getValidTargets() == TARGET_SELF)
