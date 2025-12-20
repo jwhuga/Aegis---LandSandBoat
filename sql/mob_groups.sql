@@ -12153,7 +12153,7 @@ INSERT INTO `mob_groups` VALUES (11,3523,173,'Sea_Monk',792,0,504,0,0,32,35,0);
 INSERT INTO `mob_groups` VALUES (12,1807,173,'Greater_Pugil',792,0,279,0,0,25,32,0);
 INSERT INTO `mob_groups` VALUES (13,743,173,'Clipper',792,0,483,0,0,29,32,0);
 INSERT INTO `mob_groups` VALUES (14,4309,173,'Water_Elemental',792,4,2629,0,0,32,34,0);
-INSERT INTO `mob_groups` VALUES (15,639,173,'Cargo_Crab_Colin',0,32,416,0,0,34,37,0);
+INSERT INTO `mob_groups` VALUES (15,639,173,'Cargo_Crab_Colin',0,32,416,2100,0,34,37,0);
 INSERT INTO `mob_groups` VALUES (16,2141,173,'Jammer_Leech',792,0,0,0,0,60,60,0);
 INSERT INTO `mob_groups` VALUES (17,1282,173,'Falcatus_Aranei',0,32,808,3500,0,32,33,0);
 INSERT INTO `mob_groups` VALUES (18,4816,173,'Lacerator',330,0,0,0,0,87,91,0);
