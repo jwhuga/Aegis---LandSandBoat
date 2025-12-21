@@ -10878,7 +10878,7 @@ INSERT INTO `mob_groups` VALUES (4,3463,148,'Sapphire_Quadav',960,0,2159,0,0,69,
 INSERT INTO `mob_groups` VALUES (5,3410,148,'Ruby_Quadav',1200,0,2129,3700,0,72,74,0);
 INSERT INTO `mob_groups` VALUES (6,46,148,'Adaman_Quadav',1200,0,23,0,0,72,74,0);
 INSERT INTO `mob_groups` VALUES (7,1034,148,'Diamond_Quadav',0,128,650,0,0,75,75,0);
-INSERT INTO `mob_groups` VALUES (8,6683,148,'ZaDha_Adamantking',0,128,2830,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (8,6683,148,'ZaDha_Adamantking',0,128,2830,42000,42000,85,85,0);
 INSERT INTO `mob_groups` VALUES (9,2780,148,'MuZha_Infernoblade',0,128,0,0,0,72,75,0);
 INSERT INTO `mob_groups` VALUES (10,2017,148,'HuRhe_Marrowgorger',0,128,0,0,0,72,75,0);
 INSERT INTO `mob_groups` VALUES (11,1022,148,'DePha_Unscarred',0,128,0,0,0,72,75,0);
@@ -10963,7 +10963,7 @@ INSERT INTO `mob_groups` VALUES (13,3044,150,'Orcish_Warlord',1200,0,1953,4850,0
 INSERT INTO `mob_groups` VALUES (14,3031,150,'Orcish_Protector',960,0,1935,0,0,70,72,0);
 INSERT INTO `mob_groups` VALUES (15,3019,150,'Orcish_Hexspinner',1200,0,1920,4600,0,69,73,0);
 INSERT INTO `mob_groups` VALUES (16,3027,150,'Orcish_Overlord',0,128,1932,0,0,75,75,0);
-INSERT INTO `mob_groups` VALUES (17,3075,150,'Overlord_Bakgodek',0,128,1966,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (17,3075,150,'Overlord_Bakgodek',0,128,1966,42000,42000,85,85,0);
 INSERT INTO `mob_groups` VALUES (18,555,150,'Bugaboo',0,128,0,0,0,63,63,0);
 INSERT INTO `mob_groups` VALUES (19,2664,150,'Mimic',0,128,1678,0,0,65,72,0);
 INSERT INTO `mob_groups` VALUES (20,719,150,'Chillgaze_Foddrud',0,128,0,0,0,69,75,0);
@@ -11018,7 +11018,7 @@ INSERT INTO `mob_groups` VALUES (35,4425,151,'Yagudo_High_Priest',1440,0,2714,45
 INSERT INTO `mob_groups` VALUES (36,4455,151,'Yagudo_Templar',1440,0,2768,0,0,72,74,0);
 INSERT INTO `mob_groups` VALUES (37,4408,151,'Yagudo_Avatar',0,128,2696,0,0,75,75,0);
 INSERT INTO `mob_groups` VALUES (38,4453,151,'Yagudos_Avatar',0,128,0,0,0,60,60,0);
-INSERT INTO `mob_groups` VALUES (39,4072,151,'Tzee_Xicu_the_Manifest',0,128,2511,0,0,85,85,0);
+INSERT INTO `mob_groups` VALUES (39,4072,151,'Tzee_Xicu_the_Manifest',0,128,2511,42000,42000,85,85,0);
 INSERT INTO `mob_groups` VALUES (40,2016,151,'Huu_Xalmo_the_Savage',0,128,1341,30000,0,63,63,0);
 INSERT INTO `mob_groups` VALUES (41,2944,151,'Odontotyrannus',0,128,1838,0,0,52,52,0);
 INSERT INTO `mob_groups` VALUES (42,4434,151,'Yagudo_Muralist',0,128,0,0,0,75,75,0);
