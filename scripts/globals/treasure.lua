@@ -1582,6 +1582,16 @@ local lootTable =
 -----------------------------------
 -- Local functions
 -----------------------------------
+local function kneelBeforeChest(player, npc)
+    player:tradeComplete()
+    player:setFreezeFlag(true)
+    player:setRotation(player:getFacingAngle(npc))
+    player:sendEmote(npc, xi.emote.KNEEL, xi.emoteMode.MOTION)
+    player:delStatusEffect(xi.effect.SNEAK)
+    player:delStatusEffect(xi.effect.DEODORIZE)
+    npc:setLocalVar('traded', 1)
+end
+
 local function moveTreasure(npc, respawnTime)
     local zoneId         = npc:getZoneID()
     local containerType  = npcTable[npc:getName()]
@@ -1774,21 +1784,13 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     -----------------------------------
     -- Attempt to open treasure.
     -----------------------------------
-    -- Player animations.
-    player:setFreezeFlag(true)
-    player:setRotation(player:getFacingAngle(npc))
-    player:sendEmote(npc, xi.emote.KNEEL, xi.emoteMode.MOTION)
-    player:delStatusEffect(xi.effect.SNEAK)
-    player:delStatusEffect(xi.effect.DEODORIZE)
-    npc:setLocalVar('traded', 1)
-
     if keyUsed ~= keyType.ZONE_KEY then
         local levelFactor = utils.clamp(player:getMainLvl() / treasureLevel, 0, 2)
         local successRate = utils.clamp(25 * levelFactor + thiefKeyInfo[keyUsed][2], 0, 95)
 
         -- Fail.
         if math.random(1, 100) > successRate then
-            player:tradeComplete()
+            kneelBeforeChest(player, npc)
 
             local outcome = math.random(1, containerType + 1)
             -- Nothing happens
@@ -1850,7 +1852,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     -- Handle quest item reward.
     -----------------------------------
     if bypassType == 1 then
-        player:tradeComplete()
+        kneelBeforeChest(player, npc)
+
         player:timer(2000, function(playerEntity)
             if npcUtil.giveItem(playerEntity, bypassReward) then
                 playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
@@ -1869,7 +1872,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     -- Handle quest Key Item reward.
     -----------------------------------
     elseif bypassType == 2 then
-        player:tradeComplete()
+        kneelBeforeChest(player, npc)
+
         player:timer(2000, function(playerEntity)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED - 1, bypassReward) -- TODO: message -2 seems to be for other party members?
             playerEntity:addKeyItem(bypassReward)
@@ -1890,7 +1894,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         treasureMap > 0 and
         not player:hasKeyItem(treasureMap)
     then
-        player:tradeComplete()
+        kneelBeforeChest(player, npc)
+
         player:timer(2000, function(playerEntity)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED - 1, treasureMap) -- TODO: message -2 seems to be for other party members?
             playerEntity:addKeyItem(treasureMap)
@@ -1913,10 +1918,6 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
             moveTreasure(npc, respawnType.REGULAR)
         end)
 
-        player:timer(4000, function(playerEntity)
-            playerEntity:setFreezeFlag(false)
-        end)
-
         return
     end
 
@@ -1937,7 +1938,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
     -- Gil
     if itemId == xi.item.NONE then
         -- Distribute gil.
-        player:tradeComplete()
+        kneelBeforeChest(player, npc)
+
         player:timer(2000, function(playerEntity)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
             handleGilDistribution(playerEntity, treasureLevel)
@@ -1950,7 +1952,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
 
     -- Items (Gems or others)
     else
-        player:tradeComplete()
+        kneelBeforeChest(player, npc)
+
         player:timer(2000, function(playerEntity)
             playerEntity:addTreasure(itemId, npc)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED)
