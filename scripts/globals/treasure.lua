@@ -28,6 +28,7 @@ local respawnType =
     IMMEDIATE =   5,
     REGULAR   = 180,
 }
+
 -----------------------------------
 -- Tables
 -----------------------------------
@@ -1728,6 +1729,12 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         return
     end
 
+    -- Early return: Can't lockpick while weakened.
+    if player:hasStatusEffect(xi.effect.WEAKNESS) then
+        player:messageSpecial(ID.text.CHEST_UNLOCKED + 3)
+        return
+    end
+
     -- Early return: Treasure is already open.
     if
         npc:getLocalVar('opened') ~= 0 or
@@ -1773,24 +1780,15 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
         return
     end
 
-    -- Early return: Can't lockpick while weakened.
-    if
-        keyUsed ~= keyType.ZONE_KEY and
-        player:hasStatusEffect(xi.effect.WEAKNESS)
-    then
-        player:messageSpecial(ID.text.CHEST_UNLOCKED + 3)
-        return
-    end
-
     -----------------------------------
-    -- Attempt to open treasure.
+    -- Handle failure states.
     -----------------------------------
     local randomRoll  = math.random(1, 100)
     local outcome     = 0
     local outcomeRate = 0
 
     for i = 1, 4 do
-        outcomeRate = outcomeRate + thiefKeyInfo[containerType][i]
+        outcomeRate = outcomeRate + thiefKeyInfo[keyUsed][containerType][i]
         if randomRoll <= outcomeRate then
             outcome = i
             break
@@ -1815,11 +1813,13 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
 
     -- It's a trap!
     if outcome == 3 then
+        kneelBeforeChest(player, npc)
+
         player:timer(2000, function(playerEntity)
             local weaknessDuration = 5 + player:getMainLvl() - treasureLevel
             weaknessDuration       = math.floor(weaknessDuration / 5)
             weaknessDuration       = utils.clamp(weaknessDuration, 5, 60)
-            
+
             playerEntity:addStatusEffect(xi.effect.WEAKNESS, 1, 0, weaknessDuration)
             playerEntity:messageSpecial(ID.text.CHEST_UNLOCKED + 2)
             trapAndMoveTreasure(npc, respawnType.REGULAR)
@@ -1834,6 +1834,8 @@ xi.treasure.onTrade = function(player, npc, trade, bypassType, bypassReward)
 
     -- Mimic (Coffers only)
     if outcome == 4 then
+        kneelBeforeChest(player, npc)
+
         player:timer(2000, function(playerEntity)
             local mimicId = ID.mob.MIMIC
             local mimic   = GetMobByID(mimicId)
