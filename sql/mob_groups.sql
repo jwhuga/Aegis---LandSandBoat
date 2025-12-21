@@ -10770,10 +10770,10 @@ INSERT INTO `mob_groups` VALUES (18,2823,146,'Nenaunirs_Wife',0,128,0,1200,0,27,
 INSERT INTO `mob_groups` VALUES (19,1149,146,'Dvorovoi',0,128,0,4500,4500,45,45,0);
 INSERT INTO `mob_groups` VALUES (20,1078,146,'Domovoi',0,128,0,2700,0,40,41,0);
 INSERT INTO `mob_groups` VALUES (21,2990,146,'Opo-opo_Monarch',0,128,0,2300,0,40,40,0);
-INSERT INTO `mob_groups` VALUES (22,2989,146,'Opo-opo_Heir',0,128,0,2300,0,40,40,0);
-INSERT INTO `mob_groups` VALUES (23,2789,146,'Myrmidon_Spo-spo',0,128,0,1200,0,40,40,0);
-INSERT INTO `mob_groups` VALUES (24,2787,146,'Myrmidon_Apu-apu',0,128,0,1200,0,40,40,0);
-INSERT INTO `mob_groups` VALUES (25,2788,146,'Myrmidon_Epa-epa',0,128,0,1200,0,40,40,0);
+INSERT INTO `mob_groups` VALUES (22,2989,146,'Opo-opo_Heir',0,128,0,2300,0,38,38,0);
+INSERT INTO `mob_groups` VALUES (23,2789,146,'Myrmidon_Spo-spo',0,128,0,1200,0,34,34,0);
+INSERT INTO `mob_groups` VALUES (24,2787,146,'Myrmidon_Apu-apu',0,128,0,1200,0,34,34,0);
+INSERT INTO `mob_groups` VALUES (25,2788,146,'Myrmidon_Epa-epa',0,128,0,1200,0,34,34,0);
 INSERT INTO `mob_groups` VALUES (26,3675,146,'Small_Box',0,128,0,0,0,50,50,0);
 INSERT INTO `mob_groups` VALUES (27,2605,146,'Medium_Box',0,128,0,0,0,50,50,0);
 INSERT INTO `mob_groups` VALUES (28,2376,146,'Large_Box',0,128,0,0,0,50,50,0);
