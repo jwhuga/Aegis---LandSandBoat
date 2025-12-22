@@ -10774,9 +10774,9 @@ INSERT INTO `mob_groups` VALUES (22,2989,146,'Opo-opo_Heir',0,128,0,2300,0,38,38
 INSERT INTO `mob_groups` VALUES (23,2789,146,'Myrmidon_Spo-spo',0,128,0,1200,0,34,34,0);
 INSERT INTO `mob_groups` VALUES (24,2787,146,'Myrmidon_Apu-apu',0,128,0,1200,0,34,34,0);
 INSERT INTO `mob_groups` VALUES (25,2788,146,'Myrmidon_Epa-epa',0,128,0,1200,0,34,34,0);
-INSERT INTO `mob_groups` VALUES (26,3675,146,'Small_Box',0,128,0,0,0,50,50,0);
-INSERT INTO `mob_groups` VALUES (27,2605,146,'Medium_Box',0,128,0,0,0,50,50,0);
-INSERT INTO `mob_groups` VALUES (28,2376,146,'Large_Box',0,128,0,0,0,50,50,0);
+INSERT INTO `mob_groups` VALUES (26,3675,146,'Small_Box',0,128,0,3200,0,55,55,0);
+INSERT INTO `mob_groups` VALUES (27,2605,146,'Medium_Box',0,128,0,3200,0,55,55,0);
+INSERT INTO `mob_groups` VALUES (28,2376,146,'Large_Box',0,128,0,3200,0,55,55,0);
 INSERT INTO `mob_groups` VALUES (29,4254,146,'Voo_Tolu_the_Ghostfist',0,128,0,0,0,60,60,0);
 INSERT INTO `mob_groups` VALUES (30,874,146,'Cuu_Doko_the_Blizzard',0,128,0,0,0,60,60,0);
 INSERT INTO `mob_groups` VALUES (31,4526,146,'Zuu_Xowu_the_Darksmoke',0,128,0,0,0,60,60,0);
