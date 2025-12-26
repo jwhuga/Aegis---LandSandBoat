@@ -1734,9 +1734,8 @@ end
 function CBaseEntity:getMissionStatus(missionLogID, missionStatusPosObj)
 end
 
----@nodiscard
 ---@param missionLogID integer
----@param completed bool
+---@param completed boolean
 ---@return nil
 function CBaseEntity:sendPartialMissionLog(missionLogID, completed)
 end

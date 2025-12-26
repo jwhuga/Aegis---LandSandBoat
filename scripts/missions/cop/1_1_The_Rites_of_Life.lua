@@ -81,14 +81,9 @@ mission.sections =
 
                 [39] = function(player, csid, option, npc)
                     if player:getCharVar('[COP]TalesBeginning') > 0 then
-                        local lowerDelkfuttsIDs = zones[xi.zone.LOWER_DELKFUTTS_TOWER]
-                        local talesBeginning    = GetNPCByID(lowerDelkfuttsIDs.npc.TALES_BEGINNING)
-
-                        if talesBeginning then
-                            -- Send blank entry to hide all selectively shown NPCs again
-                            -- see https://github.com/atom0s/XiPackets/blob/main/world/server/0x0077/README.md
-                            player:enableEntities({})
-                        end
+                        -- Send blank entry to hide all selectively shown NPCs again
+                        -- see https://github.com/atom0s/XiPackets/blob/main/world/server/0x0077/README.md
+                        player:enableEntities({})
 
                         player:setCharVar('[COP]TalesBeginning', 0)
                     end
