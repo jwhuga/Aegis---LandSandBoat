@@ -458,7 +458,7 @@ xi.mobSkill =
     HOOF_VOLLEY                   = 1330,
 
     COUNTERSTANCE                 = 1331, -- The Waughroon Kid
-
+    EXTREMELY_BAD_BREATH_1        = 1332,
     CONTAGION_TRANSFER            = 1333,
     CONTAMINATION                 = 1334,
     TOXIC_PICK                    = 1335,

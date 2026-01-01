@@ -1,13 +1,10 @@
 -----------------------------------
 -- Extremely Bad Breath
--- A horrific case of halitosis instantly K.O.'s any players in a fan-shaped area of effect.
---
--- Description
+-- Description : A horrific case of halitosis instantly K.O.'s any players in a fan-shaped area of effect.
 -- Family: Morbol
 -- Type: Breath
--- Can be dispelled: N/A
+-- Range: 12' AoE
 -- Utsusemi/Blink absorb: Ignores shadows
--- Range: Unknown cone
 -- Notes: Only used by Evil Oscar, Cirrate Christelle, Lividroot Amooshah, Eccentric Eve, Deranged Ameretat, and Melancholic Moira.
 -----------------------------------
 ---@type TMobSkill
@@ -17,10 +14,11 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
 
+-- TODO: Death resistance check
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    local dmg = target:getHP()
+    skill:setMsg(xi.msg.basic.FALL_TO_GROUND)
     target:setHP(0)
-    return dmg
+    return 0
 end
 
 return mobskillObject
