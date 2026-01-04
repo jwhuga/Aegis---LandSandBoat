@@ -16,3 +16,5 @@
 # Retaining CRLF line ends in the documentation dir (for now..)
 *.txt text eol=crlf
 *.log text eol=crlf
+* text=auto eol=lf
+*.lua text eol=lf
